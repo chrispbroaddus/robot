@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package planning;
+
+enum PlannerState {
+    // Planning is uninitialized
+    PLANNER_UNINITIALIZED = 0;
+
+    // Planning is active, although we may not be moving yet
+    PLANNER_ACTIVE = 1;
+
+    // Planning is inactive, free to receive other commands
+    PLANNER_INACTIVE = 2;
+
+    // The last planning request failed
+    PLANNER_FAILED = 3;
+
+    // An invalid state
+    PLANNER_INVALID = 4;
+}

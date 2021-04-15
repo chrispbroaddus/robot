@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "packages/core/proto/geometry.proto";
+
+package simulator_settings;
+
+message VehicleCalibration {
+    core.Point2d center = 1;
+    core.Point2d frontRight = 2;
+    core.Point2d frontLeft = 3;
+    core.Point2d middleRight = 4;
+    core.Point2d middleLeft = 5;
+    core.Point2d rearRight = 6;
+    core.Point2d rearLeft = 7;
+}

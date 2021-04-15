@@ -1,0 +1,7 @@
+/env/local
+.vscode/settings.json
+!mock-vehicle/
+mock-vehicle
+!teleop-server/
+teleop-server
+teleopui/bindata.go

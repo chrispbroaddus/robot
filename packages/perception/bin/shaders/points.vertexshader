@@ -1,0 +1,13 @@
+#version 330 core
+
+layout (location = 0) in vec3 VertexPosition;
+
+uniform mat4 MVP;
+
+in vec4 gl_Color;
+out vec4 gl_FrontColor;
+
+void main(){
+  gl_FrontColor = gl_Color;
+	gl_Position =  MVP * vec4(VertexPosition, 1.0f);
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package feature_detectors;
+
+message FeaturePoint {
+
+    // Location of point in image x direction
+    float x = 1;
+
+    // Location of point in image y direction
+    float y = 10;
+
+    // Score of the feature point
+    float score = 20;
+}

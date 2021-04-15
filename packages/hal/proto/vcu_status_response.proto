@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/hal/proto/vcu_status_request.proto";
+
+package hal;
+
+/// VCU unknown status request.
+message VCUStatusUnknown {}
+
+/// VCU version status request.
+message VCUStatusVersion {
+    uint32 majorNumber = 1;
+    uint32 minorNumber = 2;
+    uint32 patchNumber = 3;
+    string compilationDate = 4;
+    string compilationTime = 5;
+}
+
+/// VCU Boot levels.
+enum VCUBootLevelID {
+    BootLevelInit = 0;
+    BootLevelMotors = 1;
+    BootLevelCameras = 2;
+    BootLevelMessaging = 3;
+    BootLevelControl = 4;
+    BootLevelContactor = 5;
+    BootLevelTimeSync = 6;
+    BootLevelDone = 7;
+}
+
+/// VCU boot status request.
+message VCUStatusBoot { uint32 VCUBootLevelID = 1; }
+
+/// VCU response to a status request.
+message VCUStatusResponse {
+    /// VCU sends back *just* the sequence number of the status request to which it is responding.
+    fixed64 sequenceNumber = 1;
+
+    /// VCU sends back the status ID to which it is responding.
+    VCUStatusID statusID = 2;
+
+    /// VCU's time when response was generated
+    core.SystemTimestamp timestamp = 3;
+
+    /// The status message
+    oneof status {
+        VCUStatusUnknown unknownResponse = 4;
+        VCUStatusVersion versionResponse = 5;
+        VCUStatusBoot bootResponse = 6;
+    }
+}

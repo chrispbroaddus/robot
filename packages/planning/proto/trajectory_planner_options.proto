@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+import "packages/planning/proto/trajectory.proto";
+
+package planning;
+
+message TrajectoryPlannerOptions { double frequency = 10; }
+
+// Options specific to the arc-based planner. This is a simple generator that
+// produces arcs of constant curvature.
+message ArcPlannerOptions {
+    // Base options type, common to all planner types
+    TrajectoryPlannerOptions base_options = 1;
+
+    // The type of trajectory to generate. See trajectory.proto for more
+    // information
+    TrajectoryType type = 2;
+
+    // The minimum x (lateral) tolerance to consider when generating an arc, in
+    // order to avoid degenerate estimates
+    float minimum_x_tolerance = 3;
+
+    // Maximum curvature value allowed for this arc-based planner
+    float max_curvature = 4;
+}
+
+message SBPLPlannerOptions {
+
+    enum PlannerType {
+        // Anytime D*: http://www.cs.cmu.edu/~ggordon/likhachev-etal.anytime-dstar.pdf
+        ADSTAR = 0;
+        // Anytime A*: https://www.cs.cmu.edu/~maxim/files/ara_nips03.pdf
+        // (Default)
+        ARASTAR = 1;
+        // Probabilistic planning with clear preferences: https://www.cs.cmu.edu/~maxim/files/ppcp_aaai06.pdf
+        PPCP = 2;
+        // R* search algorithm: https://www.cs.cmu.edu/~maxim/files/rstar_aaai08.pdf
+        RSTAR = 3;
+        // Value iteration
+        VI = 4;
+        // Anytime, non-parametric A*: http://goldberg.berkeley.edu/pubs/ana-aaai-2011-vdberg-shah-goldberg.pdf
+        ANASTAR = 5;
+    }
+
+    enum EnvironmentType {
+        // Simple XY R(2)
+        TWOD = 0;
+        // XY, and orientation SE(2)
+        XYTHETA = 1;
+        // XY,orientation,Z SE(2) * R(#z)
+        XYTHETAMLEV = 2;
+    }
+
+    // Base options type, common to all planner types
+    TrajectoryPlannerOptions base_options = 1;
+
+    // Planner type
+    PlannerType planner_type = 2;
+
+    // Environment type
+    EnvironmentType environment_type = 3;
+}
+
+message PlannerHierarchyOptions {
+    // Base options type, common to all planner types
+    TrajectoryPlannerOptions base_options = 1;
+}

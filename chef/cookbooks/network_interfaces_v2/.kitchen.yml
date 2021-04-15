@@ -1,0 +1,34 @@
+---
+driver:
+  name: vagrant
+
+provisioner:
+  name: chef_zero
+
+platforms:
+  - name: ubuntu-14.04
+    run_list:
+      - recipe[net_setup::default]
+  - name: ubuntu-16.04
+    run_list:
+      - recipe[net_setup::default]
+  - name: centos-7.2
+    run_list:
+      - recipe[net_setup::default]
+  - name: centos-6.7
+    run_list:
+      - recipe[net_setup::default]
+  - name: win-2012r2
+    driver:
+      box: opentable/win-2012r2-standard-amd64-nocm
+      network:
+        - ["forwarded_port", {guest: 3389, host: 3389}]
+        - ["private_network", {type: "dhcp", mac: "0025B55B0029", auto_config: false}]
+        - ["private_network", {type: "dhcp", mac: "0025B55B0031", auto_config: false}]
+        - ["private_network", {type: "dhcp", mac: "0025B55B0033"}]
+        - ["private_network", {type: "dhcp", mac: "0025B55B0035", auto_config: false}]
+
+suites:
+  - name: default
+    run_list:
+      - recipe[fake::default]

@@ -1,0 +1,4 @@
+frequency: 10
+max_velocity: 1
+max_acceleration: 1
+max_deceleration: 1

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Login should render self and subcomponents 1`] = `
+<styled.div>
+  <Styled(Logo) />
+  <LoginDetails
+    isAuthenticated={false}
+    location={
+      Object {
+        "state": Object {},
+      }
+    }
+    login={[Function]}
+    push={[Function]}
+  />
+</styled.div>
+`;

@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+/// Request the VCU to idle. This command will never complete.
+message VCUIdleCommand {}

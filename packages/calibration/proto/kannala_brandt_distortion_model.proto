@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package calibration;
+
+/// Kannala, Juho, and Sami S. Brandt. "A generic camera model and calibration method for conventional,
+/// wide-angle, and fish-eye lenses." IEEE Transactions on Pattern Analysis and Machine Intelligence
+/// 28.8 (2006): 1335-1340.
+///
+/// https://www.researchgate.net/profile/Sami_Brandt/publication/6899685_A_generic_camera_model_and_calibration_method_for_conventional_wide-angle_and_fish-eye_lenses/links/02e7e52f39b8fb374d000000.pdf
+message KannalaBrandtDistortionModel {
+    /// k1...km coefficients in Eq. 6
+    repeated double radialDistortionCoefficientK = 1;
+
+    /// Eq. 8; set this to zero if you want a pure radial-only model
+    double radialDistortionCoefficientL1 = 2;
+
+    /// Eq. 8; set this to zero if you want a pure radial-only model
+    double radialDistortionCoefficientL2 = 3;
+
+    /// Eq. 8; set this to zero if you want a pure radial-only model
+    double radialDistortionCoefficientL3 = 4;
+
+    /// Eq. 8; set this to zero if you want a pure radial-only model
+    double radialDistortionCoefficientI1 = 5;
+
+    /// Eq. 8; set this to zero if you want a pure radial-only model
+    double radialDistortionCoefficientI2 = 6;
+
+    /// Eq. 8; set this to zero if you want a pure radial-only model
+    double radialDistortionCoefficientI3 = 7;
+
+    /// Eq. 8; set this to zero if you want a pure radial-only model
+    double radialDistortionCoefficientI4 = 8;
+
+    /// Eq. 9; set this to zero if you want a pure radial-only model
+    double tangentialDistortionCoefficientM1 = 9;
+
+    /// Eq. 9; set this to zero if you want a pure radial-only model
+    double tangentialDistortionCoefficientM2 = 10;
+
+    /// Eq. 9; set this to zero if you want a pure radial-only model
+    double tangentialDistortionCoefficientM3 = 11;
+
+    /// Eq. 9; set this to zero if you want a pure radial-only model
+    double tangentialDistortionCoefficientJ1 = 12;
+
+    /// Eq. 9; set this to zero if you want a pure radial-only model
+    double tangentialDistortionCoefficientJ2 = 13;
+
+    /// Eq. 9; set this to zero if you want a pure radial-only model
+    double tangentialDistortionCoefficientJ3 = 14;
+
+    /// Eq. 9; set this to zero if you want a pure radial-only model
+    double tangentialDistortionCoefficientJ4 = 15;
+}

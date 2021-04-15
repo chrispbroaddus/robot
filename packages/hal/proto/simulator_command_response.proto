@@ -1,0 +1,24 @@
+syntax = "proto3";
+
+package hal;
+
+import "packages/hal/proto/simulator_camera_response.proto";
+import "packages/hal/proto/simulator_reset_response.proto";
+import "packages/hal/proto/simulator_stats_response.proto";
+
+enum StatusCode {
+    StatusFailure = 0;
+    StatusSuccess = 1;
+}
+
+/// Envelope for commands.
+message SimulatorCommandResponse {
+
+    StatusCode status = 1;
+
+    oneof command {
+        SimulatorCameraResponse cameraResponse = 2;
+        SimulatorResetResponse resetResponse = 3;
+        SimulatorStatsResponse statsResponse = 4;
+    }
+}

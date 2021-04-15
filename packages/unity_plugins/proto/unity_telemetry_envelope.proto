@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/unity_plugins/proto/ground_truth_vehicle_pose.proto";
+
+package unity_plugins;
+
+/// Container for VCU telemetry
+message UnityTelemetryEnvelope {
+    /// When this telemetry item was originally sent by the VCU
+    core.SystemTimestamp sendTimestamp = 1;
+
+    oneof item { GroundTruthVehiclePose vehiclePose = 2; }
+}

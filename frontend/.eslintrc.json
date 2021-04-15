@@ -1,0 +1,39 @@
+{
+  "parser": "babel-eslint",
+  "env": {
+    "es6": true,
+    "browser": true,
+    "jest": true,
+    "jasmine": true
+  },
+  "plugins": ["babel", "react", "import"],
+  "extends": [
+    "standard",
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "plugin:import/errors",
+    "plugin:import/warnings"
+  ],
+  "parserOptions": {
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "import/no-extraneous-dependencies": ["error", { "devDependencies": true }],
+    "import/no-unresolved": 0,
+    "import/extensions": 0,
+    "react/jsx-tag-spacing": ["error", { "beforeSelfClosing": "always" }],
+    "standard/computed-property-even-spacing": 0,
+    "strict": 0,
+    "quotes": 0,
+    "space-before-function-paren": ["error", "never"],
+    "jsx-quotes": ["error", "prefer-double"],
+    "no-console": 0,
+    "no-debugger": 1
+  },
+  "globals": {},
+  "settings": {
+    "import/resolver": "webpack"
+  }
+}

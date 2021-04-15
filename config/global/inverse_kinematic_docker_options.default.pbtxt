@@ -1,0 +1,10 @@
+telemetry_subscriber_address: "tcp://localhost:7001"
+apriltag_pose_subscriber_address: "tcp://localhost:7601"
+camera_sample_subscriber_address: "tcp://localhost:5556"
+docking_status_publisher_address: "tcp://*:5951"
+station_finder_publisher_port: "5961"
+command_client_address: "tcp://localhost:5803"
+april_tag_side_length: 0.24
+velocity_alpha: 1
+last_command_period_in_milliseconds: 100
+stop_criteria_remaining_distance: 0.5

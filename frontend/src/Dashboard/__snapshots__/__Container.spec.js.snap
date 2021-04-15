@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Dashboard should render self and subcomponents 1`] = `
+<styled.div>
+  <Navigation />
+  <Title />
+  <styled.div>
+    <AddSimulatorCard
+      onComplete={[Function]}
+    />
+  </styled.div>
+</styled.div>
+`;

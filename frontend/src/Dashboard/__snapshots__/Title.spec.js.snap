@@ -1,0 +1,13 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title should render self and subcomponents 1`] = `
+<styled.div>
+  <styled.img
+    alt="zippy-robot"
+    src="zippy.png"
+  />
+  <styled.h2>
+    Vehicle Dashboard
+  </styled.h2>
+</styled.div>
+`;

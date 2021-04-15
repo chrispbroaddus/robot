@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+import "packages/perception/proto/grid_options.proto";
+
+package perception;
+
+message VoxelGridProto {
+    VoxelGridOptions options = 1;
+    int32 num_voxels = 2;
+    bytes voxels = 3;
+}

@@ -1,0 +1,99 @@
+# See https://github.com/google/bazel/blob/master/src/main/protobuf/crosstool_config.proto
+# for available settings.
+major_version: "local"
+minor_version: ""
+default_target_cpu: "same_as_host"
+default_toolchain {
+  cpu: "k8"
+  toolchain_identifier: "clang"
+}
+
+toolchain {
+  abi_version: "local"
+  abi_libc_version: "local"
+
+  # builtin_sysroot: "/usr/lrte/v3"
+  compiler: "clang"
+  host_system_name: "local"
+  needsPic: true
+  supports_gold_linker: false
+  supports_incremental_linker: true
+  supports_fission: true
+  supports_interface_shared_objects: true
+  supports_normalizing_ar: false
+  supports_start_end_lib: true
+  supports_thin_archives: true
+  target_libc: "glibc-2.19"
+  target_cpu: "k8"
+  target_system_name: "local"
+  toolchain_identifier: "crosstool_v2_clang"
+
+  tool_path { name: "ar" path: "/usr/bin/ar" }
+  tool_path { name: "cpp" path: "/usr/bin/clang-cpp-4.0" }
+  tool_path { name: "dwp" path: "/usr/bin/llvm-dwarfdump-4.0" }
+  tool_path { name: "gcc" path: "/usr/bin/clang-4.0" }
+  tool_path { name: "gcov" path: "/usr/bin/llvm-cov-4.0" }
+  tool_path { name: "ld" path: "/usr/bin/ld.gold" }
+  tool_path { name: "nm" path: "/usr/bin/nm" }
+  tool_path { name: "objcopy" path: "/usr/bin/objcopy" }
+  tool_path { name: "objdump" path: "/usr/bin/objdump" }
+  tool_path { name: "strip" path: "/usr/bin/strip" }
+
+  compiler_flag: "-Wall"
+  compiler_flag: "-Wno-sign-compare"
+  compiler_flag: "-Qunused-arguments"
+  cxx_flag: "-std=c++1y"
+  cxx_flag: "-D_GLIBCXX_USE_CXX11_ABI=0"
+  # Use gold linker to get better linking performance
+  linker_flag: "-fuse-ld=gold"
+
+  compilation_mode_flags {
+    mode: FASTBUILD
+    compiler_flag: "-gmlt"
+    # Strip the debug sections when linking.
+    # linker_flag: "-Wl,-S"
+  }
+  compilation_mode_flags {
+    mode: DBG
+    cxx_flag: "-g"
+  }
+  compilation_mode_flags {
+    mode: OPT
+    compiler_flag: "-g0"
+    compiler_flag: "-O3"
+    compiler_flag: "-DNDEBUG"
+    # Removal of unused code and data at link time (can this increase binary size in some cases?).
+    compiler_flag: "-ffunction-sections"
+    compiler_flag: "-fdata-sections"
+
+    # So glog can report stacktrace on crash
+    compiler_flag: "-fno-omit-frame-pointer"
+
+    # For a backtrace with file and line info, using recent GCC
+    # versions, with -gmlt option (minimal line table)
+    compiler_flag: "-gmlt"
+
+    linker_flag: "-Wl,--gc-sections"
+    linker_flag: "-Wl,--build-id=sha1"
+    linker_flag: "-Wl,--hash-style=gnu"
+    # Gold linker only
+    # Warn if the stack is executable
+    linker_flag: "-Wl,--warn-execstack"
+    # Look for violations of the C++ One Definition Rule
+    linker_flag: "-Wl,--detect-odr-violations"
+  }
+
+  linker_flag: "-lstdc++"
+
+  # cxx_builtin_include_directory: "%sysroot%/include"
+  cxx_builtin_include_directory: "/usr/include"
+  cxx_builtin_include_directory: "/usr/lib/llvm-4.0/lib/clang/4.0.0/include"
+  cxx_builtin_include_directory: "/usr/local/include"
+  # cxx_builtin_include_directory: "/usr/crosstool/v2/gcc-4.9.4-lrtev3/x86/lib/clang"
+  # cxx_builtin_include_directory: "/usr/crosstool/v2/gcc-4.9.4-lrtev3/x86/include/c++"
+
+  unfiltered_cxx_flag: "-isystem%sysroot%/include"
+
+  objcopy_embed_flag: "-I"
+  objcopy_embed_flag: "binary"
+}

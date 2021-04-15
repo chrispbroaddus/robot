@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package hal;
+
+/// Request an emergency stop.
+///
+/// There are several implications of issuing an emergency stop:
+/// -# Mercury will kick in and attempt to shut everything down in an orderly fashion. Specifically,
+///    if were launched by mercury and sent an e-stop command, you will eventually be (forcibly, if
+///    necessary) killed.
+/// -# Emergency stops are always considered "safe" and hence are guaranteed to be accepted by the VCU.
+///    As a result, you may have been killed prior to receiving a response to the e-stop.
+/// -# The VCU will have to clear the e-stop somehow and return to idle before Mercury will attempt to
+///    restart software components.
+/// .
+///
+/// TL;DR: don't use this.
+message VCUEmergencyStopCommand {}

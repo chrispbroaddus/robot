@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "packages/calibration/proto/coordinate_transformation.proto";
+
+package docking;
+
+message VehicleCalibration {
+    /// Calibration from Jp (pitch-axis-coordinate-after-rotation) wrt F (Vehicle-Docking-Anchor-Point)
+    calibration.CoordinateTransformation se3JpwrtF = 1;
+
+    /// SE3 between F (Vehicle-Docking-Anchor-Point) and C (Camera coordinate)
+    calibration.CoordinateTransformation se3FwrtC = 2;
+
+    /// Distance between left wheels vs right wheels in meter
+    double distBetweenWheel = 3;
+}

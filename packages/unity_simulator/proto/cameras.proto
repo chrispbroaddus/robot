@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+import "packages/unity_simulator/proto/camera.proto";
+
+package simulator_settings;
+
+message Cameras {
+    /// Texture download buffer size or how many frames do we need to wait before
+    /// texture is available for download without stalling the pipeline
+    uint32 frameDownloadBufferSize = 1;
+
+    /// initial rendering depth of the cameras
+    float cameraStartDepth = 2;
+
+    uint32 maxTextureSize = 3;
+
+    repeated Camera camera = 4;
+}

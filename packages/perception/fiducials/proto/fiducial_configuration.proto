@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "packages/perception/fiducials/proto/apriltag_config.proto";
+
+package perception;
+
+message FiducialConfiguration {
+    oneof configuration { AprilTagConfig apriltag_config = 1; }
+}

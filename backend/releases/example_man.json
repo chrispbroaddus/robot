@@ -1,0 +1,10 @@
+{
+    "version": "0.0.1",
+    "commit": "blah",
+    "images": [
+        {
+            "task_family": "teleop",
+            "image": "teleop-server:latest"
+        }
+    ]
+}

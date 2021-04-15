@@ -1,0 +1,63 @@
+#!/bin/bash
+
+# Usage: fix-csharp-formatting [-a]
+#    -a  process all files (not just modified files)
+
+GIT_LSFILES_FLAGS="-o -m"
+
+while [[ $# -gt 0 ]]; do
+	key="$1"
+	case $key in
+	-a|--all)
+	    GIT_LSFILES_FLAGS=""
+	    ;;
+	esac
+    shift # past argument
+done
+
+CFORMATTER=${CFORMATTER:-astyle}
+
+OPTIONS="--style=java \
+--indent=spaces=4 \
+--indent-namespaces \
+--break-blocks \
+--pad-oper \
+--pad-header \
+--delete-empty-lines \
+--align-pointer=type \
+--align-reference=type \
+--break-closing-brackets \
+--add-brackets \
+--convert-tabs \
+--lineend=linux \
+--indent-col1-comments \
+--suffix=none"
+
+#If we can upgrade to version 3 we can use the following options
+#--indent-after-parens
+#--pad-comma
+#--add-braces
+#
+# In 3 replace '--break-closing-brackets' with '--break-closing-braces' as is replacement
+#
+
+$CFORMATTER --version
+
+DIRECTORIES_TO_CHECK="packages applications"
+
+list=$(
+	(git ls-files $GIT_LSFILES_FLAGS -- $DIRECTORIES_TO_CHECK 2>/dev/null ; \
+	 git status --porcelain -- $DIRECTORIES_TO_CHECK 2>/dev/null \
+	 | grep -E '^A' \
+	 | sed -e "s,^A,,") \
+	| grep -E '\.cs$'
+)
+
+echo "$list"
+
+while read path; do
+    if [ -f "$path" ] ; then
+        echo "$path"
+        $CFORMATTER $OPTIONS "$path"
+    fi
+done <<< "$list"

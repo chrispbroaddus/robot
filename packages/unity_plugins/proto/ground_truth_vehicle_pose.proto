@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/calibration/proto/coordinate_transformation.proto";
+
+package unity_plugins;
+
+message GroundTruthVehiclePose {
+    /// System timestamp of when this measurement was made and published on Unity.
+    core.SystemTimestamp measurementSystemTimestamp = 1;
+
+    /// The pose from the vehicle pose to the target coordinate.
+    calibration.CoordinateTransformation transformations = 2;
+}

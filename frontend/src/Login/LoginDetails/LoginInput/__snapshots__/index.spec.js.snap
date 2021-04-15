@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginInput should render self and subcomponents 1`] = `
+<styled.input
+  onChange={[Function]}
+  placeholder=""
+  type="text"
+  value=""
+/>
+`;

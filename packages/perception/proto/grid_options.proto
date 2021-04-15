@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package perception;
+
+// Geometry constraint parameters for a simple 3d grid
+message GridOptions {
+    // Axis dimensions
+    float dim_x = 1;
+    float dim_y = 2;
+    float dim_z = 3;
+
+    // Axis resolutions
+    float res_x = 4;
+    float res_y = 5;
+    float res_z = 6;
+}
+
+message VoxelGridOptions { GridOptions grid_options = 1; }

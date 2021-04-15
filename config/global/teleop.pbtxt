@@ -1,0 +1,52 @@
+backend_address : "ws://mission-control.zippy.ai"
+vehicle_id : "r01"
+jpeg_quality : 80
+
+webrtc {
+	min_udp_port: 52000
+	max_udp_port: 53000
+	stun_servers {
+		address: "stun.l.google.com:19302"
+	}
+	turn_servers {
+		address: "34.213.50.114:3478"
+		username: "test"
+		password: "test"
+	}
+}
+
+video_sources {
+	camera: {
+		device {
+			name: "FrontFisheye"
+		}
+		role: FrontFisheye
+		width: 2448
+		height: 2048
+	}
+	source {
+		address: "tcp://localhost:5556"
+		topic: "camera"
+		output_width: 640
+		output_height: 360
+	}
+	settings_server_address: "tcp://localhost:5254"
+}
+
+video_sources {
+	camera: {
+		device {
+			name: "RearFisheye"
+		}
+		role: RearFisheye
+		width: 2448
+		height: 2048
+	}
+	source {
+		address: "tcp://localhost:5557"
+		topic: "camera"
+		output_width: 640
+		output_height: 360
+	}
+	settings_server_address: "tcp://localhost:5255"
+}

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+# Find the root of the git repo
+GITROOT=$(git rev-parse --show-toplevel)
+
+# Set up the pre-commit script
+echo "./script/git/pre-commit" > "$GITROOT/.git/hooks/pre-commit"
+
+# Make sure the hook is executable
+chmod +x "$GITROOT/.git/hooks/pre-commit"

@@ -1,0 +1,57 @@
+syntax = "proto3";
+
+import "packages/hal/proto/device.proto";
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+message AutoExposureRoiCommand {
+    /// Where did this stimulus to the system originate? This should refer to a
+    /// specific *teleoperator*
+    ///
+    /// Temporarily, this will always be populated as:
+    /// { name: "Teleoperator", serialNumber: 1 }
+    ///
+    /// until it becomes clear how to "properly" deal with the serial number.
+    Device originator_device = 1;
+
+    /// Teleoperator client's best guess as to when this stimulus was generated.
+    /// This can be used to order messages from a single teleoperator during a
+    /// single session but that is about all.
+    core.SystemTimestamp originator_system_timestamp = 2;
+
+    /// Device which generated the original stimulus to which this P&G sample is
+    /// a response.
+    Device source_device = 3;
+
+    /// System timestamp of the original stimulus to which this P&G sample is a
+    /// a response.
+    core.SystemTimestamp source_system_timestamp = 4;
+
+    /// As measured from the top left, x increasing left to right, y increasing
+    /// top to bottom, the relative location of the operator's click in the X
+    /// direction. Always in the range [0, 1]
+    float click_x_fraction = 5;
+
+    /// As measured from the top left, x increasing left to right, y increasing
+    /// top to bottom, the relative location of the operator's click in the Y
+    /// direction. Always in the range [0, 1]
+    float click_y_fraction = 6;
+
+    /// The radius of the roi as a fraction of the image width.
+    /// Always in the range [0, 1]
+    float radius_fraction = 7;
+}
+
+/// Disposition of a AE command request.
+enum AECommandDisposition {
+    /// The command was rejected
+    AERoICommandRejected = 0;
+    /// The command has completed
+    AERoICommandCompleted = 1;
+}
+
+message AutoExposureRoiResponse {
+    /// Disposition of AE command
+    AECommandDisposition disposition = 1;
+}

@@ -1,0 +1,7 @@
+det_port: "8001"
+det_topic: "detection"
+depth_port: "5559"
+depth_topic: "depth"
+obj_volume_port: "8101"
+obj_volume_topic: "detection3d"
+sensor_fusion_time_sync_window_threshold_in_milliseconds: 1

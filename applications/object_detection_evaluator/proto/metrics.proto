@@ -1,0 +1,59 @@
+syntax = "proto3";
+
+import "packages/perception/proto/dataset.proto";
+import "packages/perception/proto/detection.proto";
+
+package benchmark;
+
+message EvaluatedDetectionBoundingBox {
+    perception.Category category = 1;
+    bool true_positive = 2; // Max intersection-over-union wrt ground-truths
+}
+
+message EvaluatedDetectionPerFrame {
+    repeated EvaluatedDetectionBoundingBox boxes = 1;
+    int32 num_ground_truth_boxes = 2;
+}
+
+message EvaluatedDetection { repeated EvaluatedDetectionPerFrame frames = 1; }
+
+// IDL describing Precision-and-Recall
+// Ref : https://en.wikipedia.org/wiki/Precision_and_recall
+message PrecisionRecallPoint {
+    double precision = 1;
+    double recall = 2;
+
+    // Optional field to save the used score threshold which produces this particular PR point.
+    double score_threshold = 3;
+}
+
+message DetectionPerformance {
+
+    ///////////////////////////////
+    // Metadata
+    ///////////////////////////////
+
+    // The dataset information on which the evaluation is done.
+    perception.Dataset dataset = 1;
+
+    // The number of images evaluated
+    int32 num_images = 2;
+
+    // Parameters used for evaluation
+    double score_threshold = 3;
+
+    double iou_threshold = 4;
+
+    ///////////////////////////////
+    // Metrics
+    ///////////////////////////////
+
+    // The data to plot 2d PR curve
+    repeated PrecisionRecallPoint pr_points = 51;
+
+    // Area-under-curve of the precision-recall curve
+    double pr_auc = 52;
+
+    // The average time taken per image in nano second
+    uint64 average_nanosec_per_image = 53;
+}

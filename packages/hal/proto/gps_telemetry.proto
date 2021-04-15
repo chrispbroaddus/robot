@@ -1,0 +1,50 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+/// GPS Telemetry IDL which attempts to capture the information that will be used by most applications.
+///
+/// References:
+///     [1] https://www.nmea.org/content/nmea_standards/nmea_0183_v_410.asp (pay version)
+///     [2] http://www.tronico.fi/OH6NT/docs/NMEA0183.pdf
+///     [3] http://gauss.gge.unb.ca/papers.pdf/gpsworld.may99.pdf
+message GPSTelemetry {
+    /// The GPS fixation timstamp
+    core.SystemTimestamp timestamp = 1;
+
+    /// Latitude in degrees, decimal format
+    double latitude = 2;
+
+    /// Longitude in degrees, decimal format
+    double longitude = 3;
+
+    /// Height above Mean Sea Level (MSL) in meters
+    double altitude = 4;
+
+    /// Fix mode specifying the quality
+    enum FixMode {
+        FixNotSet = 0;
+        FixNone = 1;
+        Fix2d = 2;
+        Fix3d = 3;
+    }
+    FixMode fix_mode = 5;
+
+    /// Number of satellites in view of the antenna
+    uint32 num_of_satellites_in_view = 6;
+
+    /// Horizontal Dilution of Precision (HDOP) as described in [3]
+    double horizontal_dilution_of_precision = 7;
+
+    /// Geoidal separation, the difference between the WGS-84 earth
+    /// ellipsoid and mean-sea-level (geoid), "-" means mean-sea-level below ellipsoid
+    double geoid_separation = 8;
+
+    /// Age of differential GPS data, time in seconds since last SC104 type 1 or 9 update
+    float age_of_differential_gps = 9;
+
+    /// Differential reference station ID, 0000-1023
+    uint32 station_id = 10;
+}

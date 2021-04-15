@@ -1,0 +1,27 @@
+#!/bin/bash
+
+CFORMATTER=${CFORMATTER:-clang-format}
+
+echo "Using formatter: $CFORMATTER"
+
+DIRECTORIES_TO_CHECK="packages applications"
+list=$(find $DIRECTORIES_TO_CHECK -name "*.cpp" -o -name "*.h" -o -name "*.proto")
+while read path; do
+	$CFORMATTER "$path" > /tmp/formatted.cpp
+	difference=$(diff "$path" "/tmp/formatted.cpp")
+	if [ "$difference" != "" ]; then
+		failed=1
+		echo ========================================================================
+		echo $path
+		echo ========================================================================
+		echo "$difference"
+	fi
+done <<< "$list"
+
+if [ "$failed" == "" ]; then
+	echo "Formatting is correct"
+else
+	echo "There were formatting errors"
+fi
+
+exit $failed

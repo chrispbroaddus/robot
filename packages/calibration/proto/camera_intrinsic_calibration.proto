@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "packages/hal/proto/device.proto";
+import "packages/calibration/proto/pinhole_camera_distortion_model.proto";
+import "packages/calibration/proto/kannala_brandt_distortion_model.proto";
+
+package calibration;
+
+message CameraIntrinsicCalibration {
+    hal.Device cameraUnderCalibration = 1;
+    double scaledFocalLengthX = 2;
+    double skew = 3;
+    double opticalCenterX = 4;
+    double scaledFocalLengthY = 5;
+    double opticalCenterY = 6;
+    uint32 resolutionX = 9;
+    uint32 resolutionY = 10;
+
+    oneof distortion {
+        PinholeCameraDistortionModel pinhole = 7;
+        KannalaBrandtDistortionModel kannalaBrandt = 8;
+    }
+}

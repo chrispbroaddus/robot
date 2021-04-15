@@ -1,0 +1,223 @@
+{
+    "job": "push-gateway",
+    "url": "http://metrics.zippy:9091",
+    "labels": {
+        "instance": "207.242.53.194"
+    },
+    "test_plan_families": [
+        [
+            {
+                "name": "test_counter",
+                "help": "counter help msg",
+                "type": 0,
+                "metric": [
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "counter": {
+                            "value": 2.2
+                        }
+                    },
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "counter": {
+                            "value": 3.2
+                        }
+                    },
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "counter": {
+                            "value": 4.2
+                        }
+                    },
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "counter": {
+                            "value": 5.2
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "test_histogram",
+                "help": "histogram help msg",
+                "type": 4,
+                "metric": [
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "histogram": {
+                            "sample_count": 2,
+                            "sample_sum": 10,
+                            "bucket": [
+                                {
+                                    "cumulative_count": 2,
+                                    "upper_bound":  32.1
+                                }
+                            ] 
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "test_gauge",
+                "help": "gauge help msg",
+                "type": 1,
+                "metric": [
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "gauge": {
+                            "value": 2.2
+                        }
+                    },
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "gauge": {
+                            "value": 3.2
+                        }
+                    },
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "gauge": {
+                            "value": 4.2
+                        }
+                    },
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "gauge": {
+                            "value": 5.2
+                        }
+                    }
+                ]
+            }
+        ],
+        [
+            {
+                "name": "test_counter",
+                "help": "counter help msg",
+                "type": 0,
+                "metric": [
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "counter": {
+                            "value": 22.2
+                        }
+                    },
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "counter": {
+                            "value": 32.2
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "test_histogram",
+                "help": "histogram help msg",
+                "type": 4,
+                "metric": [
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "histogram": {
+                            "sample_count": 2,
+                            "sample_sum": 10,
+                            "bucket": [
+                                {
+                                    "cumulative_count": 2,
+                                    "upper_bound":  50.1
+                                }
+                            ] 
+                        }
+                    }
+                ]
+            },
+            {
+                "name": "test_gauge",
+                "help": "gauge help msg",
+                "type": 1,
+                "metric": [
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "gauge": {
+                            "value": 22.2
+                        }
+                    },
+                    {
+                        "label": [
+                            {
+                                "name": "reporter",
+                                "value": "test_client"
+                            }
+                        ],
+                        "gauge": {
+                            "value": 32.2
+                        }
+                    }
+                ]
+            }
+        ]
+    ]
+}

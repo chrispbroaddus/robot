@@ -1,0 +1,47 @@
+syntax = "proto3";
+
+package zippy.applications;
+
+message PointAndGoOptions {
+    /// ZMQ address to read camera samples from
+    string camera_address = 1;
+
+    /// topic for camera socket
+    string camera_topic = 2;
+
+    /// ZMQ address to GPS telemetry from
+    string gps_address = 4;
+
+    /// topic of GPS socket
+    string gps_topic = 5;
+
+    /// time in seconds between uploading thumbnail of camera view to backend
+    int32 thumbnail_interval = 8;
+
+    /// Velocity scaling horizon; Velocities will be scaled by target/horizon * max_velocity
+    float velocity_scaling_horizon = 9;
+
+    /// ZMQ address to read detection results from
+    string front_camera_detection_2d_address = 11;
+
+    /// ZMQ topic for detection restuls
+    string front_camera_detection_2d_topic = 12;
+
+    /// ZMQ address to read detection results from
+    string rear_camera_detection_2d_address = 21;
+
+    /// ZMQ topic for detection restuls
+    string rear_camera_detection_2d_topic = 22;
+
+    /// ZMQ address to read detection results from
+    string left_camera_detection_2d_address = 31;
+
+    /// ZMQ topic for detection restuls
+    string left_camera_detection_2d_topic = 32;
+
+    /// ZMQ address to read detection results from
+    string right_camera_detection_2d_address = 41;
+
+    /// ZMQ topic for detection restuls
+    string right_camera_detection_2d_topic = 42;
+}

@@ -1,0 +1,96 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\title{Converting Trajectory Commands to Motor Controls}
+
+\author{Bynugsoo Kim}
+
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Introduction}
+\label{sec:introduction}
+In this report, given the trajectory command, a pair of the vehicle linear velocity $v^y_c$ and the curvature $c_c$ (inverse of rotating rarius $r_c$, or $(r_c, 0, 0)$ as 3D-vector representation), we derive the control command, a pair of the wheel linear velocity $v_w$ and servo angle $\theta_w$, for a wheel $w$.
+
+\section{Parameterization}
+\label{sec:parameterization}
+The pose of the wheel in the vehicle coordinate can be represented as $(p^x_w,~ p^y_w,~0)^T$ assuming that the vehicle center (not necessarily the real physical center, but the virtual center where the command is expected to be performed) and the center of wheel is on the same height. Similarly, the velocity of the wheel is $(v^x_w, v^y_w, 0)^T$.
+
+
+\section{Getting Servo Angle}
+\label{sec:servo_angle}
+In order to have wheels rotating around the same origin with respect to the vehicle curvature center, the direction of the wheel, represented by $\theta_w$ against the $+y$-axis, should be perpendicular to the vector connecting the wheel and the curvature center. This intuition can be re-written as the following equation:
+
+\begin{equation}
+\theta_w = \text{atan}\frac{p^y}{r_c - p^x_w}.
+\label{eq:servo_angle}
+\end{equation}
+
+\section{Getting Linear Velocity}
+\label{sec:linear_velocity}
+
+The angular velocity in 3D space can be represented as:
+
+\begin{equation}
+\omega = \frac{r \times v}{|r|^2}
+\label{eq:angular_velocity}
+\end{equation}
+
+Note that the rigid parts staying in a rigid body share an unique angular velocity regardless of their relative locations. To that end, the vehicle center and the wheel servo shares the same angular velocity.
+
+\begin{equation}
+\frac{r_c \times v_c}{|r_c|^2} = \frac{r_w \times v_w}{|r_w|^2}
+\label{eq:angular_velocity}
+\end{equation}
+
+The radius of the wheel as a vector is now can be written as:
+
+\begin{equation}
+r_w = (p^x_w - r_c,~p^y_w,~0)^T
+\label{eq:radius_of_wheel}
+\end{equation}
+
+By taking the cross product between $r_w$ and $v_w$, we get the numerator of the right side of the Eq.~\ref{eq:angular_velocity}.
+
+\begin{equation}
+r_w \times v_w = ((p^x_w - r_c) v^y_w - p^y_w v^x_w)\hat{k}
+\label{eq:r_w_times_v_w}
+\end{equation}
+
+Similarly, given that $p^x_c=0$, $p^y_c=0$, and $v^x_c=0$ (since linear velocity of the vehicle is defined over y-axis), the left side is:
+
+\begin{equation}
+r_c \times v_c = (-r_c v^y_c)\hat{k}
+\label{eq:r_c_times_v_c}
+\end{equation}
+
+We can also get the $|r_w|^2$ as:
+\begin{equation}
+|r_w|^2 = (p^x_w - r_c)^2 + {p^y_w}^2
+\label{eq:r_w}
+\end{equation}
+
+Finally, we need one more contraint to solve the problem. As the delta movement on x-axis is consistent on the delta movement on y-axis with the angle $\theta_w$, we have:
+
+\begin{equation}
+v^x_w = v^y_w \text{tan}\theta_w
+\label{eq:vx_vs_vy}
+\end{equation}
+
+
+Putting the Eq.~\ref{eq:r_w_times_v_w}, Eq.~\ref{eq:r_c_times_v_c}, Eq.~\ref{eq:r_w}, and Eq.~\ref{eq:vx_vs_vy} into the Eq.~\ref{eq:angular_velocity}, we get:
+
+\begin{equation}
+v^y_w = ((c_c p^x_w - 1)^2 + (c_c p^y_w)^2) \frac{-v^y_c}{c_c p^x_c - 1 - c_c p^y_w \text{tan}\theta_w}
+\label{eq:vy}
+\end{equation}
+, and $v^x_w$ can be estimated by Eq.~\ref{eq:vx_vs_vy}.
+
+\end{document}

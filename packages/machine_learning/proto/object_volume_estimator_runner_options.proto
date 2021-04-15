@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+package ml;
+
+message ObjectVolumeEstimatorRunnerOptions {
+
+    string det_port = 1;
+    string det_topic = 2;
+    string depth_port = 3;
+    string depth_topic = 4;
+
+    string obj_volume_port = 51;
+    string obj_volume_topic = 52;
+
+    // If the data from multiple sensors arrive within this timewindow, accept for data fusion
+    // Considering that stereo dense depth takes ~100ms and object detection takes ~50ms, 100ms is reasonble.
+    uint32 sensor_fusion_time_sync_window_threshold_in_milliseconds = 101;
+}

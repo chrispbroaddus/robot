@@ -1,0 +1,8 @@
+#version 330 core
+
+in vec3 gl_Color;
+out vec3 gl_FragColor;
+
+void main(){
+	gl_FragColor = gl_Color;
+}

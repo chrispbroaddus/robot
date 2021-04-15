@@ -1,0 +1,9 @@
+{
+  "id": "chris",
+  "ssh_keys": [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAACAQDrbgM0mydtY7EmTkk9zC2Jl9JHZYbC63oYJGCQ8vOfTLC4S1P1pNnNOVVfBDydpSQYe1osS0CVCsWdseoRCSrz5DXaQe13+EG1bf4U8ncifGAqE+21Ze5JzwR5509UIUEyrZFrXMPI3sSNv3y7OYs+6o5LNH/PaXKIi8CEMLNX6jC8gE+y/sdA+xBIGpQJ7qEPVP/AdEmCZNpjZf+7XH6IZyGowU/G5qqwL1hHEb+0aZlMvvH9+bJi4R0PbGc8zM0eZ6kS1zl7JgcpRzA8Kqu2fx4qEO/gyyD3P/n0+i91KNVrFhI5Pjyuq5hkU/wpSlkZutKLZPboabazd1A86u9GOo5oHBQkMBbTU2hvaRChafKy6NazOpqk2tCHF781CJPF7+1Se5t7USCZHCONxtzV3Z0gi7EkSdhUWgw0ZmFkogr2cgvTw1CHDNMZrVBnx9sBfQ36N4VwO3C3LU4TEtIyJTbIuMqHi9ZIYCxkDzGwMzdcPydyhngSLXil43FFjPKUzONOLIJtvnWcKurjsgMTPLzhHXFngogQsLY2uUMSGg1hcuZMGkWWmQHVeKmoB+HwN1EJvApmbqirM7EqPQ+aFPTl6QC5KdCvdC1J8A3SgUMhCbFzr0XSCTAFaUiiT59uihLMJ7RokchOwPkw+3RKIJJjO5+98ajR1VWwveJiaQ== chris@zippy.ai"
+  ],
+  "groups": [ "sysadmin" ],
+  "uid": 9004,
+  "shell": "\/bin\/bash"
+}

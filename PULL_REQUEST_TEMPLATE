@@ -1,0 +1,19 @@
+**📝 Issue:**
+
+
+**💻 Description:**
+
+
+**🤖 Simulator**
+- [ ] This branch has passed [the simulator functional test](https://zippy.quip.com/N9RJAg4TVdZw/Simulator-Functional-Test)
+- [ ] This branch has been tested in the simulator
+If not, please describe why:
+
+*📖 Checklist*:
+
+- [ ]  I have checked that this change substantially follows the guidance of Code Complete
+- [ ]  I have reviewed and updated inline Doxygen and Markdown documentation to ensure that the code as written and as documented match
+- [ ]  I have reviewed and updated documentation in Quip to ensure that it is consistent with these changes
+- [ ]  I have reviewed and updated documentation in Google Docs / Sheets / Slides / etc. to ensure that it is consistent with these changes
+
+(ref : [Code Complete, 2nd Ed. Checklists.](https://drive.google.com/file/d/0BwAXnT3oUQyqTjlwY0NWRmpBNFE/view))

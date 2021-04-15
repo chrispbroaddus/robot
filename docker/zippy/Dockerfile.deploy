@@ -1,0 +1,9 @@
+ARG BRANCH
+ARG COMMIT
+
+FROM server1.zippy:5000/zippy-build-$BRANCH:$COMMIT
+RUN mkdir -p /opt/zippy/
+RUN mv /zippy/bazel-bin/* /opt/zippy && mv /zippy/config /opt/zippy && find /zippy -type f ! -iname "*.py" -delete
+
+WORKDIR /opt/zippy/
+CMD bash

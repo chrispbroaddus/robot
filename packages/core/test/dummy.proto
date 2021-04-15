@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package core.proto.test;
+
+message Dummy { string message_description = 1; }

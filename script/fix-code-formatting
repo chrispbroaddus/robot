@@ -1,0 +1,37 @@
+#!/bin/bash
+
+# Usage: fix-code-formatting [-a]
+#    -a  process all files (not just modified files)
+
+GIT_LSFILES_FLAGS="-o -m"
+
+while [[ $# -gt 0 ]]; do
+	key="$1"
+	case $key in
+	-a|--all)
+	    GIT_LSFILES_FLAGS=""
+	    ;;
+	esac
+    shift # past argument
+done
+
+CFORMATTER=${CFORMATTER:-clang-format}
+
+$CFORMATTER --version
+
+DIRECTORIES_TO_CHECK="packages applications"
+
+list=$(
+	(git ls-files $GIT_LSFILES_FLAGS -- $DIRECTORIES_TO_CHECK 2>/dev/null ; \
+	 git status --porcelain -- $DIRECTORIES_TO_CHECK 2>/dev/null \
+	 | grep -E '^A' \
+	 | sed -e "s,^A,,") \
+	| grep -E '\.cpp$|\.h$|\.proto$'
+)
+
+while read path; do
+    if [ -f "$path" ] ; then
+        echo "$path"
+        $CFORMATTER -i "$path"
+    fi
+done <<< "$list"

@@ -1,0 +1,7 @@
+policy: TIME
+address: "tcp://localhost"
+port: 5802
+require_acknowledge: true
+logfile: "/tmp/executor.log"
+plannerDelayMs: 50
+offsetToleranceMs: 2000

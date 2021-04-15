@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+/// An IMU frame.
+message VCUIMUFrame {
+    // Three axis gyroscope rate data (radians/sec).
+    float gyro_x = 1;
+    float gyro_y = 2;
+    float gyro_z = 3;
+
+    // Three axis accelerometer data (meters/second^2).
+    float accel_x = 4;
+    float accel_y = 5;
+    float accel_z = 6;
+}
+
+/// Describes data reported from the IMU.
+message VCUIMUTelemetry {
+    /// Timestamp describing when we started this batch of IMU measurements.
+    core.SystemTimestamp period_start_timestamp = 1;
+
+    /// Timestamp describing when we ended this batch of IMU measurements.
+    core.SystemTimestamp period_end_timestamp = 2;
+
+    /// Restricted in options file to max_count: 31
+    /// For now, we don't have individual timestamps for each IMU frame.
+    /// Hopefully we can assume the frames are evenly spread between the
+    /// period start and end timestamps.
+    repeated VCUIMUFrame frames = 3;
+}

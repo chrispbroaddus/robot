@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+import "packages/calibration/proto/coordinate_transformation.proto";
+import "packages/perception/fiducials/proto/fiducial_configuration.proto";
+
+package docking;
+
+///
+/// Explains the fiducal attached on the docking_manager station
+///
+message Fiducial {
+    perception.FiducialConfiguration configuration = 1;
+    calibration.CoordinateTransformation transformation = 2;
+}
+
+///
+/// Defines the station type
+///
+enum StationType {
+    // Vertical box where loading/unloading behavior is expected.
+    // When station type is VERTICAL_BOX, the station coordiate is origined at top-left of the vertical box,
+    // where +z-axis is penetrating into the box.
+    VERTICAL_BOX = 0;
+}
+
+///
+/// Docking station is composed with multiple fiducials
+///
+message DockingStation {
+    uint64 station_id = 1;
+    StationType station_type = 2;
+    repeated Fiducial fiducials = 3;
+}
+
+///
+/// List of docking stations in the scene
+///
+message DockingStationList { repeated DockingStation docking_stations = 1; }

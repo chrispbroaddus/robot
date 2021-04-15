@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package simulator_settings;
+
+/// Settings that control the application in general
+message Application {
+    /// The target framerate to lock at. This should match the framerate of the cameras on the robot
+    uint32 targetFrameRate = 1;
+
+    /// What is the granularity of the physics simulation
+    float targetFixedDeltaTime = 2;
+}

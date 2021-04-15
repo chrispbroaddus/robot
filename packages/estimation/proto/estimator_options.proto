@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package estimation;
+
+message EstimatorOptions {
+    /// Target desired frequency for the estimator to run at
+    double frequency = 1;
+
+    /// Also propagate uncertainty
+    bool propagateUncertainty = 2;
+
+    /// Data address to subscribe to. This means different things for different
+    /// estimators
+    string subscribeAddress = 3;
+
+    /// Data port to subscribe to
+    int32 subscribePort = 4;
+
+    /// Address to publish pose data to
+    string publishAddress = 5;
+
+    /// Port to publish
+    int32 publishPort = 6;
+
+    /// Verbosity level
+    int32 verbosity = 7;
+}
+
+message WheelOdometryOptions {
+    EstimatorOptions base_options = 1;
+    enum Mode {
+        SKID = 0;
+        FOUR_WHEEL = 1;
+    };
+    Mode mode = 2;
+
+    /// Distance from the vehicle centre to the front-left wheel vertical axis
+    float distanceToSentinelWheel = 3;
+}
+
+message GroundTruthEstimatorOptions { EstimatorOptions base_options = 1; }

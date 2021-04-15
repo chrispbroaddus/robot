@@ -1,0 +1,6 @@
+detection_score_threshold: 0.5
+camera_topic: "FrontFisheye"
+camera_port: "5554"
+det_pub_port: "8001"
+det_topic: "detection"
+undistort: false

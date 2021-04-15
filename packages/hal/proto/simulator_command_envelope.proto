@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package hal;
+
+import "packages/hal/proto/simulator_camera_command.proto";
+import "packages/hal/proto/simulator_reset_command.proto";
+import "packages/hal/proto/simulator_stats_command.proto";
+
+/// Envelope for commands.
+message SimulatorCommandEnvelope {
+
+    oneof command {
+        SimulatorCameraCommand cameraCommand = 1;
+        SimulatorResetCommand resetCommand = 2;
+        SimulatorStatsCommand statsCommand = 3;
+    }
+}

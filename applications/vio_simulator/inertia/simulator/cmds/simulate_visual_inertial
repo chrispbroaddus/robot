@@ -1,0 +1,279 @@
+#!/usr/bin/env python
+
+import itertools
+
+from pathlib import Path
+import configargparse
+import numpy as np
+
+from rigidbody import pr, unpr
+from inertia import InertialState, simulator
+
+
+def write_track_table(track_ids_by_frame, label, path, count=None):
+    if count is None:
+        count = max(map(max, track_ids_by_frame)) + 1
+
+    mask_table = []
+    for track_ids in track_ids_by_frame:
+        mask = np.zeros(count, bool)
+        mask[track_ids] = True
+        mask_table.append(mask)
+
+    with open(path, 'w') as fd:
+        for i, row in enumerate(zip(*mask_table)):
+            row_str = ''.join('x' if x else ' ' for x in row)
+            fd.write('%s %-4d |%s|\n' % (label, i, row_str))
+
+
+def main():
+    parser = configargparse.ArgumentParser(description='Simulator for visual inertial odometry')
+    parser.add_argument('output_dir', type=str, default='.',
+                        help='Directory into which simulated sensor data will be written')
+
+    parser.add_argument('-c', '--config', required=False, is_config_file=True, help='Path to config file')
+
+    parser.add_argument('--duration', type=float, default=10.,
+                        help='Duration of simulation (seconds)')
+    parser.add_argument('--frame_frequency', type=float, default=5.,
+                        help='Frame per second (Hz)')
+    parser.add_argument('--num_frames', type=int, default=None,
+                        help='Total number of frames')
+
+    parser.add_argument('--landmark_generator', choices=('cloud', 'floor'), default='cloud',
+                        help='Arrangement of landmark structure.')
+    parser.add_argument('--landmarks_per_second', type=int, default=200,
+                        help='Number of landmarks to generate per second of trajectory')
+    parser.add_argument('--landmark_max_distance', type=float, default=12.,
+                        help='Maximum distance from trajectory at which to sample landmarks')
+    parser.add_argument('--landmark_min_distance', type=float, default=1.,
+                        help='Minimum distance from trajectory at which to sample landmarks')
+    parser.add_argument('--near_clip', type=float, default=.1,
+                        help='Distance at which points become to close for camera to detect')
+    parser.add_argument('--far_clip', type=float, default=50.,
+                        help='Distance at which points become to far away for camera to detect')
+
+    parser.add_argument('--position_generator',
+                        choices=('random_walk_2d', 'random_walk_3d', 'manhattan_2d', 'line', 'circle_2d', 'square_2d'),
+                        default='circle_2d',
+                        help='Function that generates positions')
+    parser.add_argument('--orientation_generator', choices=('random_walk', 'forward_facing'),
+                        default='forward_facing',
+                        help='Function that generates orientations')
+    parser.add_argument('--position_excitation', type=float, default=.5,
+                        help='higher means more excitation (randomwalk2d only)')
+    parser.add_argument('--orientation_excitation', type=float, default=.5,
+                        help='higher means more excitation (randomwalk2d only)')
+    parser.add_argument('--initial_speed', type=float, default=0.,
+                        help='Speed at time=0')
+    parser.add_argument('--max_speed', type=float, default=3.,
+                        help='Approximate maximum speed')
+    parser.add_argument('--initial_angular_velocity', type=float, default=3.,
+                        help='Angular velocity at time=0')
+    parser.add_argument('--max_angular_velocity', type=float, default=3.,
+                        help='Approximate maximum angular velocity')
+    parser.add_argument('--control_frequency', type=float, default=4,
+                        help='Number of control points per second')
+
+    parser.add_argument('--max_segment_length', type=float, default=3.)
+    parser.add_argument('--min_segment_length', type=float, default=1.)
+    parser.add_argument('--turning_radius', type=float, default=0.2)
+    parser.add_argument('--side_length', type=float, default=4.)
+    parser.add_argument('--stationary_duration', type=float, default=1.)
+
+    parser.add_argument('--gyro_frequency', type=float, default=100.,
+                        help='Gyro measurement frequency (Hz)')
+    parser.add_argument('--gyro_sigma', type=float, default=0,
+                        help='Gyro white noise')
+    parser.add_argument('--gyro_bias_sigma', type=float, default=0,
+                        help='Drift rate for gyro bias')
+    parser.add_argument('--initial_gyro_bias_norm', type=float, default=0,
+                        help='Norm of gyro bias at time=0')
+    parser.add_argument('--max_gyro_bias_norm', type=float, default=0,
+                        help='Maximum allowable norm of gyro bias')
+
+    parser.add_argument('--accel_frequency', type=float, default=100.,
+                        help='Accelerometer measurement frequency (Hz)')
+    parser.add_argument('--accel_sigma', type=float, default=0,
+                        help='Accel white noise')
+    parser.add_argument('--accel_bias_sigma', type=float, default=0,
+                        help='Drift rate for accel bias')
+    parser.add_argument('--initial_accel_bias_norm', type=float, default=0,
+                        help='Norm of accel bias at time=0')
+    parser.add_argument('--max_accel_bias_norm', type=float, default=0,
+                        help='Maximum allowable norm of accel bias')
+
+    parser.add_argument('--gravity_norm', type=float, default=9.82,
+                        help='Norm of gravity vector')
+
+    parser.add_argument('--image_width', type=float, default=640,
+                        help='Frame width in pixels')
+    parser.add_argument('--image_height', type=float, default=360,
+                        help='Feature height in pixels')
+    parser.add_argument('--fx', type=float, default=None,
+                        help='Element in camera matrix')
+    parser.add_argument('--fy', type=float, default=None,
+                        help='Element in camera matrix')
+    parser.add_argument('--cx', type=float, default=None,
+                        help='Element in camera matrix')
+    parser.add_argument('--cy', type=float, default=None,
+                        help='Element in camera matrix')
+    parser.add_argument('--feature_sigma', type=float, default=0.,
+                        help='Feature noise in pixels')
+    parser.add_argument('--features_per_frame', type=int, default=50,
+                        help='Number of features to track in each frame')
+    parser.add_argument('--track_drop_probability', type=float, default=0,
+                        help='Probability of dropping each track on each frame')
+
+    parser.add_argument('--vision_model_feature_sigma', type=float, default=1.,
+                        help='Feature uncertainty (for vision_model.txt only, not used to generate noise)')
+    parser.add_argument('--inertial_model_gyro_sigma', type=float, default=1e-2,
+                        help='Gyro white noise (for inertial_model.txt only, not used to generate noise)')
+    parser.add_argument('--inertial_model_gyro_bias_sigma', type=float, default=1e-2,
+                        help='Drift rate for gyro bias (for inertial_model.txt only, not used to generate noise)')
+    parser.add_argument('--inertial_model_accel_sigma', type=float, default=1e-2,
+                        help='Accel white noise (for inertial_model.txt only, not used to generate noise)')
+    parser.add_argument('--inertial_model_accel_bias_sigma', type=float, default=1e-2,
+                        help='Drift rate for accel bias (for inertial_model.txt only, not used to generate noise)')
+
+    parser.add_argument('--visualize', default=False, action='store_true')
+
+    parser.add_argument('--seed', type=int, default=12345,
+                        help='random seed')
+    args = parser.parse_args()
+
+    # Seed random number generator
+    if args.seed is not None:
+        print('Random seed: ', args.seed)
+        np.random.seed(args.seed)
+
+    # Check control frequency
+    num_controls = args.control_frequency * args.duration
+    if num_controls < 5:
+        print("Error: there are only %d control points. You may need to increase --control_frequency." % \
+            num_controls)
+        return
+
+    # Generate device state function
+    state_func = simulator.generate_state_function(**vars(args))
+    assert isinstance(state_func, simulator.StateFunction)
+
+    # Generate landmarks
+    print('Sampling landmarks...')
+    landmarks = simulator.generate_landmarks(state_func, **vars(args))
+
+    # Sample gyro readings
+    print('Sampling gyro readings...')
+    gyro_timestamps = simulator.generate_timestamps(args.duration, args.gyro_frquency)
+    gyro_readings = simulator.generate_gyro_readings(state_func, gyro_timestamps, **vars(args))
+
+    # Sample accel readings
+    print('Sampling accel readings...')
+    accel_timestamps = simulator.generate_timestamps(args.duration, args.accel_frquency)
+    accel_readings = simulator.generate_accel_readings(state_func, accel_timestamps, **vars(args))
+
+    # TODO: make these command line args
+    imu_to_camera_rotation = np.eye(3)
+    imu_to_camera_displacement = np.zeros(3)
+
+    # Set up a calibration matrix
+    print('Sampling camera calibration...')
+    camera = simulator.generate_camera(**vars(args))
+
+    # Sample timestamps for frames
+    if args.num_frames is None:
+        frame_timestamps = generate_timestamps(args.duration, args.frame_frequency)
+    else:
+        frame_timestamps = np.linspace(0, args.duration, args.num_frames)
+
+    # Sample features
+    print('Sampling feature points...')
+    frames = simulator.generate_feature_observations(state_func, landmarks, camera, frame_timestamps, **vars(args))
+
+    # Get a list of landmarks indexed by track id
+    landmark_map = {}
+    for frame in frames:
+        for track_id, landmark_id in zip(frame.track_ids, frame.landmark_ids):
+            landmark_map[track_id] = landmarks[landmark_id]
+
+    landmarks_by_track_id = np.zeros((len(landmark_map), 4))
+    for i in range(len(landmark_map)):
+        if i not in landmark_map:
+            print("Missing track ID %d" % i)
+            exit(1)
+        landmarks_by_track_id[i] = landmark_map[i]
+
+    # Generate output
+    print('Writing to output...')
+    out = Path(args.output_dir)
+    if not out.is_dir():
+        out.mkdir()
+
+    # Write human-readable track tables
+    write_track_table([frame.track_ids for frame in frames],
+                      'Track',
+                      str(out/'track_table.txt'))
+    write_track_table([frame.landmark_ids for frame in frames],
+                      'Landmark',
+                      str(out/'landmark_table.txt'),
+                      count=len(landmarks))
+
+    # Save vision sensor model
+    calibrated_feature_sigma = args.vision_model_feature_sigma or args.feature_sigma
+    np.savetxt(str(out/"feature_sigma.txt"), np.atleast_2d(calibrated_feature_sigma))
+    np.savetxt(str(out/"camera_matrix.txt"), camera.matrix)
+    np.savetxt(str(out/"intrinsic_orientation.txt"), imu_to_camera_rotation)
+    np.savetxt(str(out/"intrinsic_displacement.txt"), imu_to_camera_displacement)
+
+    # Save IMU noise characteristics
+    gyro_sigma = args.inertial_model_gyro_sigma or args.gyro_sigma
+    gyro_bias_sigma = args.inertial_model_gyro_bias_sigma or args.gyro_bias_sigma
+    accel_sigma = args.inertial_model_accel_sigma or args.accel_sigma
+    accel_bias_sigma = args.inertial_model_accel_bias_sigma or args.accel_bias_sigma
+    np.savetxt(str(out/'inertial_model.txt'),
+               [gyro_sigma, gyro_bias_sigma, accel_sigma, accel_bias_sigma])
+
+    # Save gravity
+    np.savetxt(str(out/'gravity.txt'), state_func.gravity)
+
+    # Extract ground truth
+    output_timestamps = np.linspace(0, args.duration, args.duration * args.accel_frequency)
+    true_positions = state_func.trajectory.position(output_timestamps)
+    true_orientations = np.reshape(list(map(state_func.trajectory.orientation, output_timestamps)), (-1, 9))
+    true_poses = np.array([state_func.trajectory(t).matrix[:3].flatten() for t in output_timestamps])
+    true_states = np.array([state_func(t).flatten() for t in frame_timestamps])
+
+    # Save ground truth positions
+    np.savetxt(str(out/'positions.txt'), np.c_[output_timestamps, true_positions], fmt='%.10f')
+    np.savetxt(str(out/'orientations.txt'), np.c_[output_timestamps, true_orientations], fmt='%.10f')
+    np.savetxt(str(out/'poses.txt'), np.c_[output_timestamps, true_poses.reshape((-1, 12))], fmt='%.10f')
+
+    # Save ground truth states for each frame
+    np.savetxt(str(out/'states.txt'), np.c_[frame_timestamps, true_states], fmt='%.10f')
+
+    # Save ground truth landmark info
+    np.savetxt(str(out/'generated_landmarks.txt'), landmarks)
+    np.savetxt(str(out/'visible_landmarks.txt'), landmarks_by_track_id)
+
+    # Save initial conditions
+    np.savetxt(str(out/'initial_velocity.txt'), state_func.trajectory.velocity(0.))
+    np.savetxt(str(out/'initial_orientation.txt'), state_func.trajectory.orientation(0.))
+    np.savetxt(str(out/'initial_state.txt'), state_func(0.).flatten())
+
+    # Save accelerometer and gyro measurements
+    np.savetxt(str(out/'accel.txt'), np.c_[accel_timestamps, accel_readings])
+    np.savetxt(str(out/'gyro.txt'), np.c_[gyro_timestamps, gyro_readings])
+
+    # Save vision measurements
+    with open(str(out/'features.txt'), 'w') as fd:
+        for i, frame in enumerate(frames):
+            assert len(frame.track_ids) == len(frame.observations)
+            for track_id, obs in zip(frame.track_ids, frame.observations):
+                fd.write('%d %d %.8f %.8f\n' % (track_id, i, obs[0], obs[1]))
+
+    # Save frame timestamps
+    np.savetxt(str(out/'frame_timestamps.txt'), frame_timestamps)
+
+if __name__ == '__main__':
+    np.set_printoptions(suppress=True, linewidth=300)
+    main()

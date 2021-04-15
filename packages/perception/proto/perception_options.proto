@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package perception;
+
+message PerceptionOptions { double frequency = 1; }

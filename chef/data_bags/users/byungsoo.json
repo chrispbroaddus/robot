@@ -1,0 +1,9 @@
+{
+  "id": "byungsoo",
+  "ssh_keys": [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDSy1j023qzLU/ASHnS0W0gnylMaTnjWJSVvKfWo3XhAXu+6+ETIL2CaMW5O5IlWUbUHR0od8BeKqjxh64sNyrt7NpKWKVj52yeYdd1dcX+dmNxXnw09mwsuG7y/dSbnb46oPYdZvm60EjM3XqVdxev9c86lkCHIAT9yYwmG7JE+ClH12e+zrC9hB6/F8Qqranxiymt1I6CHelCFF/pFuMp5Wqx+IyOfaHeyv5Ho7UW8+s27uCVP4UvUkScVfSyBC+1glqhz8OGMXDUxrURj97njb/n5VI/EZfGpi3SQt/vaZAZpY9ZNi1F1hLH3XfUEz+U6v2SrjMZl1JtUBUISNLJ byungsookim@IBUYPOWER"
+  ],
+  "groups": [ "sysadmin" ],
+  "uid": 9002,
+  "shell": "\/bin\/bash"
+}

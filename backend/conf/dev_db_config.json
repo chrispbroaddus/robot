@@ -1,0 +1,24 @@
+{
+    "env": "production",
+    "port": 8000,
+    "profiler_port": 4000,
+    "domain": "localhost",
+    "data_base": {
+        "db_name": "teleop_server",
+        "host": "localhost",
+        "port": 5432
+    },
+    "redis": {
+        "server": "localhost:6379",
+        "data_base": 0
+    },
+    "aws_s3": {
+        "bucket": "zippy.camera.frames",
+        "region": "us-west-2"
+    },
+    "ssh_config": {
+        "username": "leland", 
+        "key_file_path": "/home/lursu/.ssh/id_rsa", 
+        "sim_server": "172.30.0.25"
+    }
+}

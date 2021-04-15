@@ -1,0 +1,7 @@
+syntax = "proto3";
+
+package hal;
+
+message SimulatorStatsCommand {
+    bool enable = 1; // Enable or disable the stats stream
+}

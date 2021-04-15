@@ -1,0 +1,48 @@
+# Disable sandboxing for CI builds
+build --spawn_strategy=standalone --genrule_strategy=standalone --ignore_unsupported_sandboxing
+
+# Be more modest with resource consumption than what Bazel wants to do by default
+build --ram_utilization_factor=20
+build -j 8
+
+# Get more useful information out of bazel when the build fails
+build --verbose_failures
+test --verbose_failures
+
+# Don't use cached test results
+test --nocache_test_results
+test --test_output=errors
+
+
+# Disable sand-boxing for tests
+test --test_strategy=standalone --ignore_unsupported_sandboxing
+
+# Be more modest with resource consumption than the default
+test --ram_utilization_factor=10
+test -j 4
+
+
+# Generate profile as part of build so we can understand timings of things
+build --profile=build.profile
+
+# sourcey code requires c++1y, it's better to be consistent for all
+# C++ code
+build --cxxopt -std=c++1y
+build --cxxopt -D_GLIBCXX_USE_CXX11_ABI=0
+
+
+# Code-coverage specific options. Invoke by:
+# $ bazel test --config=kcov //path/to/your:test
+# This is still very experimental!
+build:kcov --copt -O0
+build:kcov --copt -g
+build:kcov --strip=never
+test:kcov --spawn_strategy=standalone
+test:kcov --run_under //script/bazel:kcov
+test:kcov --local_test_jobs=1
+test:kcov --test_tag_filters=-cpplint,-gurobi,-pcodestyle
+test:kcov --nocache_test_results
+
+# no curses output when running in CI
+build --curses=no
+test --curses=no

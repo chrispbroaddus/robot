@@ -1,0 +1,9 @@
+{
+  "id": "daniel",
+  "ssh_keys": [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDGELUyq7fNGts6ngeykUFbkkHUJm5uhbfWYvx5EMOPxUHrUNZ7JCF9ljPzbTxwX8ShqCOc/8Lt/lDUnRTbJUKzT7odYIgxMk+KOsW2u+/zoozSUrxp4+GsUuicrxzpJ4v1WL1Dlq5f9ZfraRJ7VLGmHn4j0sKoWlHxwms8Jn0vDDIjwbCtqRzyVq6EqoUxG1MpU1qMpNBj5PMpVXz6BfKwmkar35W/EB7WeUP7R6uDMzkFrB3FSGrMIMpINEVBVSChsA5qyRq3OVXS/bLVk7wGTxjXAfPo55JXqg4TIaoaCWpqdUzAXAaZ9ZBVLz2OWUVt6iKF6b/UZRBx8VyhoTrZ danyim@DYIM-MBP15"
+  ],
+  "groups": [ "sysadmin" ],
+  "uid": 9005,
+  "shell": "\/bin\/bash"
+}

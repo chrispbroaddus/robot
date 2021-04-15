@@ -1,0 +1,31 @@
+# SHM0 from gpsd is the NEMA data at 4800bps, so is not very accurate 
+refclock SHM 0 delay 0.5 refid NEMA 
+
+# SHM1 from gpsd (if present) is from the kernel PPS_LDISC 
+# module. It includes PPS and will be accurate to a few ns 
+refclock SHM 1 offset 0.0 delay 0.1 refid PPS 
+
+# SOCK protocol also includes PPS data and 
+# it also provides time within a few ns 
+refclock SOCK /var/run/chrony.ttyS1.sock delay 0.0 refid SOCK 
+
+# If you see something in ns... its good. 
+# 1 second = 
+# 1000 ms = 
+# 1000000 us = 
+# 1000000000 ns 
+
+logchange 0.5 
+local stratum 10 
+
+logdir /var/log/chrony 
+
+keyfile /etc/chrony/chrony.keys 
+commandkey 10 
+
+dumpdir /var/log/chrony 
+driftfile /var/log/chrony/chrony.drift 
+
+allow all
+
+makestep 1 -1

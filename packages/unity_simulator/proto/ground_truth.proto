@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package simulator_settings;
+
+message GroundTruth {
+    bool publishVehiclePosition = 1;
+    bool publishFiducialPoses = 2;
+}

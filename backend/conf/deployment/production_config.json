@@ -1,0 +1,25 @@
+{
+    "env": "production",
+    "port": 8000,
+    "debug_port": 4000,
+    "domain": "mission-control.zippy.ai",
+    "data_base": {
+        "db_name": "teleop_server",
+        "host": "teleop-rds-test.cbvrnosnnm3s.us-west-2.rds.amazonaws.com",
+        "port": 5432,
+        "ssl_mode": "enabled"
+    },
+    "redis": {
+        "server": "teleop-server-test.mxpas0.0001.usw2.cache.amazonaws.com:6379",
+        "data_base": 0
+    },
+    "ssh_config": {
+        "username": "mission-control",
+        "key_file_path": "/keys/id_rsa",
+        "sim_server": "172.30.0.25"
+    },
+    "aws_s3": {
+        "bucket": "zippy.camera.frames",
+        "region": "us-west-2"
+    }
+}

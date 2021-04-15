@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package hal;
+
+message SimulatorStatsResponse {
+    // to subscribe (everying including a protocol, an IPv4 address, and a port number)
+    string address = 1;
+    string topic = 2;
+}

@@ -1,0 +1,47 @@
+/**
+ * _typography.scss
+ * =============================================================================
+ * This file should define the base typography for every element in our
+ * application
+ */
+@font-face {
+  font-family: 'Montserrat-Light';
+  src: local('Montserrat-Light'), url('../Fonts/Montserrat-Light.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-Medium';
+  src: url('../Fonts/Montserrat-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Montserrat-Regular';
+  src: local('Montserrat-Regular'), url('../Fonts/Montserrat-Regular.ttf') format('truetype');
+}
+
+// Root font size
+html {
+  font-family: 'Montserrat-Light', sans-serif;
+  letter-spacing: 1px;
+  font-size: 12px;
+  // @media (min-width: 800px) {
+  //   font-size: 18px;
+  // }
+
+  // @media (min-width: 1200px) {
+  //   font-size: 20px;
+  // }
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat-Light', sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+}

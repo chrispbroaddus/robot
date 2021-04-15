@@ -1,0 +1,178 @@
+{
+ "vehicle": {
+  "modelId": "BoxCar",
+  "vehicleCalibration": {
+   "center": {
+    "x": 0,
+    "y": 0
+   },
+   "frontRight": {
+    "x": 0.6289996,
+    "y": 0.4999985
+   },
+   "frontLeft": {
+    "x": -0.6290003,
+    "y": 0.5000008
+   },
+   "middleRight": {
+    "x": 0.629001,
+    "y": 0
+   },
+   "middleLeft": {
+    "x": -0.6290033,
+    "y": 0
+   },
+   "rearRight": {
+    "x": 0.6290025,
+    "y": -0.4999998
+   },
+   "rearLeft": {
+    "x": -0.6290016,
+    "y": -0.499999
+   }
+  }
+ },
+ "application": {
+  "targetFrameRate": 30,
+  "targetFixedDeltaTime": 0.02
+ },
+ "cameras": {
+  "frameDownloadBufferSize": 2,
+  "cameraStartDepth": -50,
+  "maxTextureSize": 8192,
+  "camera": [
+   {
+    "cameraId": "FrontLeftStereo",
+    "greyscale": true,
+    "nearClippingPlaneDistanceMeters": 0.03,
+    "farClippingPlaneDistanceMeters": 500,
+    "distortedMeshRowFineness": 0.1,
+    "distortedMeshColFineness": 0.1,
+    "calibratedPlaneScaleFactor": 1,
+    "maxDepthMapDistanceMeters": 50,
+    "imageScale": 1,
+    "imageZoom": 1,
+    "enabled": false,
+    "depthEnabled": false,
+    "xyzEnabled": false
+   },
+   {
+    "cameraId": "FrontRightStereo",
+    "greyscale": true,
+    "nearClippingPlaneDistanceMeters": 0.03,
+    "farClippingPlaneDistanceMeters": 500,
+    "distortedMeshRowFineness": 0.1,
+    "distortedMeshColFineness": 0.1,
+    "calibratedPlaneScaleFactor": 1,
+    "maxDepthMapDistanceMeters": 50,
+    "imageScale": 1,
+    "imageZoom": 1,
+    "enabled": false,
+    "depthEnabled": false,
+    "xyzEnabled": false
+   },
+   {
+    "cameraId": "RearLeftStereo",
+    "greyscale": true,
+    "nearClippingPlaneDistanceMeters": 0.03,
+    "farClippingPlaneDistanceMeters": 500,
+    "distortedMeshRowFineness": 0.1,
+    "distortedMeshColFineness": 0.1,
+    "calibratedPlaneScaleFactor": 1,
+    "maxDepthMapDistanceMeters": 50,
+    "imageScale": 1,
+    "imageZoom": 1,
+    "enabled": false,
+    "depthEnabled": false,
+    "xyzEnabled": false
+   },
+   {
+    "cameraId": "RearRightStereo",
+    "greyscale": true,
+    "nearClippingPlaneDistanceMeters": 0.03,
+    "farClippingPlaneDistanceMeters": 500,
+    "distortedMeshRowFineness": 0.1,
+    "distortedMeshColFineness": 0.1,
+    "calibratedPlaneScaleFactor": 1,
+    "maxDepthMapDistanceMeters": 50,
+    "imageScale": 1,
+    "imageZoom": 1,
+    "enabled": false,
+    "depthEnabled": false,
+    "xyzEnabled": false
+   },
+   {
+    "cameraId": "FrontFisheye",
+    "greyscale": false,
+    "nearClippingPlaneDistanceMeters": 0.03,
+    "farClippingPlaneDistanceMeters": 500,
+    "distortedMeshRowFineness": 0.1,
+    "distortedMeshColFineness": 0.1,
+    "calibratedPlaneScaleFactor": 1,
+    "maxDepthMapDistanceMeters": 50,
+    "imageScale": 1,
+    "imageZoom": 10,
+    "enabled": true,
+    "depthEnabled": true,
+    "xyzEnabled": false
+   },
+   {
+    "cameraId": "RearFisheye",
+    "greyscale": false,
+    "nearClippingPlaneDistanceMeters": 0.03,
+    "farClippingPlaneDistanceMeters": 500,
+    "distortedMeshRowFineness": 0.1,
+    "distortedMeshColFineness": 0.1,
+    "calibratedPlaneScaleFactor": 1,
+    "maxDepthMapDistanceMeters": 50,
+    "imageScale": 1,
+    "imageZoom": 10,
+    "enabled": false,
+    "depthEnabled": false,
+    "xyzEnabled": false
+   },
+   {
+    "cameraId": "LeftFisheye",
+    "greyscale": false,
+    "nearClippingPlaneDistanceMeters": 0.03,
+    "farClippingPlaneDistanceMeters": 500,
+    "distortedMeshRowFineness": 0.1,
+    "distortedMeshColFineness": 0.1,
+    "calibratedPlaneScaleFactor": 1,
+    "maxDepthMapDistanceMeters": 50,
+    "imageScale": 1,
+    "imageZoom": 10,
+    "enabled": false,
+    "depthEnabled": false,
+    "xyzEnabled": false
+   },
+   {
+    "cameraId": "RightFisheye",
+    "greyscale": false,
+    "nearClippingPlaneDistanceMeters": 0.03,
+    "farClippingPlaneDistanceMeters": 500,
+    "distortedMeshRowFineness": 0.1,
+    "distortedMeshColFineness": 0.1,
+    "calibratedPlaneScaleFactor": 1,
+    "maxDepthMapDistanceMeters": 50,
+    "imageScale": 1,
+    "imageZoom": 10,
+    "enabled": false,
+    "depthEnabled": false,
+    "xyzEnabled": false
+   }
+  ]
+ },
+ "networking": {
+  "zmqSendReceiveTimeoutMs": 1000,
+  "zmqLingerTimeMs": 1000,
+  "zmqHighWaterMark": 1
+ },
+ "groundTruth": {
+  "publishVehiclePosition": false,
+  "publishFiducialPoses": false
+ },
+ "scene": {
+  "sceneUrl": "https://s3-us-west-1.amazonaws.com/zippysimulator/assets/scenes/UrbanSimple.zss"
+ }
+}

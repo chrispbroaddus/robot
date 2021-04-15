@@ -1,0 +1,6 @@
+docking_status_address : "tcp://localhost:5951"
+docking_status_topic : "docking_status"
+docking_observation_topic : "docking_observation"
+station_calibration_file : "config/global/docking_station_calibration.json"
+vehicle_calibration_file : "config/00000000-0000-0000-0000-000000000001/docking_vehicle_calibration.json"
+station_finder_publisher_port : "5961"

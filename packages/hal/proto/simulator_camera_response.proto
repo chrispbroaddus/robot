@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package hal;
+
+import "packages/hal/proto/simulator_camera_output.proto";
+
+message SimulatorCameraResponse {
+
+    SimulatorCameraOutput image = 1;
+    SimulatorCameraOutput depth = 2;
+    SimulatorCameraOutput xyz = 3;
+}

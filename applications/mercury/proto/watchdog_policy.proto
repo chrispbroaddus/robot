@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+package mercury;
+
+/// Watchdog policy:
+/// If the monitored process dies unexpectedly or fails a liveness check, do nothing.
+message IgnoreFailurePolicy {
+    // Dummy field to help with python bindings, since the concept of a tag type does not seem to have occurred
+    // to the people who did the python codegen for protobuf
+    uint32 dummy = 1;
+}
+
+/// Watchdog policy:
+///
+/// When the monitored process either dies unexpectedly or fails a liveness
+/// check, attempt to gracefully shut down all launched processes and then
+/// start screaming for help because something went spectacularly wrong.
+message FailWatchdogPolicy {
+    /// Once the process has launched, perform a liveness check every
+    /// liveness_check_period_seconds seconds.
+    uint32 liveness_check_period_milliseconds = 1;
+
+    /// Treat the first liveness check specially, because the application
+    /// may need a while to load resources, etc. into memory.
+    uint32 first_liveness_check_seconds = 2;
+}
+
+/// Watchdog policy:
+///
+/// Make a fixed number of attempts to cleanly kill and then restart a process
+/// (and all of the processes which depend upon this one) when it has either died
+/// unexpectedly or failed a liveness check. If all attempts are exhausted, attempt
+/// to gracefully shut down all launched processess and then start screaming for
+/// help.
+message AttemptRelaunchWatchdogPolicy {
+    uint32 liveness_check_period_milliseconds = 1;
+    uint32 first_liveness_check_seconds = 2;
+
+    /// If set and we need to stop/start a process, start/stop all its descendants and restart them as well
+    bool propagate_to_descendants = 3;
+}

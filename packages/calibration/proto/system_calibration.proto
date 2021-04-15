@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/calibration/proto/camera_intrinsic_calibration.proto";
+import "packages/calibration/proto/coordinate_transformation.proto";
+
+package calibration;
+
+/// Describes system hardware from a calibration perspective.
+message HardwareMetadata {
+    string serialNumber = 1;
+    string model = 2;
+    string description = 3;
+    string hardwareRevision = 4;
+    string firmwareRevision = 5;
+    string softwareRevision = 6;
+}
+
+/// All the book keeping related to the overall system calibration.
+message SystemCalibrationMetadata {
+    /// Major version for the file format. This follows the rules for semantic versioning: if we introduce
+    /// changes which are backwards incompatible (either due to a change in syntax or semantics), then
+    /// this number should be incremented.
+    ///
+    /// As of 5/15/2017, the value for this should be fixed at 0
+    uint32 formatMajorVersion = 1;
+
+    /// Minor version for the file format. This follows the rules for semantic versioning: if we introduce
+    /// changes which are backwards compatible (e.g. new optional fields), then this number should be
+    /// incremented.
+    ///
+    /// As of 5/15/2017, the value for this should be fixed at 1
+    uint32 formatMinorVersion = 2;
+
+    /// What tool was used to generate the calibration
+    string calibrationSoftwarePackage = 3;
+
+    /// Who performed the calibration
+    string calibrationTechnician = 4;
+
+    /// When was the calibration data captured
+    core.SystemTimestamp calibrationDataCaptureStartTime = 5;
+
+    /// When was the calibration data captured
+    core.SystemTimestamp calibrationDataCaptureEndTime = 6;
+
+    /// When were the calibration calculations performed
+    core.SystemTimestamp calibrationCalculationStartTime = 7;
+
+    /// When the calibration calculations concluded
+    core.SystemTimestamp calibrationCalculationEndTime = 8;
+
+    /// Which actual hardware device generated this calibration (this should reference a complete, assembled
+    /// Zippy in this case)
+    HardwareMetadata deviceUnderCalibration = 9;
+}
+
+/// Overall system calibration.
+message SystemCalibration {
+    SystemCalibrationMetadata metadata = 1;
+    repeated CameraIntrinsicCalibration cameraIntrinsicCalibration = 2;
+    repeated CoordinateTransformation deviceToDeviceCoordinateTransformation = 3;
+}

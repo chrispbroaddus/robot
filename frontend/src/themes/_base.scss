@@ -1,0 +1,58 @@
+/**
+ * _base.scss
+ * =============================================================================
+ * This file should define styling for basic elements
+ */
+@import '_animations.scss';
+@import '_typography.scss';
+@import '_variables.scss';
+@import '_modals.scss';
+
+html,
+body,
+#root,
+main {
+  height: 100%;
+  width: 100%;
+}
+
+// Root font size
+html {
+  font-family: 'Montserrat-Light', sans-serif;
+  letter-spacing: 1px;
+  font-size: 14px;
+  background-color: black;
+  // @media (min-width: 800px) {
+  //   font-size: 18px;
+  // }
+
+  // @media (min-width: 1200px) {
+  //   font-size: 20px;
+  // }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+input,
+button {
+  outline: 0;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: 'Montserrat-Light', sans-serif;
+}
+
+h1 {
+  font-size: 2rem;
+}
+
+.center {
+  text-align: center;
+}

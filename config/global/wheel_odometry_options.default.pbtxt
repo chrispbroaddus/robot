@@ -1,0 +1,10 @@
+base_options {
+  frequency: 50
+  subscribeAddress: "tcp://localhost"
+  subscribePort: 7001
+  publishAddress: "tcp://*"
+  publishPort: 7100
+  verbosity: 2
+}
+mode: FOUR_WHEEL
+distanceToSentinelWheel: 0.5

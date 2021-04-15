@@ -1,0 +1,23 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/hal/proto/device.proto";
+
+package calibration;
+
+/// Identify a (possibly moving) coordinate frame.
+///
+/// Use cases you should expect (why have a valid period?):
+///
+/// 1) Kinematic chains describing the evolution of the pose of the same device over time. In this
+///    case, we expect to see several coordinate frames which have the same anchor but which have
+///    valid periods which overlap at single instances.
+///
+/// 2) Coordinate transforms between things which are part of the same rigid body. In this case, the
+///    valid period should start at 0 and end at 2^64-1
+message CoordinateFrame {
+    core.SystemTimestamp validPeriodBegin = 1;
+    core.SystemTimestamp validPeriodEnd = 2;
+
+    oneof anchor { hal.Device device = 3; }
+}

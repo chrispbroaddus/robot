@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+/// Adam will fill this out :-)
+enum VCUSuspensionJointID {
+    LeftFrontSuspensionJoint = 0;
+    LeftRearSuspensionJoint = 1;
+    RightFrontSuspensionJoint = 2;
+    RightRearSuspensionJoint = 3;
+}
+
+/// Describe telemetry as reported by a single suspension encoder.
+message VCUSuspensionEncoderTelemetry {
+    /// HW timestamp of when this measurement was made.
+    core.HardwareTimestamp measurementHardwareTimestamp = 1;
+
+    /// System timestamp of when this measurement was made. The VCU will make every reasonable
+    /// effort to ensure that measuredHardwareTimestamp and measuredSystemTimestamp refer
+    /// to the same instant in time.
+    core.SystemTimestamp measurementSystemTimestamp = 2;
+
+    /// Which servo we are reporting.
+    VCUSuspensionJointID jointId = 4;
+
+    /// The total deflection of the joint in radians. Adam will have to explain what 0, positive,
+    /// and negative quantities mean.
+    float jointAngleRadians = 5;
+}

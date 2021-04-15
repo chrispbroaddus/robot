@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package simulator_settings;
+
+message Scene {
+    // URL to scene file (can be web (http://) or local (file://)). Max 2048 characters
+    string sceneUrl = 1;
+}

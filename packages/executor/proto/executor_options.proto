@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+package executor;
+
+// The trajectory execution strategy to be used.
+// - Time-based execution merely waits for the duration of the trajectory
+// - Odometry uses the wheel feedback to estimate position and distance
+enum ExecutionPolicy {
+    INVALID = 0;
+    TIME = 1;
+    ODOMETRY = 2;
+}
+
+/// Options controlling the behavior of the executor. This will soon be
+/// deprecated.
+message ExecutorOptions {
+    /// Policy to execute; only TIME is currently suppported.
+    ExecutionPolicy policy = 2;
+
+    /// Address of the VCU accepting trajectory commands
+    string address = 4;
+
+    /// Port of the VCU accepting trajectory commands
+    int32 port = 5;
+
+    /// Whether to require explicit acknoledgement of trajectory acceptance from
+    /// the VCU. Setting this to true and encountering an error will terminate the
+    /// executor.
+    bool require_acknowledge = 6;
+
+    /// Name of the output logfile to write. This is saved in the current
+    /// execution directory.
+    string logfile = 8;
+
+    /// The delay to inject into the planner to account for network delay, etc.
+    int32 plannerDelayMs = 9;
+
+    /// The delay to tolerate between teleoperator, and robot
+    int32 offsetToleranceMs = 10;
+}

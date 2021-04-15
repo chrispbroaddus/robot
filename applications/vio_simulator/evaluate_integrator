@@ -1,0 +1,201 @@
+#!/usr/bin/env python3
+
+import os
+import argparse
+import tempfile
+import subprocess
+import numpy as np
+from pathlib import Path
+from rigidbody import pr, rotation
+from inertia import RK4Integrator, InertialSensorModel, ImuMeasurement, InertialState
+
+from matplotlib import pyplot as plt
+import seaborn
+
+import sim
+
+
+def write_simulation(output_dir, scenario, observables, noise):
+    """
+    Write a simulation to a directory
+    """
+    out = Path(output_dir)
+    if not out.is_dir():
+        out.mkdir()
+
+    # Save IMU noise characteristics
+    np.savetxt(str(out/'inertial_model.txt'), [
+        noise.inertial.gyro_sigma,
+        noise.inertial.gyro_bias_sigma,
+        noise.inertial.accel_sigma,
+        noise.inertial.accel_bias_sigma])
+
+    # Save accelerometer and gyro measurements
+    np.savetxt(str(out/'gyro.txt'), np.c_[observables.gyro_timestamps, observables.gyro_readings], fmt="%.16f")
+    np.savetxt(str(out/'accel.txt'), np.c_[observables.accel_timestamps, observables.accel_readings], fmt="%.16f")
+
+    # Save gravity vector
+    np.savetxt(str(out/'gravity.txt'), scenario.state_func.gravity)
+
+    # Save begin state
+    np.savetxt(str(out/'begin_state.txt'), scenario.state_func(0).flatten())
+
+
+def run_integrator(begin_state, imu_measurements, gravity, imu_model):
+    cur_state = begin_state
+    integrated_states = [begin_state]
+
+    p = RK4Integrator(imu_model)
+    for i in range(len(imu_measurements)-1):
+        cur_state = p.integrate_state(cur_state, gravity, imu_measurements[i:i+2])
+        integrated_states.append(cur_state)
+
+    return integrated_states
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--num_trials', type=int)
+    parser.add_argument('--integrator', type=str, help="Path to external integrator")
+    parser.add_argument('--sim_out', type=Path, required=True, help="Dir to write simulation data to")
+    parser.add_argument('--figure_out', type=Path, required=True, help="Dir to write figures to")
+    args = parser.parse_args()
+
+    seaborn.set()
+
+    np.random.seed(0)
+    np.set_printoptions(suppress=True)
+
+    # Noise model from which we sample during simulation
+    sim_noise = sim.NoiseModel(
+        feature_sigma=0.1,
+        inertial=InertialSensorModel(
+            gyro_sigma=1e-4,
+            gyro_bias_sigma=1e-4,
+            accel_sigma=1e-4,
+            accel_bias_sigma=1e-4))
+
+    # Noise model to use during estimation
+    eval_noise = sim.NoiseModel(
+        feature_sigma=.1,
+        inertial=InertialSensorModel(
+            gyro_sigma=1e-3,
+            gyro_bias_sigma=1e-3,
+            accel_sigma=1e-3,
+            accel_bias_sigma=1e-3))
+
+    scenario_options = sim.ScenarioOptions(
+        duration=20.,
+        position_generator="manhattan_2d",
+        orientation_generator="forward_facing",
+        landmark_generator="floor")
+
+    scenario = sim.generate_scenario(scenario_options, sim_noise)
+
+    observable_options = sim.ObservableOptions(
+        duration=20.,
+        num_frames=201)
+
+    observables = sim.generate_observables(observable_options, scenario, sim_noise)
+
+    # Create the dir for the simulation output
+    simdir = args.sim_out
+    if simdir:
+        if not os.path.exists(simdir):
+            os.makedirs(simdir)
+    else:
+        simdir = Path(tempfile.mkdtemp())
+
+    # Create the dir for figures
+    if not os.path.exists(args.figure_out):
+        os.makedirs(args.figure_out)
+
+    # Write the simulation data
+    write_simulation(str(simdir), scenario, observables, eval_noise)
+    print("Wrote data to %s" % simdir)
+
+    # Run batchminimize
+    external_integrator = args.integrator is not None
+    if external_integrator:
+        cmd = [
+            args.integrator,
+            "--input_dir", str(simdir),
+            "--imu_model", "inertial_model.txt",
+            "--accel", "accel.txt",
+            "--gyro", "gyro.txt",
+            "--gravity", "gravity.txt",
+            "--begin_state", "begin_state.txt",
+
+            "--output_dir", str(simdir),
+            "--integrated_states", "estimated_states.txt",
+        ]
+
+        try:
+            subprocess.check_call(cmd)
+        except subprocess.CalledProcessError as ex:
+            print('%s exited with nonzero return code' % os.path.basename(args.integrator))
+            return
+
+        # Load the states output by the executable
+        cpp_integrated_states = list(map(InertialState.from_array, np.loadtxt(str(simdir/"estimated_states.txt"))))
+        cpp_integrated_positions = np.array([x.position for x in cpp_integrated_states])
+
+    imu_measurements = [
+        ImuMeasurement(timestamp=t, gyro_reading=gyro, accel_reading=accel)
+        for t, gyro, accel in zip(observables.gyro_timestamps, observables.gyro_readings, observables.accel_readings)
+    ]
+
+    begin_state = scenario.state_func(0)
+    py_integrated_states = run_integrator(
+        begin_state,
+        imu_measurements,
+        scenario.state_func.gravity,
+        eval_noise.inertial)
+
+    py_integrated_positions = np.array([x.position for x in py_integrated_states])
+
+    true_states = [scenario.state_func(t) for t in observables.accel_timestamps]
+    true_positions = np.array([x.position for x in true_states])
+
+    #
+    # Plot orientation errors
+    #
+    plt.clf()
+    plt.axis("equal")
+    plt.plot(true_positions[:, 0], true_positions[:, 1], '-g', label="Ground truth")
+    plt.plot(py_integrated_positions[:, 0], py_integrated_positions[:, 1], '.-b', label="Python integrator", alpha=.5)
+    if external_integrator:
+        plt.plot(cpp_integrated_positions[:, 0], cpp_integrated_positions[:, 1], '.-r', label="C++ integrator", alpha=.5)
+    plt.title("Integrated states")
+    plt.legend()
+    plt.savefig(str(args.figure_out/"positions.pdf"))
+
+    #
+    # Plot position errors
+    #
+    plt.clf()
+    py_err = np.linalg.norm(py_integrated_positions - true_positions, axis=1)
+    plt.plot(py_err, 'o-b', label="Python", alpha=.5)
+    if external_integrator:
+        cpp_err = np.linalg.norm(cpp_integrated_positions - true_positions, axis=1)
+        plt.plot(cpp_err, '.-r', label="C++", alpha=.5)
+    plt.title("Position error")
+    plt.legend()
+    plt.savefig(str(args.figure_out/"position_errors.pdf"))
+
+    def rotation_error(r1, r2):
+        return np.linalg.norm(rotation.displacement_left(r1, r2))
+
+    plt.clf()
+    py_err = [rotation_error(x1.orientation, x2.orientation) for x1, x2 in zip(true_states, py_integrated_states)]
+    plt.plot(py_err, 'o-b', label="Python", alpha=.5)
+    if external_integrator:
+        cpp_err = [rotation_error(x1.orientation, x2.orientation) for x1, x2 in zip(true_states, cpp_integrated_states)]
+        plt.plot(cpp_err, '.-r', label="C++", alpha=.5)
+    plt.title("Orientation error")
+    plt.legend()
+    plt.savefig(str(args.figure_out/"orientation_errors.pdf"))
+
+
+if __name__ == "__main__":
+    main()

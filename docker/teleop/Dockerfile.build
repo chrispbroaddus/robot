@@ -1,0 +1,9 @@
+ARG BRANCH
+FROM server1.zippy:5000/teleop-env:$BRANCH
+ADD . /go/src/github.com/zippyai/zippy
+WORKDIR /go/src/github.com/zippyai/zippy/backend
+RUN make build
+RUN GOOS=linux GOARCH=amd64 go generate ./teleopui/teleopui.go
+RUN GOOS=linux GOARCH=amd64 go build ./cmd/teleop-server
+
+CMD cd ../frontend && CI=1 npm run test && npm run lint && cd ../backend && make ci

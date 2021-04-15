@@ -1,0 +1,23 @@
+cc_binary(
+    name = "libsimulated_zippy.so",
+    linkshared = 1,
+    linkstatic = 1,
+    visibility = ["//visibility:public"],
+    deps = [
+        "//packages/unity_plugins/camera_calibration_reader",
+        "//packages/unity_plugins/connections_reader",
+        "//packages/unity_plugins/docking_station_json_exporter",
+        "//packages/unity_plugins/fiducial_poses_publisher",
+        "//packages/unity_plugins/gps_streamer",
+        "//packages/unity_plugins/image_saver",
+        "//packages/unity_plugins/imu_streamer",
+        "//packages/unity_plugins/joystick_subscriber",
+        "//packages/unity_plugins/simulated_cameras",
+        "//packages/unity_plugins/simulated_vcu",
+        "//packages/unity_plugins/simulator_settings_reader",
+        "//packages/unity_plugins/texture_downloader",
+        "//packages/unity_plugins/unity_telemetry_publisher",
+        "//packages/unity_plugins/vcu_telemetry_publisher",
+        "//packages/unity_plugins/vehicle_calibration_json_exporter",
+    ],
+)

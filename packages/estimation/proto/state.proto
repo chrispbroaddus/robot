@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/calibration/proto/coordinate_frame.proto";
+import "packages/calibration/proto/coordinate_transformation.proto";
+
+package estimation;
+
+message StateProto {
+    /// Pose representation at this time
+    calibration.CoordinateTransformation transform = 1;
+
+    /// Body-frame linear velocity: X, Y, Z components
+    double v_x = 2;
+    double v_y = 3;
+    double v_z = 4;
+
+    /// Body-frame rotational velocity: X, Y, Z components
+    double w_x = 5;
+    double w_y = 6;
+    double w_z = 7;
+
+    /// System timestamp -- should be propagated from the last sensor input that was fused to produce this estimate
+    core.SystemTimestamp system_timestamp = 8;
+
+    /// Hardware timestamp -- should be propagated frmo the last sensor input that was fused to produce this estimate
+    core.HardwareTimestamp hardware_timestamp = 9;
+}

@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+import "packages/calibration/proto/coordinate_transformation.proto";
+
+package planning;
+
+message PathElement { calibration.CoordinateTransformation transform = 1; }
+
+message Path { repeated PathElement elements = 1; }

@@ -1,0 +1,56 @@
+diff -cr orig/boot/grub/grub.cfg custom/boot/grub/grub.cfg
+*** orig/boot/grub/grub.cfg	2016-10-12 04:45:19.000000000 +0200
+--- custom/boot/grub/grub.cfg	2017-02-12 00:34:01.977187336 +0100
+***************
+*** 10,15 ****
+--- 10,22 ----
+  set menu_color_normal=white/black
+  set menu_color_highlight=black/light-gray
++ set timeout=1
+  
++ menuentry "Unattended Install" {
++ 	set gfxpayload=keep
++ 	linux	/install/vmlinuz file=/cdrom/preseed/preseed.cfg auto=true priority=critical --- quiet
++ 	initrd	/install/initrd.gz
++ }
++
+  menuentry "Install Ubuntu Server" {
+  	set gfxpayload=keep
+        linux   /install/vmlinuz  file=/cdrom/preseed/ubuntu-server.seed quiet ---
+diff -cr orig/isolinux/isolinux.cfg custom/isolinux/isolinux.cfg
+*** orig/isolinux/isolinux.cfg	2016-10-12 04:45:19.000000000 +0200
+--- custom/isolinux/isolinux.cfg	2017-02-12 00:36:09.201190417 +0100
+@@ -1,8 +1,8 @@
+ # D-I config version 2.0
+ # search path for the c32 support libraries (libcom32, libutil etc.)
+-path 
++path
+ include menu.cfg
+ default vesamenu.c32
+ prompt 0
+-timeout 0
++timeout 100
+ ui gfxboot bootlogo
+diff -cr orig/isolinux/txt.cfg custom/isolinux/txt.cfg
+*** orig/isolinux/txt.cfg	2016-10-12 04:45:19.000000000 +0200
+--- custom/isolinux/txt.cfg	2017-02-12 00:34:01.977187336 +0100
+***************
+*** 1,6 ****
+! default install
+  label install
+    menu label ^Install Ubuntu Server
+    kernel /install/vmlinuz
+    append  file=/cdrom/preseed/ubuntu-server.seed vga=788 initrd=/install/initrd.gz quiet ---
+  label hwe-install
+--- 1,11 ----
+! default unattended
+! label unattended
+! 	menu label ^Unattended Install
+! 	menu default
+! 	kernel /install/vmlinuz
+! 	append file=/cdrom/preseed/preseed.cfg vga=788 auto=true priority=critical initrd=/install/initrd.gz --- quiet
+  label install
+    menu label ^Install Ubuntu Server
+    kernel /install/vmlinuz
+    append  file=/cdrom/preseed/ubuntu-server.seed vga=788 initrd=/install/initrd.gz quiet ---
+  label hwe-install

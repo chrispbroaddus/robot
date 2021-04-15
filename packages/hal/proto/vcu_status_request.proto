@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package hal;
+
+/// Identifies the requested status value.
+enum VCUStatusID {
+    Unknown = 0; /// ID returned for invalid status request.
+    Version = 1; /// Request VCU firmware version information.
+    Boot = 2; /// Request VCU boot status.
+}
+
+/// Envelope for status requests.
+message VCUStatusRequest {
+    /// Request sequence number.  Always echoed back in response.
+    fixed64 sequenceNumber = 1;
+
+    /// VCU status request ID.
+    VCUStatusID statusID = 2;
+}

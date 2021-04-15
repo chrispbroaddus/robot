@@ -1,0 +1,9 @@
+#!/bin/bash
+
+set -euo pipefail
+
+BUILDIFIER=${BUILDIFIER:-buildifier}
+
+echo "Using formatter: $BUILDIFIER"
+
+find . -type f -name BUILD -print0 | xargs -0 -n1 $BUILDIFIER

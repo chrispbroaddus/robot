@@ -1,0 +1,9 @@
+{
+  "id": "leland",
+  "ssh_keys": [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQCbWvZRenQc1f5bLL4Lg4TtPclwaLJaXiPOnjBmjvHiBxAHjZFDCgdOmrEEPkQwKZFBe31RX6AJsJl3fgXjWZ5xznLL2EmHgDmF7HPBBwajGY4neltd8CMGh4tVaGEjcxeLaZQ0wuCTdm7i70b1foqzbOhaXR8rz6bSO1I2R9LyyBiM/+OjXF0Pi1eZ9wm8Rh9zb2U191fANH4cq87BnTQR76rNgquVYCNSrsH3ukhYura5O9RKoD5/YptnkFvE+Ctb83u2FP+XOqaN4gDm9Zm931z4au8OyvnOfzZqn0NuZ4DjCNH+Aafla43k5zJzBs4yGczRveItixBjyCM97wqJ lursu@lursu-desktop"
+  ],
+  "groups": [ "sysadmin" ],
+  "uid": 9003,
+  "shell": "\/bin\/bash"
+}

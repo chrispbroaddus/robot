@@ -1,0 +1,103 @@
+{
+  "cameraIntrinsicCalibration": [
+    {
+      "resolutionY": 2046, 
+      "resolutionX": 2440, 
+      "cameraUnderCalibration": {
+        "serialNumber": "49712223537990881",
+        "name": "FrontLeftStereo"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": 1809.95, 
+      "scaledFocalLengthX": 1813.083, 
+      "opticalCenterY": 1076.001, 
+      "opticalCenterX": 1231.583, 
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          -0.003544259, 
+          -0.0507795, 
+          0.006967146, 
+          -0.0002875519
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    }, 
+    {
+      "resolutionY": 2046, 
+      "resolutionX": 2440, 
+      "cameraUnderCalibration": {
+        "serialNumber": "49712223538005075",
+        "name": "FrontRightStereo"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": 1827.453, 
+      "scaledFocalLengthX": 1829.234, 
+      "opticalCenterY": 1021.163, 
+      "opticalCenterX": 1274.092, 
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          -0.007749317, 
+          -0.04870825, 
+          0.006656943, 
+          -0.0002728968
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    }
+  ], 
+  "deviceToDeviceCoordinateTransformation": [
+    {
+      "translationZ": 0.001544927, 
+      "translationY": -0.0006223242, 
+      "translationX": -0.1613215, 
+      "targetCoordinateFrame": {
+        "device": {
+          "serialNumber": "49712223537990881",
+          "name": "FrontLeftStereo"
+        }, 
+        "validPeriodBegin": {
+          "nanos": "18446744073709551615"
+        }
+      }, 
+      "timeOffsetNanoseconds": "0", 
+      "rodriguesRotationZ": 0.00741272404539642, 
+      "rodriguesRotationX": -0.00017690702014750586, 
+      "rodriguesRotationY": 0.00014669189391264948, 
+      "sourceCoordinateFrame": {
+        "device": {
+          "serialNumber": "49712223538005075",
+          "name": "FrontRightStereo"
+        }, 
+        "validPeriodBegin": {
+          "nanos": "18446744073709551615"
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Notifications should dismiss a notification when clicked 1`] = `
+<NotificationContainer
+  addNotification={[Function]}
+  currentNotification={
+    Object {
+      "message": "Test message #1",
+      "status": "success",
+      "timeout": 3000,
+    }
+  }
+  dismissNotification={[Function]}
+  notifications={
+    Array [
+      Object {
+        "message": "Test message #1",
+        "status": "success",
+        "timeout": 3000,
+      },
+    ]
+  }
+  visible={false}
+>
+  <styled.div
+    color="#2b2b2b"
+    onClick={[Function]}
+    title="Click to dismiss notification"
+    visible={false}
+  >
+    <div
+      className="sc-bdVaJa Qdmux"
+      color="#2b2b2b"
+      onClick={[Function]}
+      title="Click to dismiss notification"
+    >
+      <styled.div
+        color="#50e3c2"
+      >
+        <div
+          className="sc-bwzfXH bfMoRf"
+          color="#50e3c2"
+        >
+          Test message #1
+        </div>
+      </styled.div>
+    </div>
+  </styled.div>
+</NotificationContainer>
+`;
+
+exports[`Notifications should not render when there are no notifications to display 1`] = `
+<styled.div
+  color={null}
+  onClick={[Function]}
+  title="Click to dismiss notification"
+  visible={false}
+>
+  <styled.div
+    color={null}
+  />
+</styled.div>
+`;
+
+exports[`Notifications should render a notification if one is provided 1`] = `
+<styled.div
+  color="#2b2b2b"
+  onClick={[Function]}
+  title="Click to dismiss notification"
+  visible={false}
+>
+  <styled.div
+    color="#50e3c2"
+  >
+    Test message #1
+  </styled.div>
+</styled.div>
+`;
+
+exports[`Notifications should render self and subcomponents 1`] = `
+<styled.div
+  onClick={[Function]}
+  title="Click to dismiss notification"
+  visible={false}
+>
+  <styled.div />
+</styled.div>
+`;

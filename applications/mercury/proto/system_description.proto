@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package mercury;
+
+import "applications/mercury/proto/hardware_requirement.proto";
+import "applications/mercury/proto/managed_process.proto";
+
+/// Complete system description.
+message SystemDescription {
+    /// All our managed processes
+    repeated ManagedProcess processes = 1;
+
+    /// All our required hardware
+    repeated HardwareRequirement hardware = 2;
+}

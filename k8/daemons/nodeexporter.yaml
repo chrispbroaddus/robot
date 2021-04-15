@@ -1,0 +1,52 @@
+apiVersion: extensions/v1beta1
+kind: DaemonSet
+metadata:
+  creationTimestamp: null
+  labels:
+    io.kompose.service: nodeexporter
+  name: nodeexporter
+spec:
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: nodeexporter
+    spec:
+      containers:
+      - args:
+        - -collector.procfs=/host/proc
+        - -collector.sysfs=/host/sys
+        - -collector.filesystem.ignored-mount-points=^/(sys|proc|dev|host|etc)($|/)
+        image: prom/node-exporter
+        name: nodeexporter
+        ports:
+        - containerPort: 9100
+          hostPort: 9100
+        resources: {}
+        volumeMounts:
+        - mountPath: /host/proc
+          name: nodeexporter-claim0
+          readOnly: true
+        - mountPath: /host/sys
+          name: nodeexporter-claim1
+          readOnly: true
+        - mountPath: /rootfs
+          name: nodeexporter-claim2
+          readOnly: true
+      volumes:
+      - name: nodeexporter-claim0
+        hostPath:
+          path: /host/proc
+          type: Directory
+      - name: nodeexporter-claim1
+        hostPath:
+          path: /sys
+          type: Directory
+      - name: nodeexporter-claim2
+        hostPath:
+          path: /
+          type: Directory
+status:
+  currentNumberScheduled: 0
+  desiredNumberScheduled: 0
+  numberMisscheduled: 0

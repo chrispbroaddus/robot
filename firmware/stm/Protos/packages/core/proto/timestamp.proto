@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+package core;
+
+message SystemTimestamp {
+    /// Represents nanoseconds since GPS Epoch 1980-01-06T00:00:00Z not
+    /// counting leap seconds.
+    fixed64 nanos = 1;
+}
+
+message HardwareTimestamp {
+    /// Represents nano seconds since some hardware reference time, i.e. bootup.
+    fixed64 nanos = 1;
+}
+
+message Duration {
+    // A duration, specified in the same format as the various system times. This
+    // is a separate definition to ensure that it is not interpreted as an
+    // absolute time.
+    uint64 nanos = 2;
+}

@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package docking;
+
+message InverseKinematicDockerOptions {
+    string telemetry_subscriber_address = 1;
+    string apriltag_pose_subscriber_address = 2;
+    string camera_sample_subscriber_address = 3;
+    string docking_status_publisher_address = 4;
+    string station_finder_publisher_port = 5;
+    string command_client_address = 6;
+
+    bool use_ground_truth_fiducials = 51;
+
+    float april_tag_side_length = 101;
+
+    int32 velocity_alpha = 151;
+    int32 last_command_period_in_milliseconds = 152;
+    float stop_criteria_remaining_distance = 153;
+}

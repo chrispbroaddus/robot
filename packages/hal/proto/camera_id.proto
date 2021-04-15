@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package hal;
+
+///
+/// @brief Camera Id is used to tag each camera
+///
+enum CameraId {
+    FrontLeftStereo = 0;
+    FrontRightStereo = 1;
+    RearLeftStereo = 2;
+    RearRightStereo = 3;
+    FrontFisheye = 4;
+    RearFisheye = 5;
+    LeftFisheye = 6;
+    RightFisheye = 7;
+}

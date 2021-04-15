@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package calibration;
+
+/// Should be empty but protoc doesn't seem to like empty structs
+message PinholeCameraDistortionModel {
+    /// Send with zero length sequence of dummy
+    repeated double dummy = 1;
+}

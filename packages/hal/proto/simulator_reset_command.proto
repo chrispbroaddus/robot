@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package hal;
+
+message SimulatorResetCommand {
+
+    // Reset flags
+    bool resetRobot = 1; // Reset the robot. ie return to start location, reset pose and configuration.
+    bool resetWorld = 2; // Reset the world. ie reset the cars, people, etc to start state
+    bool resetStreams = 3; // Reset the streams. ie reset the output streams to default state
+}

@@ -1,0 +1,1 @@
+{"version":"0.0.18","commit":"9f15af62a1835aa4d21bcce4208f31f9d09ac07a\n","images":[{"task_family":"teleop-server","container_name":"teleop-server","image":"508611858126.dkr.ecr.us-west-2.amazonaws.com/teleop-server:0.0.18"},{"task_family":"teleop-server","container_name":"loggly-docker","image":"sendgridlabs/loggly-docker"}]}

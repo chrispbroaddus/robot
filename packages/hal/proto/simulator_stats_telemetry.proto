@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package hal;
+
+message SimulatorStatsTelemetry {
+    float deltaTimeMs = 1; // The time between each frame update in milliseconds
+    int32 frameNumber = 2; // The current frame number
+}

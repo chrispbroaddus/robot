@@ -1,0 +1,24 @@
+#!/bin/bash
+
+set -euo pipefail
+
+BUILDIFIER=${BUILDIFIER:-buildifier}
+
+echo "Using formatter: $BUILDIFIER"
+
+failed=0
+for buildfile in $(find . -type f -name 'BUILD'); do 
+  output=$($BUILDIFIER -mode=diff $buildfile)
+  if [ "$output" != "" ]; then
+    failed=1
+    echo $buildfile
+    echo $output
+  fi
+done
+
+if [ $failed == 0 ]; then
+  echo "Formatting is correct"
+else
+  echo "There were formatting errors"
+fi
+exit $failed

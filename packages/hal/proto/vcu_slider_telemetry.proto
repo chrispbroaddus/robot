@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+enum VCUSliderID {
+    LeftRailSlider = 0;
+    RightRailSlider = 1;
+}
+
+/// Describes telemetry as reported by a single servo
+message VCUSliderTelemetry {
+    /// HW timestamp of when this measurement was made.
+    core.HardwareTimestamp measurementHardwareTimestamp = 1;
+
+    /// System timestamp of when this measurement was made. The VCU will make every reasonable
+    /// effort to ensure that measuredHardwareTimestamp and measuredSystemTimestamp refer
+    /// to the same instant in time.
+    core.SystemTimestamp measurementSystemTimestamp = 2;
+
+    /// Which slider we are reporting.
+    VCUSliderID sliderId = 4;
+
+    /// The total amount of the slider moved in the axis.
+    float positionInMeters = 5;
+}

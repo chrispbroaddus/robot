@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+package dense_mapping;
+
+import "packages/core/proto/timestamp.proto";
+import "packages/calibration/proto/coordinate_transformation.proto";
+
+/// Capture information about the direction(s) from which this voxel has been perceived.
+message AverageViewDirection {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+/// Capture information about empty space
+message EmptySpace { uint64 empty_space_count = 1; }
+
+/// Spatial moments captured in this voxel
+message SpatialMoments {
+    double centroid_x = 1;
+    double centroid_y = 2;
+    double centroid_z = 3;
+    double moment_xx = 4;
+    double moment_xy = 5;
+    double moment_xz = 6;
+    double moment_yy = 7;
+    double moment_yz = 8;
+    double moment_zz = 9;
+}
+
+/// Voxel payload
+message VoxelPayload {
+    double voxel_center_x = 1;
+    double voxel_center_y = 2;
+    double voxel_center_z = 3;
+    uint64 occupancy_count = 4;
+    EmptySpace empty_space = 5;
+    SpatialMoments spatial_moments = 6;
+    AverageViewDirection average_view_direction = 7;
+}
+
+/// Volumetric model
+message VolumetricModel {
+    double volume_half_extent = 1;
+    double voxel_half_extent = 2;
+    repeated VoxelPayload voxels = 3;
+}
+
+/// Partial state to describe a single instant of a volumetric time series
+message VolumetricTimeSeriesEntry {
+    /// Timestamp propagated from whatever the original raw source of point data is
+    core.SystemTimestamp system_time_stamp = 1;
+
+    /// Timestamp propagated from whatever the original raw source of point data is
+    core.HardwareTimestamp hardware_time_stamp = 2;
+
+    /// Cumulative coordinate transformation describing the pose of the source sensor w/r/t the volume at this moment
+    /// in time.
+    calibration.CoordinateTransformation sensor_to_model_transformation = 4;
+
+    // Model from *just* this moment
+    VolumetricModel delta_model = 5;
+
+    // Integrated model up to just before this moment (i.e. all previous frames, exclusive of this one)
+    VolumetricModel integrated_model = 6;
+}
+
+/// Map of (logical sequence number) -> (time series entry)
+message VolumetricTimeSeries { map<uint64, VolumetricTimeSeriesEntry> sequence = 1; }
+
+/// Map of name -> time series
+message VolumetricTimeSeriesDataset { map<string, VolumetricTimeSeries> timeseries = 1; }

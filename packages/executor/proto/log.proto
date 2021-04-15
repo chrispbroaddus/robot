@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/core/proto/geometry.proto";
+import "packages/executor/proto/state.proto";
+import "packages/planning/proto/state.proto";
+import "packages/planning/proto/trajectory.proto";
+
+package executor;
+
+message PlannerStateChange {
+    planning.PlannerState previous = 1;
+    planning.PlannerState current = 2;
+}
+
+message LogEntry {
+
+    core.SystemTimestamp time = 1;
+
+    oneof entry {
+        PlannerStateChange planner_state_change = 2;
+        VehicleStateChange vehicle_state_change = 3;
+        core.Point3d point_and_go_request = 4;
+        planning.Trajectory planned_trajectory = 5;
+    }
+}

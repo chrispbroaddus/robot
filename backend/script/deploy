@@ -1,0 +1,45 @@
+#!/bin/bash -x
+
+TARGET="teleop-server"
+PKG="github.com/zippyai/zippy/backend/cmd/teleop-server"
+BUILD_PATH="/tmp/$TARGET"
+
+REMOTE_HOST="teleop.zippy.ai"
+REMOTE_PATH="/deploy/$TARGET"
+REMOTE_LOG="/deploy/$TARGET.log"
+
+SSH="ssh"
+SCP="scp -C"  # enable compression
+
+# Generate
+echo "generating assets for $TARGET"
+go generate $PKG
+
+# Build
+echo "building $TARGET for linux"
+GOOS=linux go build -o $BUILD_PATH $PKG || exit 1
+
+# Kill remote target
+echo "killing $TARGET"
+$SSH $REMOTE_HOST "sudo killall $TARGET"
+
+# Copy the executable
+echo "copying $TARGET"
+$SCP $BUILD_PATH $REMOTE_HOST:$REMOTE_PATH || exit 1
+
+# Copy the environment vars
+echo "copying environment vars"
+$SCP env/prod $REMOTE_HOST:/deploy/envprod || exit 1
+
+# Copy the nginx config
+echo "copying environment vars"
+$SCP conf/teleop.zippy.ai/nginx.conf $REMOTE_HOST:nginx.conf || exit 1
+$SSH $REMOTE_HOST "sudo mv nginx.conf /etc/nginx/nginx.conf" || exit 1
+
+# Start remotely
+echo "starting $TARGET"
+$SSH $REMOTE_HOST "sudo nohup /deploy/envprod $REMOTE_PATH &> $REMOTE_LOG &" || exit 1
+
+# Tell nginx to reload its configuration
+echo "copying environment vars"
+$SSH $REMOTE_HOST "sudo /usr/sbin/nginx -s reload" || exit 1

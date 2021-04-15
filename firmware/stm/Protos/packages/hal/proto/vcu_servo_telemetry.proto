@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+enum VCUServoID {
+    LeftFrontServo = 0;
+    LeftRearServo = 1;
+    RightFrontServo = 2;
+    RightRearServo = 3;
+}
+
+/// Describes telemetry as reported by a single servo
+message VCUServoTelemetry {
+    /// HW timestamp of when this measurement was made.
+    core.HardwareTimestamp measurementHardwareTimestamp = 1;
+
+    /// System timestamp of when this measurement was made. The VCU will make every reasonable
+    /// effort to ensure that measuredHardwareTimestamp and measuredSystemTimestamp refer
+    /// to the same instant in time.
+    core.SystemTimestamp measurementSystemTimestamp = 2;
+
+    /// Which servo we are reporting.
+    VCUServoID servoId = 4;
+
+    /// The total deflection of the servo in radians. 0 means "parallel to the forward direction
+    /// of the vehicle", positive increases clockwise from "front" when viewing the vehicle
+    /// top-down.
+    float servoAngleRadians = 5;
+}

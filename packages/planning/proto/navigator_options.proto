@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+package planning;
+
+// Basic trajectory options, constraining the generated trajectories
+message NavigatorOptions { float frequency = 1; }

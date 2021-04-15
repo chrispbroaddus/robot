@@ -1,0 +1,31 @@
+syntax = "proto3";
+
+package executor;
+
+// State of the vehicle
+enum VehicleState {
+    // Vehicle is confirmed to be stationary, from perception/estimation
+    VEHICLE_STOPPED = 0;
+
+    // We are moving, as confirmed by perception/estimation
+    VEHICLE_MOVING = 1;
+
+    // We are in a failed state - intervention required
+    VEHICLE_FAILURE = 2;
+
+    // State is unknown - no issued commands will be executed
+    VEHICLE_UNKNOWN = 3;
+
+    // The state is invalid
+    VEHICLE_INVALID = 4;
+}
+
+message VehicleStateChange {
+    VehicleState previous = 1;
+    VehicleState current = 2;
+}
+
+enum ExecutorState {
+    EXECUTOR_INACTIVE = 0;
+    EXECUTOR_ACTIVE = 1;
+}

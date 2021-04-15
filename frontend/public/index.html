@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
+    <link href='https://api.mapbox.com/mapbox-gl-js/v0.38.0/mapbox-gl.css' rel='stylesheet' />
+
+    <script type="text/javascript">
+      const configJSON = '{{.}}' // Will be replaced with server-side config in production
+      if (!configJSON.includes('{.}')) {
+        // Running inside a Go binary
+        window.zippyconfig = {
+          backend: window.location.host,
+          scheme: '{{.SecureScheme}}' === 'true' ? 's' : ''
+        }
+
+        // Redirect to HTTPS if we should be on a secure connection and we're
+        // not already
+        if('{{.SecureScheme}}' === 'true' && !window.location.protocol.startsWith('https')) {
+          window.location.replace(window.location.href.replace('http', 'https'))
+        }
+      } else {
+        // Running as a standalone React app; read from the environment
+        // variables passed in
+        window.zippyconfig = {
+          backend: '%REACT_APP_API_URL%',
+          scheme: '%REACT_APP_API_URL%'.includes('localhost') ? '' : 's'
+        }
+      }
+    </script>
+    <title>Zippy | Teleoperation</title>
+  </head>
+  <body>
+    <div id="root"></div>
+  </body>
+</html>

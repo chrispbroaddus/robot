@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "packages/unity_simulator/proto/vehicle_calibration.proto";
+
+package simulator_settings;
+
+enum SimulatedVehicleModelId {
+    BoxCar = 0;
+    ZippyFromCAD = 1;
+}
+
+message SimulatedVehicleModel {
+    SimulatedVehicleModelId model_id = 1;
+    VehicleCalibration vehicle_calibration = 2;
+}

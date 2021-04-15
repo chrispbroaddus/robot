@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package mercury;
+
+/// Specify a particular USB hardware device requirement.
+message USBDeviceHardwareRequirement {
+    /// Human understandable / readable description of what this hardware actually is
+    string name = 1;
+
+    /// Required, non-zero: manufacturer id (e.g: 0x1e10 for Point Grey)
+    uint32 manufacturer_id = 2;
+
+    /// "Optional", set to zero to match all devices from a particular manufacturer or a non-zero value to pick out
+    /// a specific type of device from that manufacturer.
+    uint32 device_id = 3;
+}
+
+/// Specify a particular devfs hardware device requirement.
+message DevFsHardwareRequirement {
+    /// Human understandable / readable description of what this hardware is
+    string name = 1;
+
+    /// /dev/ entry to forward
+    string devfs_path = 2;
+}
+
+message HardwareRequirement {
+    oneof req {
+        USBDeviceHardwareRequirement usb = 1;
+        DevFsHardwareRequirement devfs = 2;
+    }
+}

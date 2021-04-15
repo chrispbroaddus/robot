@@ -1,0 +1,14 @@
+FROM server1.zippy:5000/unity-env:5.6
+
+ADD ./script/build/for_build_image /dockerbuildscripts
+
+RUN apt-get install python-pip
+RUN pip install awscli
+RUN cat /etc/*release && \
+    /dockerbuildscripts/prepare_machine.sh && \
+    ldconfig
+
+ADD . /zippy
+WORKDIR /zippy
+RUN bazel build //packages/unity_simulator
+ENTRYPOINT /bin/bash

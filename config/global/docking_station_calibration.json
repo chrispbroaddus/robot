@@ -1,0 +1,2 @@
+{"dockingStations":[{"fiducials":[{"configuration":{"apriltagConfig":{"sideLengthInMeters":0.24}},"transformation":{"sourceCoordinateFrame":{"device":{"name":"AprilTag36h11","serialNumber":"9"}},"targetCoordinateFrame":{"device":{"name":"anchor_point"}}}}]}]}
+

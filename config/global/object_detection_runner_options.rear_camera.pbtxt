@@ -1,0 +1,6 @@
+detection_score_threshold: 0.5
+camera_topic: "RearFisheye"
+camera_port: "5555"
+det_pub_port: "8002"
+det_topic: "rear_detection"
+undistort: false

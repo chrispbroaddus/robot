@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package zippy.applications;
+
+import "packages/teleop/proto/connection_options.proto";
+
+message DockingOptions {
+
+    // ZMQ address to docking status telemetry from
+    string docking_status_address = 1;
+
+    // topic of docking status
+    string docking_status_topic = 2;
+
+    // topic of docking observation
+    string docking_observation_topic = 3;
+
+    // calibration file with the coordinate transforms between the fiducials and the station's anchor points
+    string station_calibration_file = 52;
+
+    // calibration file with the coordinate transforms between BaseLink vs SlewJoints
+    string vehicle_calibration_file = 53;
+
+    // port number to set up docking station finder
+    string station_finder_publisher_port = 58;
+}

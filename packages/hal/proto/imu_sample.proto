@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "packages/hal/proto/device.proto";
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+message IMUSample {
+    Device device = 1;
+    core.SystemTimestamp systemTimestamp = 2;
+    core.HardwareTimestamp hardwareTimestamp = 3;
+    repeated double gyro = 4;
+    repeated double accel = 5;
+    repeated double mag = 6;
+}

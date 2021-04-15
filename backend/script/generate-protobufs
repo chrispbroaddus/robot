@@ -1,0 +1,19 @@
+#!/bin/bash
+
+OUT="vendor/github.com/zippyai/zippy"
+rm -rf ${OUT}
+mkdir -p ${OUT}
+
+protoc --proto_path=.. --go_out=${OUT} ../packages/core/proto/timestamp.proto
+protoc --proto_path=.. --go_out=${OUT} ../packages/hal/proto/*.proto
+protoc --proto_path=.. --go_out=${OUT} ../packages/teleop/proto/*.proto
+protoc --proto_path=.. --go_out=${OUT} ../packages/streamer/proto/*.proto
+protoc --proto_path=.. --go_out=${OUT} ../packages/calibration/proto/*.proto
+protoc --proto_path=.. --go_out=${OUT} ../packages/streamer/proto/*.proto
+protoc --proto_path=.. --go_out=${OUT} ../packages/metrics/proto/*.proto
+protoc --proto_path=.. --go_out=${OUT} ../packages/perception/proto/detection.proto
+
+for SRC in $(find ${OUT} -name "*.pb.go"); do
+	sed -i.bak -E 's!import (.*) "packages!import \1 "github.com/zippyai/zippy/packages!g' ${SRC}
+	rm -f ${SRC}.bak
+done

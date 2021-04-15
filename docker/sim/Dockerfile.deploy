@@ -1,0 +1,28 @@
+ARG BRANCH
+ARG COMMIT
+
+FROM server1.zippy:5000/zippy-build-$BRANCH:$COMMIT
+
+# nvidia-docker links
+LABEL com.nvidia.volumes.needed="nvidia_driver"
+ENV PATH /usr/local/nvidia/bin:${PATH}
+ENV LD_LIBRARY_PATH /usr/local/nvidia/lib:/usr/local/nvidia/lib64:${LD_LIBRARY_PATH}
+
+RUN mkdir -p /usr/src/libdc1394
+RUN wget https://cytranet.dl.sourceforge.net/project/libdc1394/libdc1394-2/2.2.5/libdc1394-2.2.5.tar.gz
+RUN tar xvzf libdc1394-2.2.5.tar.gz -C /usr/src/libdc1394
+WORKDIR /usr/src/libdc1394/libdc1394-2.2.5
+RUN ./configure --without-x --disable-doxygen-doc --enable-shared --disable-static --disable-sdltest --disable-examples
+RUN make -j4
+RUN make install -j4
+
+RUN apt-get clean
+    
+ENV LD_LIBRARY_PATH /usr/local/lib:${LD_LIBRARY_PATH}
+
+# Needed for unity 5.6 and newer
+RUN apt-get remove -y libxrandr2
+
+WORKDIR /zippy
+
+CMD ./script/nvidia-docker-sim-runner.sh

@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package core;
+
+// Simple 2d point
+message Point2d {
+    double x = 1;
+    double y = 2;
+}
+
+// Simple 3d point
+message Point3d {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+// Simple 3d vector
+message Vector3d {
+    double x = 1;
+    double y = 2;
+    double z = 3;
+}
+
+// Simple 3d ray
+message Ray3d {
+    Point3d origin = 1;
+    Vector3d direction = 2;
+}
+
+// Purely geometrical 3d point cloud
+message PointCloud3d { repeated Point3d points = 1; }

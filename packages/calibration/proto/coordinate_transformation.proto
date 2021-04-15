@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+import "packages/calibration/proto/coordinate_frame.proto";
+
+package calibration;
+
+/// Defines a coordinate transformation between the natural coordinate frame of the source
+/// device and the natural coordinate frame of the target device.
+message CoordinateTransformation {
+    CoordinateFrame sourceCoordinateFrame = 1;
+    CoordinateFrame targetCoordinateFrame = 2;
+
+    /// Rotation from the source to the target coordinate frame, represented using so(3).
+    ///
+    /// The unit vector [rx, ry, rz] / norm([rx, ry, rz]) is the axis in the source frame
+    /// about which we will rotate, the magnitude of this vector is the amount by which
+    /// we will rotate.
+    ///
+    /// X component of rotation vector
+    double rodriguesRotationX = 3;
+
+    /// Rotation from the source to the target coordinate frame, represented using so(3).
+    ///
+    /// The unit vector [rx, ry, rz] / norm([rx, ry, rz]) is the axis in the source frame
+    /// about which we will rotate, the magnitude of this vector is the amount by which
+    /// we will rotate.
+    ///
+    /// Y component of rotation vector
+    double rodriguesRotationY = 4;
+
+    /// Rotation from the source to the target coordinate frame, represented using so(3).
+    ///
+    /// The unit vector [rx, ry, rz] / norm([rx, ry, rz]) is the axis in the source frame
+    /// about which we will rotate, the magnitude of this vector is the amount by which
+    /// we will rotate.
+    ///
+    /// Z component of rotation vector
+    double rodriguesRotationZ = 5;
+
+    /// X component of the position of the source coordinate frame in the target coordinate
+    /// frame.
+    double translationX = 6;
+
+    /// Y component of the position of the source coordinate frame in the target coordinate
+    /// frame.
+    double translationY = 7;
+
+    /// Z component of the position of the source coordinate frame in the target coordinate
+    /// frame.
+    double translationZ = 8;
+
+    /// Time offset from the clock in the source system to the clock in the target system. When
+    /// this is positive, the source system is lagging behind the target system clock.
+    sint64 timeOffsetNanoseconds = 9;
+}

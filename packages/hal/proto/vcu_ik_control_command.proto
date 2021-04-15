@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+message VCUIKControlSegment {
+    core.SystemTimestamp target_start_time = 1;
+
+    /// Pitch-rotation on the rails:
+    ///     + : counter-clockwise, when seeing the vehicle from right side
+    ///     - : clockwise, when seeing the vehicle from right side
+    /// Units: radian
+    float left_rail_pitch = 2;
+    float right_rail_pitch = 3;
+
+    /// The height of the joint in z-axis
+    /// Units: meter
+    float left_rail_elevation = 4;
+    float right_rail_elevation = 5;
+
+    /// Linear velocity along the curve; may be negative.
+    /// Units: m/s
+    float linearVelocityMetersPerSecond = 6;
+
+    /// Curvature (inverse radius)
+    /// Units: m^{-1}
+    float curvatureInverseMeters = 7;
+}
+
+message VCUIKControlCommand {
+    /// Restricted in options file to max_count: 31
+    repeated VCUIKControlSegment segments = 1;
+}

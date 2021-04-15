@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# This file is executed by git prior to commits. If it exits with non-zero
+# return code then the commit will be aborted. Git always executes it from the
+# root of the git repo.
+
+# 1. Fix code formatting
+./script/fix-code-formatting
+# 2. Fix BUILD formatting
+./script/fix-buildfile-formatting
+#3. Fix C# formatting
+./script/fix-csharp-formatting
+exit 0

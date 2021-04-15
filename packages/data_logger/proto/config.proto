@@ -1,0 +1,51 @@
+syntax = "proto3";
+
+package data_logger;
+
+message Stream {
+    /// Name of the stream which is unique to the data stream, not the class of data. So
+    /// names like camera0, camera1, boschImu, etc.
+    string name = 1;
+
+    /// The address of the server sending messages.
+    string server_address = 2;
+
+    /// The subscription topic for transmitted messages.
+    string topic = 3;
+}
+
+message JpegEncoderOptions {
+    /// Quality of compressed image 0 - 100
+    uint32 quality = 1;
+}
+
+message PngEncoderOptions {
+    /// Compression Level 0 - 9
+    uint32 compression_level = 1;
+}
+
+message DataLoggerConfig {
+    /// List of camera streams to log
+    repeated Stream camera = 1;
+
+    /// Type of encoding to be done on the image before storing them
+    oneof imageEncoderOptions {
+        JpegEncoderOptions jpeg_encoder_options = 2;
+        PngEncoderOptions png_encoder_options = 3;
+    }
+
+    /// List of gps streams to log
+    repeated Stream gps = 10;
+
+    /// List of joystick streams to log
+    repeated Stream joystick = 20;
+
+    /// List of network health streams to log
+    repeated Stream network_health = 30;
+
+    /// List of vcu telemetry streams to log
+    repeated Stream vcu_telemetry = 40;
+
+    /// List of imu streams to log
+    repeated Stream imu = 50;
+}

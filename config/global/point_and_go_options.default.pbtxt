@@ -1,0 +1,10 @@
+camera_address : "tcp://localhost:5556"
+camera_topic : "camera"
+gps_address : "tcp://localhost:5801"
+gps_topic : "gps"
+thumbnail_interval : 10
+velocity_scaling_horizon: 4.0
+front_camera_detection_2d_address: "tcp://localhost:8001"
+front_camera_detection_2d_topic: "detection"
+rear_camera_detection_2d_address: "tcp://localhost:8002"
+rear_camera_detection_2d_topic: "detection"

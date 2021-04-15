@@ -1,0 +1,9 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`WebRTCStream should render self and subcomponents 1`] = `
+<styled.video
+  alt="Camera Stream"
+  autoPlay="true"
+  innerRef={[Function]}
+/>
+`;

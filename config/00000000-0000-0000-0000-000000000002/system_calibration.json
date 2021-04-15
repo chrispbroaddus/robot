@@ -1,0 +1,484 @@
+{
+  "cameraIntrinsicCalibration": [
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "16387297", 
+        "name": "FrontLeftStereo"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": 1805.289, 
+      "scaledFocalLengthX": 1806.501, 
+      "opticalCenterY": 1050.61, 
+      "opticalCenterX": 1265.017, 
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          0.01284372, 
+          -0.05784507, 
+          0.008001669, 
+          -0.0003380623
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    },
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "16401491", 
+        "name": "FrontRightStereo"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": 1784.045, 
+      "scaledFocalLengthX": 1785.702, 
+      "opticalCenterY": 1062.726, 
+      "opticalCenterX": 1229.229, 
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          0.01282905, 
+          -0.05734576, 
+          0.00786166, 
+          -0.0003284183
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    },
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "0", 
+        "name": "RearLeftStereo"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": -1,
+      "scaledFocalLengthX": -1,
+      "opticalCenterY": -1,
+      "opticalCenterX": -1,
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          -1,
+          -1,
+          -1,
+          -1
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    },
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "0", 
+        "name": "RearRightStereo"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": -1,
+      "scaledFocalLengthX": -1,
+      "opticalCenterY": -1,
+      "opticalCenterX": -1,
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          -1,
+          -1,
+          -1,
+          -1
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    },
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "17168808", 
+        "name": "FrontFisheye"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": 760.4103, 
+      "scaledFocalLengthX": 761.5459, 
+      "opticalCenterY": 1050.432, 
+      "opticalCenterX": 1257.009, 
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          0.08616139, 
+          -0.08189862, 
+          0.01098505, 
+          -0.0004719968
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    },
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "17168817", 
+        "name": "RearFisheye"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": 735.6618, 
+      "scaledFocalLengthX": 745.2827, 
+      "opticalCenterY": 1040.357, 
+      "opticalCenterX": 1251.146, 
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          0.2171934, 
+          -0.3788819, 
+          0.095323, 
+          -0.006866703
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    },
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "0", 
+        "name": "LeftFisheye"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": -1,
+      "scaledFocalLengthX": -1,
+      "opticalCenterY": -1,
+      "opticalCenterX": -1,
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          -1,
+          -1,
+          -1,
+          -1
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    },
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "0", 
+        "name": "RightFisheye"
+      }, 
+      "skew": 0.0, 
+      "scaledFocalLengthY": -1,
+      "scaledFocalLengthX": -1,
+      "opticalCenterY": -1,
+      "opticalCenterX": -1,
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0, 
+        "tangentialDistortionCoefficientM2": 0.0, 
+        "tangentialDistortionCoefficientM1": 0.0, 
+        "radialDistortionCoefficientK": [
+          -1,
+          -1,
+          -1,
+          -1
+        ], 
+        "tangentialDistortionCoefficientJ2": 0.0, 
+        "tangentialDistortionCoefficientJ3": 0.0, 
+        "tangentialDistortionCoefficientJ1": 0.0, 
+        "radialDistortionCoefficientI1": 0.0, 
+        "radialDistortionCoefficientI3": 0.0, 
+        "radialDistortionCoefficientI2": 0.0, 
+        "radialDistortionCoefficientI4": 0.0, 
+        "tangentialDistortionCoefficientJ4": 0.0, 
+        "radialDistortionCoefficientL2": 0.0, 
+        "radialDistortionCoefficientL3": 0.0, 
+        "radialDistortionCoefficientL1": 0.0
+      }
+    }
+  ], 
+  "deviceToDeviceCoordinateTransformation": [
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": 0,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "BaseLink"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "FrontLeftStereo"
+        }
+      },
+      "translationX": -0.375,
+      "translationY": 0.082,
+      "translationZ": 1
+    },
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": 0,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "BaseLink"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "FrontRightStereo"
+        }
+      },
+      "translationX": -0.375,
+      "translationY": -0.082,
+      "translationZ": 1
+    },
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": 3.1416,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "BaseLink"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "RearLeftStereo"
+        }
+      },
+      "translationX": -0.375,
+      "translationY": -0.082,
+      "translationZ": 1
+    },
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": 3.1416,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "BaseLink"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "RearRightStereo"
+        }
+      },
+      "translationX": -0.375,
+      "translationY": 0.082,
+      "translationZ": 1
+    },
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": 0,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "BaseLink"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "FrontFisheye"
+        }
+      },
+      "translationX": -0.375,
+      "translationY": 0,
+      "translationZ": 1
+    },
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": 3.1416,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "BaseLink"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "RearFisheye"
+        }
+      },
+      "translationX": -0.375,
+      "translationY": 0,
+      "translationZ": 1
+    },
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": 1.5708,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "BaseLink"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "LeftFisheye"
+        }
+      },
+      "translationX": -0.375,
+      "translationY": 0,
+      "translationZ": 1
+    },
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": -1.5708,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "BaseLink"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "RightFisheye"
+        }
+      },
+      "translationX": -0.375,
+      "translationY": 0,
+      "translationZ": 1
+    },
+    {
+      "rodriguesRotationX": 0.0004285554617742115,
+      "rodriguesRotationY": -0.00017496484818003676,
+      "rodriguesRotationZ": -0.009915985707152086,
+      "translationX": -0.164227,
+      "targetCoordinateFrame": {
+        "device": {
+          "serialNumber": "16401491",
+          "name": "FrontRightStereo"
+        },
+        "validPeriodBegin": {
+          "nanos": "18446744073709551615"
+        }
+      },
+      "timeOffsetNanoseconds": "0",
+      "sourceCoordinateFrame": {
+        "device": {
+          "serialNumber": "16387297",
+          "name": "FrontLeftStereo"
+        },
+        "validPeriodBegin": {
+          "nanos": "18446744073709551615"
+        }
+      },
+      "translationY": -0.000818689,
+      "translationZ": 0.000593775
+    },
+    {
+      "rodriguesRotationX": 0.0004285554617742115,
+      "rodriguesRotationY": -0.00017496484818003676,
+      "rodriguesRotationZ": -0.009915985707152086,
+      "translationX": -0.164227,
+      "targetCoordinateFrame": {
+        "device": {
+          "serialNumber": "0",
+          "name": "RearRightStereo"
+        },
+        "validPeriodBegin": {
+          "nanos": "18446744073709551615"
+        }
+      },
+      "timeOffsetNanoseconds": "0",
+      "sourceCoordinateFrame": {
+        "device": {
+          "serialNumber": "0",
+          "name": "RearLeftStereo"
+        },
+        "validPeriodBegin": {
+          "nanos": "18446744073709551615"
+        }
+      },
+      "translationY": -0.000818689,
+      "translationZ": 0.000593775
+    }
+  ]
+}

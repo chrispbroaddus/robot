@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package hal;
+
+message Device {
+    // The name which is descriptive for the device.
+    string name = 1;
+
+    // Unique serial number for the device.
+    uint64 serialNumber = 2;
+}

@@ -1,0 +1,72 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+///
+/// Per-network-interface statistics
+///
+message NetworkInterfaceStatistics {
+    repeated string ipv4_addresses = 1;
+    repeated string ipv6_addresses = 2;
+    uint64 transmit_packets = 3;
+    uint64 receive_packets = 4;
+    uint64 transmit_bytes = 5;
+    uint64 receive_bytes = 6;
+    uint64 transmit_errors = 7;
+    uint64 receive_errors = 8;
+}
+
+///
+/// Ping statistics
+///
+message NetworkPingStatistics {
+    /// Which host we attempted to ping
+    string target_host = 1;
+
+    /// How many times we attempted to resolve the host name
+    int32 resolve_attempts = 2;
+
+    /// How many times we succeeded at resolving the host name.
+    int32 resolve_successes = 3;
+
+    /// How many ICMP echo packets we sent. If there were no successful resolves, this will be zero.
+    int32 ping_transmit = 4;
+
+    /// How many ICMP echo packets we received. If there were no successful resolves, this will be zero.
+    int32 ping_receive = 5;
+
+    /// Average round-trip time. If there were no successful ping receives, this will be -1
+    float average_round_trip_time_seconds = 6;
+
+    /// Variance of round trip time.
+    /// If there were fewer than two successful round trips, this will be zero.
+    float variance_round_trip_time_seconds = 7;
+
+    /// If there were no successful ping receives, this will be -1
+    float maximum_round_trip_time_seconds = 8;
+}
+
+///
+/// Overall network health statistics
+///
+message NetworkHealthTelemetry {
+    /// When we started this health test
+    core.SystemTimestamp measurement_start_system_timestamp = 1;
+
+    /// When we completed this health test
+    core.SystemTimestamp measurement_end_system_timestamp = 2;
+
+    /// Canonical host name
+    string canonical_host_hame = 3;
+
+    /// IPv4 statistics. This is always attempted.
+    NetworkPingStatistics ipv4_statistics = 4;
+
+    /// IPv6 statistics. This is only attmepted if v4 failed.
+    NetworkPingStatistics ipv6_statistics = 5;
+
+    /// Per-interface statistics
+    map<string, NetworkInterfaceStatistics> per_interface_statistics = 6;
+}

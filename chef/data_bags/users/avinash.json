@@ -1,0 +1,9 @@
+{
+  "id": "avinash",
+  "ssh_keys": [
+    "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDhlDMvEZG7SNutDNLO2ovZhKGMPh7zVDfrrMSOSNNpq3dwe48LIbzP+ZrUv4kPYR/Py8gqpdv781/GAbu94a4v7A6RakDH2ujHwOGUswFSahT/8Vel6xqAXfniBZK/D6JL62bl4RrbCeN3mJX9DkgB4jPZf6ji4tZC2tMW2B3dcCHrw6/yS/pW0uNBVxBc/SEu+xyL5U/blIGFa5v6OAYS/jSb9qH+1u6B7Q4BKSP/A9U+1Utt/mOE0TcYH+tCoNl+MdNXC5a8/z9eB7NlKgogPM+aUfjPJwLP6AMPh6oupmQqSDWxwUbJNAUit/Q6QV3DBJepi84SlB0D7Zu4ButH avinash@avinash-Z270X"
+  ],
+  "groups": [ "sysadmin" ],
+  "uid": 9006,
+  "shell": "\/bin\/bash"
+}

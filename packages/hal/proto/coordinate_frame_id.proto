@@ -1,0 +1,22 @@
+syntax = "proto3";
+
+package hal;
+
+///
+/// @brief Coordinate Frame Ids is used to tag each coordinate frame
+/// @details
+///  Camera : +x : optical axis, +z : +gravity direction if camera is upright, +y : determined by right-handed-coordinate
+///  BaseLink : The center of the vehicle on the ground (z=0). Mostly used for the robot control, and there is
+///             no correspondence to the real physical hardware
+///
+enum CoordinateFrameId {
+    CoordFrameFrontLeftStereo = 0;
+    CoordFrameFrontRightStereo = 1;
+    CoordFrameRearLeftStereo = 2;
+    CoordFrameRearRightStereo = 3;
+    CoordFrameFrontFisheye = 4;
+    CoordFrameRearFisheye = 5;
+    CoordFrameLeftFisheye = 6;
+    CoordFrameRightFisheye = 7;
+    CoordFrameBaseLink = 8;
+}

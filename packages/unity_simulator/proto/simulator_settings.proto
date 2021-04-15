@@ -1,0 +1,42 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/unity_simulator/proto/application.proto";
+import "packages/unity_simulator/proto/cameras.proto";
+import "packages/unity_simulator/proto/ground_truth.proto";
+import "packages/unity_simulator/proto/networking.proto";
+import "packages/unity_simulator/proto/scene.proto";
+import "packages/unity_simulator/proto/simulated_vehicle_model.proto";
+
+package simulator_settings;
+
+/// All the book keeping related to the overall simulator settings.
+message SimulatorSettingsMetadata {
+    /// Major version for the file format. This follows the rules for semantic versioning: if we introduce
+    /// changes which are backwards incompatible (either due to a change in syntax or semantics), then
+    /// this number should be incremented.
+    ///
+    /// As of 10/10/2017, the value for this should be fixed at 4
+    uint32 formatMajorVersion = 1;
+
+    /// Minor version for the file format. This follows the rules for semantic versioning: if we introduce
+    /// changes which are backwards compatible (e.g. new optional fields), then this number should be
+    /// incremented.
+    ///
+    /// As of 8/3/2017, the value for this should be fixed at 1
+    uint32 formatMinorVersion = 2;
+
+    /// When were the settings generated
+    core.SystemTimestamp generationTime = 3;
+}
+
+/// Overall simulator settings.
+message SimulatorSettings {
+    SimulatorSettingsMetadata metadata = 1;
+    SimulatedVehicleModel vehicle = 2;
+    Application application = 3;
+    Cameras cameras = 4;
+    Networking networking = 5;
+    GroundTruth groundTruth = 6;
+    Scene scene = 7;
+}

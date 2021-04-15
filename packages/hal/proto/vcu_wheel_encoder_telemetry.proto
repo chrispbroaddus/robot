@@ -1,0 +1,37 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+enum VCUWheelID {
+    LeftFrontWheel = 0;
+    LeftMiddleWheel = 1;
+    LeftRearWheel = 2;
+    RightFrontWheel = 3;
+    RightMiddleWheel = 4;
+    RightRearWheel = 5;
+}
+
+/// Describes odometry as reported by a single wheel encoder.
+message VCUWheelEncoderTelemetry {
+    /// HW timestamp describing when we started this odometry measurement.
+    core.HardwareTimestamp periodStartHardwareTimestamp = 1;
+
+    /// HW timestamp describing when we ended this odometry measurement.
+    core.HardwareTimestamp periodEndHardwareTimestamp = 2;
+
+    /// System timestamp at end of period
+    core.SystemTimestamp periodEndSystemTimestamp = 3;
+
+    /// Wheel for which we are reporting odometry.
+    VCUWheelID wheelID = 4;
+
+    /// The VCU's best guess as to the (signed) linear distance traveled by this wheel
+    /// over this period.
+    float linearDisplacementMeters = 5;
+
+    /// Number of microseconds of data which may have been dropped due to
+    /// noise on Hall effect sensors.
+    fixed32 hallEffectNoiseMeasurementGapMicroseconds = 6;
+}

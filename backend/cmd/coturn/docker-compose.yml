@@ -1,0 +1,25 @@
+version: '2'
+
+services:
+    coturn:
+        image: zippyai/coturn
+        container_name: turnserver
+        restart: unless-stopped
+        ports:
+            - "61000-61100:61000-61100"
+            - "61000-61100:61000-61100/udp"
+            - "3478:3478"
+            - "3478:3478/udp"
+        links:
+            - docker-loggly
+
+    docker-loggly:
+        image: sendgridlabs/loggly-docker
+        container_name: loggly
+        restart: unless-stopped
+        ports:
+            - "0:514/udp"
+            - "0:514"
+        environment:
+            - 'TAG=Turn-server'
+            - 'TOKEN=d7c78341-661f-4d74-b75b-0cf677665350'

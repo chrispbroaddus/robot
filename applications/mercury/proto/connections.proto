@@ -1,0 +1,86 @@
+syntax = "proto3";
+
+package mercury;
+
+/// Enum of topics in the Zippy system. Anything publishing or subscribing over a port should be defined here
+enum topic {
+    /// Camera publishing topic
+    front_left_stereo = 0;
+    front_right_stereo = 1;
+    rear_left_stereo = 2;
+    rear_right_stereo = 3;
+    front_fisheye = 4;
+    rear_fisheye = 5;
+    left_fisheye = 6;
+    right_fisheye = 7;
+
+    /// Telemetry data topic
+    telemetry = 8;
+
+    /// Publication of estimates topic
+    estimation = 9;
+
+    /// Topic for execution commands
+    execution = 10;
+
+    /// Docking status topic
+    docking = 11;
+
+    /// Publication for station finder topic
+    station_finder = 12;
+
+    /// Publication topic for wheel odemetry
+    wheel_odemetry = 13;
+
+    /// Topic used for sending commands to vcu
+    trajectory = 14;
+
+    /// GPS data
+    gps = 15;
+
+    /// IMU data
+    imu = 16;
+
+    /// Fiducial poses data
+    fiducial_poses = 17;
+
+    /// Joystick commands
+    joystick = 18;
+
+    /// Ground truth telemetry from the simulator
+    ground_truth_telemetry = 19;
+
+    /// Commands to control the simulator
+    simulator_commands = 20;
+
+    /// Stats about the simulator
+    simulator_stats = 21;
+
+    /// Addtional Simulator camera outputs
+    front_left_stereo_depth = 22;
+    front_right_stereo_depth = 23;
+    rear_left_stereo_depth = 24;
+    rear_right_stereo_depth = 25;
+    front_fisheye_depth = 26;
+    rear_fisheye_depth = 27;
+    left_fisheye_depth = 28;
+    right_fisheye_depth = 29;
+    front_left_stereo_pointcloud = 30;
+    front_right_stereo_pointcloud = 31;
+    rear_left_stereo_pointcloud = 32;
+    rear_right_stereo_pointcloud = 33;
+    front_fisheye_pointcloud = 34;
+    rear_fisheye_pointcloud = 35;
+    left_fisheye_pointcloud = 36;
+    right_fisheye_pointcloud = 37;
+}
+
+/// A connection is defined as having a topic, address (string of resolvable hostname), and port
+message Connection {
+    string address = 1;
+    int32 port = 2;
+    topic topic = 3;
+}
+
+/// Connections to be defined as a list within json. See config/<vehicle_id>/connections.json
+message Connections { repeated Connection connection = 1; }

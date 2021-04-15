@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+import "packages/hal/proto/camera_id.proto";
+
+package simulator_settings;
+
+message Camera {
+    /// Camera identifier
+    hal.CameraId cameraId = 1;
+
+    /// is the camera a greyscale camera
+    bool greyscale = 2;
+
+    /// how close up should the cameras render
+    float nearClippingPlaneDistanceMeters = 3;
+
+    /// up to how far away should the camera render
+    float farClippingPlaneDistanceMeters = 4;
+
+    /// Fraction of mesh vertices to images rows. e.g. image 1080px high => num mesh lines = 1080 * 0.1 = 108 lines. Finer the mesh the more
+    /// accurate the lens modelling.
+    float distortedMeshRowFineness = 5;
+
+    /// Fraction of mesh vertices to images columns
+    float distortedMeshColFineness = 6;
+
+    /// what pixel ratio should be used for the calibrated plane.
+    /// 1 means that there is at least 1 pixel on calibrated plane for each pixel
+    /// on output image for the central region of the output image.
+    /// The larger the value the more pixels there are on the calibrated plane
+    /// texture for each pixel on the output texture. Essentially super sampling.
+    /// Larger values mean more to render, which means slower rendering and more memory usage.
+    float calibratedPlaneScaleFactor = 7;
+
+    /// How far out should the depth measurements work to.
+    /// Currently this is only used in the visualization
+    float maxDepthMapDistanceMeters = 8;
+
+    /// Scale the camera image to a different size, 1 = original size, 0.5 = half size
+    float imageScale = 9;
+
+    /// Rendering fudge to only draw the central region of the image, and save precious gpu cycles
+    /// Zoom the calibrated plane image in by this factor (1 = normal, > 1 to zoom in)
+    /// Use on fisheye images to only render the center of the circle up to some radius.
+    /// Image will be higher quality, and render faster
+    float imageZoom = 10;
+
+    /// Is enabled at initialization
+    bool enabled = 11;
+
+    /// Is depth output enabled at initialization
+    bool depthEnabled = 12;
+
+    /// Is xyz output enabled at initialization
+    bool xyzEnabled = 13;
+}

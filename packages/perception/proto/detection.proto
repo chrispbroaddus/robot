@@ -1,0 +1,203 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/hal/proto/device.proto";
+import "packages/calibration/proto/coordinate_transformation.proto";
+
+package perception;
+
+// A minimal set of categories. Enumerations are wrapped to allow for duplicate
+// names, given protobuf's scoping rules.
+message Category {
+    enum CategoryType {
+        UNKNOWN = 0;
+        ANIMAL = 10;
+        PERSON = 20;
+        BICYCLE = 30;
+        MOTORBIKE = 40;
+        CAR = 50;
+        BUS = 60;
+        TRUCK = 70;
+    }
+    CategoryType type = 1;
+    double confidence = 2;
+}
+
+// Velocity attributes
+message Motion {
+    enum MotionType {
+        UNKNOWN = 0;
+        MOVING = 10;
+        STATIONARY = 20;
+    }
+    MotionType type = 1;
+    double confidence = 2;
+}
+
+// Capturing the metadata of the sensor performing the detection process.
+message DeviceMetadata {
+    hal.Device device = 1;
+    core.SystemTimestamp sensor_time = 2;
+}
+
+// Capturing the metadata of the sensor performing the detection process.
+message CameraDeviceMetadata {
+    DeviceMetadata device_metadata = 1;
+    uint32 image_width_pixels = 2;
+    uint32 image_height_pixels = 3;
+}
+
+// Each detection has a bounding box, an associated category, and motion attribute
+// (these may be unknown). A confidence score *should* be provided for each category and
+// attribute, but is not strictly required.
+//
+// The most basic type of detection - an aligned box in the camera frame. It is
+// parameterized by the minimum X and Y coordinates (in the camera coordinate
+// system) and the box extents. For example, if:
+//
+// top_left_y = Y'
+// top_left_x = X'
+// extents_x = X*
+// extents_y = Y*
+//
+// Then the detection resembles the following:
+//
+//           X'
+//     +-----------------> X
+//     |     ^
+//     |     |
+//  Y' <-----+-------+ ^
+//     |     |       | |
+//     |     |       | |
+//     |     |       | Y*
+//     |     |       | |
+//     |     +-------+ v
+//     v     <---X*-->
+//     Y
+message ObjectBoundingBox {
+    Category category = 1;
+    Motion motion = 2;
+    double top_left_x = 3;
+    double top_left_y = 4;
+    double extents_x = 5;
+    double extents_y = 6;
+
+    // Information coming from tracking
+    uint32 instance_id = 51;
+}
+
+// Each detection has a 3d bounding box, an associated category, and motion attribute
+// (these may be unknown). A confidence score *should* be provided for each category and
+// attribute, but is not strictly required.
+// The coordinate system describing the 3D bounding box should be encoded in the "pose" field.
+// Optionally, the uncertainty on 3D estimation can be encoded.
+message Object3dBoundingBox {
+    Category category = 1;
+    Motion motion = 2;
+    calibration.CoordinateTransformation pose = 3; // pose of the center of the 3d bounding box
+    double extents_x = 4;
+    double extents_y = 5;
+    double extents_z = 6;
+
+    // Information coming from tracking
+    uint32 instance_id = 51;
+
+    // optional, encoding extra uncertainty while estimating 3d properties
+    double uncertainty_position_x = 7;
+    double uncertainty_position_y = 8;
+    double uncertainty_position_z = 9;
+
+    double uncertainty_rotation_x = 10;
+    double uncertainty_rotation_y = 11;
+    double uncertainty_rotation_z = 12;
+
+    double uncertainty_extents_x = 13;
+    double uncertainty_extents_y = 14;
+    double uncertainty_extents_z = 15;
+}
+
+// Each detection has a 3d convex hull, an associated category, and motion attribute
+// (these may be unknown). A confidence score *should* be provided for each category and
+// attribute, but is not strictly required.
+// The coordinate system describing the 3D bounding box should be encoded in the "pose" field.
+// Optionally, the uncertainty on 3D estimation can be encoded.
+message Object3dConvexHull {
+    Category category = 1;
+    Motion motion = 2;
+    calibration.CoordinateTransformation pose = 3; // pose of the center of the 3d convex hull
+
+    repeated double xs = 4;
+    double extents_y = 5;
+    repeated double zs = 6;
+
+    // Information coming from tracking
+    uint32 instance_id = 51;
+
+    // optional, encoding extra uncertainty while estimating 3d properties
+    double uncertainty_position_x = 7;
+    double uncertainty_position_y = 8;
+    double uncertainty_position_z = 9;
+
+    double uncertainty_rotation_x = 10;
+    double uncertainty_rotation_y = 11;
+    double uncertainty_rotation_z = 12;
+
+    double uncertainty_extents_y = 14;
+}
+
+// Describing the detection results as bounding boxes,
+// containing image's metadata, detected system-timestamp, and a series of bounding boxes
+message CameraAlignedBoxDetection {
+    CameraDeviceMetadata camera_device_metadata = 1;
+    core.SystemTimestamp system_time = 2;
+    repeated ObjectBoundingBox bounding_boxes = 3;
+}
+
+// Describing the detection results as three-dimensional bounding boxes,
+// containing image's metadata, detected system-timestamp, and a series of 3d bounding boxes
+message CameraAligned3dBoxDetection {
+    CameraDeviceMetadata camera_device_metadata = 1;
+    core.SystemTimestamp system_time = 2;
+    repeated Object3dBoundingBox bounding_boxes = 3;
+    repeated Object3dConvexHull convex_hulls = 4;
+}
+
+// Each detection has a semantic pixel-wise-mask, an associated category, and motion attribute
+// (these may be unknown). A confidence score *should* be provided for each category and
+// attribute, but is not strictly required.
+//
+// XY pixel indices of an image corresponding to a detection in row-major
+// order. For example, for example indices 0 <= {a0, ..., z0, a1, ...} <
+// MAX_XY_INDEX, this detection resembles the following:
+//
+//   +-----------------> X
+//   |
+//   |     a0b0c0d0e0f0g0
+//   |     h0i0j0k0l0m0n0
+//   |     o0p0q0r0s0t0
+//   |     u0v0w0x0y0
+//   |     z0a1b1c1
+//   |     d1e1f1
+//   v
+//   Y
+message ObjectSematicMask {
+    Category category = 1;
+    Motion motion = 2;
+    repeated uint32 pixel_xy_indices = 3;
+}
+
+// Describing the detection results as pixel-wise masks,
+// contatining image's metadata, detected system-timestamp, and a series of masks
+message CameraPixelsDetection {
+    CameraDeviceMetadata camera_device_metadata = 1;
+    core.SystemTimestamp system_time = 2;
+    repeated ObjectSematicMask masks = 3;
+}
+
+message Detection {
+    oneof detection {
+        CameraAlignedBoxDetection box_detection = 1;
+        CameraAligned3dBoxDetection box_3d_detection = 2;
+        CameraPixelsDetection pixels_detection = 3;
+    }
+}

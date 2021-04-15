@@ -1,0 +1,18 @@
+syntax = "proto3";
+
+import "packages/hal/proto/gps_telemetry.proto";
+import "packages/perception/fiducials/proto/fiducial_poses.proto";
+
+package docking;
+
+///
+/// Docking stations could be searched by either:
+///  1) the vehicle's gps telemetry
+///  2) detected fiducial poses
+///
+message StationSearchEnvelope {
+    oneof query_item {
+        hal.GPSTelemetry gps_telemetry = 10;
+        perception.FiducialPoses fiducial_poses = 20;
+    }
+}

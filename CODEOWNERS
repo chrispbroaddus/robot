@@ -1,0 +1,42 @@
+# Code/module owners. Feel free to add/remove yourself wherever is appropriate.
+# See:
+#       https://github.com/blog/2392-introducing-code-owners
+# Roving troubleshooters
+
+applications/configuration_linter/*     @BrendanDrewZippy
+applications/mercury/*                  @BrendanDrewZippy
+applications/point_and_go/*             @iabaldwin
+
+backend/*                               @lursu
+config/*                                @BrendanDrewZippy
+docker/*                                @BrendanDrewZippy
+#firmware/*                              
+#frontend/*                              @alexflint
+#node_modules/*                          @lursu
+
+packages/benchmarking/*                 @BrendanDrewZippy
+packages/calibration/*                  @BrendanDrewZippy
+packages/core/*                         @avi-zippy
+packages/data_logger/*                  @avi-zippy
+packages/dense_mapping/*                @BrendanDrewZippy
+packages/docking/*                      @byungsoo-zippy
+packages/estimation/*                   @iabaldwin
+packages/filesystem/*                   @avi-zippy
+packages/filter_graph/*                 @avi-zippy
+packages/hal/*                          @chrispbroaddus
+packages/hald/*                         @chrispbroaddus
+packages/image_codec/*                  @avi-zippy
+#packages/math/*
+packages/net/*                          @avi-zippy
+packages/perception/*                   @iabaldwin
+packages/planning/*                     @iabaldwin
+packages/stereo/*                       @avi-zippy
+packages/streamer/*                     @alexflint
+packages/teleop/*                       @alexflint
+packages/unity_plugins/*                @byungsoo-zippy @robertcastle
+packages/unity_simulator/*              @byungsoo-zippy @robertcastle
+packages/vcu_messages/*                 @avi-zippy
+packages/videoviewer/*                  @avi-zippy
+#protobuf_rules/*            
+script/*                                @BrendanDrewZippy
+

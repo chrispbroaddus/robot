@@ -1,0 +1,5 @@
+base_options {
+  frequency: 10
+}
+minimum_x_tolerance: 0.01
+max_curvature: 0.9

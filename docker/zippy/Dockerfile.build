@@ -1,0 +1,10 @@
+ARG BRANCH
+
+FROM server1.zippy:5000/zippy-env:$BRANCH
+RUN rm -rf /zippy && mkdir /zippy
+ADD . /zippy
+
+WORKDIR /zippy/
+
+RUN make ci-build
+CMD make ci-format && make ci-analyze-build-profile && make ci-check-configuration && make ci-test

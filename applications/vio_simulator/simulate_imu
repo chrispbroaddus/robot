@@ -1,0 +1,90 @@
+#!/usr/bin/env python3
+
+import os
+import argparse
+import tempfile
+import subprocess
+import numpy as np
+from pathlib import Path
+from rigidbody import pr, rotation
+from inertia import RK4Integrator, InertialSensorModel, ImuMeasurement, InertialState
+
+import sim
+
+
+def write_simulation(output_dir, scenario, observables, noise):
+    """
+    Write a simulation to a directory
+    """
+    out = Path(output_dir)
+    if not out.is_dir():
+        out.mkdir()
+
+    # Save IMU noise characteristics
+    np.savetxt(str(out/'inertial_model.txt'), [
+        noise.inertial.gyro_sigma,
+        noise.inertial.gyro_bias_sigma,
+        noise.inertial.accel_sigma,
+        noise.inertial.accel_bias_sigma])
+
+    # Save accelerometer and gyro measurements
+    np.savetxt(str(out/'gyro.txt'), np.c_[observables.gyro_timestamps, observables.gyro_readings], fmt="%.16f")
+    np.savetxt(str(out/'accel.txt'), np.c_[observables.accel_timestamps, observables.accel_readings], fmt="%.16f")
+
+    # Save gravity vector
+    np.savetxt(str(out/'gravity.txt'), scenario.state_func.gravity)
+
+    # Save begin state
+    np.savetxt(str(out/'begin_state.txt'), scenario.state_func(0).flatten())
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--duration', type=float, default=30., help="length of simulation sequence in seconds")
+    parser.add_argument('--gyro_sigma', type=float, default=1e-4, help="gyro white noise")
+    parser.add_argument('--gyro_bias_sigma', type=float, default=1e-4, help="gyro drift")
+    parser.add_argument('--accel_sigma', type=float, default=1e-4, help="accel white noise")
+    parser.add_argument('--accel_bias_sigma', type=float, default=1e-4, help="accel drift")
+    parser.add_argument('--out', type=Path, required=True, help="Dir to write simulation data to")
+    args = parser.parse_args()
+
+    np.random.seed(0)
+    np.set_printoptions(suppress=True)
+
+    # Noise model from which we sample during simulation
+    sim_noise = sim.NoiseModel(
+        feature_sigma=0.1,
+        inertial=InertialSensorModel(
+            gyro_sigma=args.gyro_sigma,
+            gyro_bias_sigma=args.gyro_bias_sigma,
+            accel_sigma=args.accel_sigma,
+            accel_bias_sigma=args.accel_bias_sigma))
+
+    scenario_options = sim.ScenarioOptions(
+        duration=args.duration,
+        position_generator="manhattan_2d",
+        orientation_generator="forward_facing",
+        landmark_generator="floor")
+
+    print('sampling ground truth trajectory...')
+    scenario = sim.generate_scenario(scenario_options, sim_noise)
+
+    observable_options = sim.ObservableOptions(
+        duration=args.duration,
+        num_frames=201)
+
+    print('simulating sensor measurements...')
+    observables = sim.generate_inertial_observables(observable_options, scenario, sim_noise)
+
+    # Create the dir for the simulation output
+    simdir = args.out
+    if not os.path.exists(simdir):
+        os.makedirs(simdir)
+
+    # Write the simulation data
+    write_simulation(str(simdir), scenario, observables, sim_noise)
+    print("Wrote data to %s" % simdir)
+
+
+if __name__ == "__main__":
+    main()

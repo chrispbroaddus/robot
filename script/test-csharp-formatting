@@ -1,0 +1,45 @@
+#!/bin/bash
+
+CFORMATTER=${CFORMATTER:-astyle}
+
+OPTIONS="--style=java \
+--indent=spaces=4 \
+--indent-namespaces \
+--break-blocks \
+--pad-oper \
+--pad-header \
+--delete-empty-lines \
+--align-pointer=type \
+--align-reference=type \
+--break-closing-brackets \
+--add-brackets \
+--convert-tabs \
+--lineend=linux \
+--indent-col1-comments \
+--suffix=none"
+
+echo "Using formatter: $CFORMATTER"
+
+DIRECTORIES_TO_CHECK="packages applications"
+list=$(find $DIRECTORIES_TO_CHECK -name "*.cs")
+while read path; do
+	# can't use astyle $OPTIONS < file > /tmp/out.cs as that produces different results to astyle $OPTIONS file !!!
+	cp "$path" /tmp/Formatted.cs
+	$CFORMATTER $OPTIONS /tmp/Formatted.cs
+	difference=$(diff "$path" "/tmp/Formatted.cs")
+	if [ "$difference" != "" ]; then
+		failed=1
+		echo ========================================================================
+		echo $path
+		echo ========================================================================
+		echo "$difference"
+	fi
+done <<< "$list"
+
+if [ "$failed" == "" ]; then
+	echo "Formatting is correct"
+else
+	echo "There were formatting errors"
+fi
+
+exit $failed

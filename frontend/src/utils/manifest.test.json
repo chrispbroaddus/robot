@@ -1,0 +1,59 @@
+{
+  "cameraIntrinsicCalibration": [
+    {
+      "resolutionY": 2048,
+      "resolutionX": 2448,
+      "cameraUnderCalibration": {
+        "serialNumber": "16401251",
+        "name": "camera0"
+      },
+      "skew": 0.0,
+      "scaledFocalLengthY": 770.1611,
+      "scaledFocalLengthX": 771.4914,
+      "opticalCenterY": 1077.472,
+      "opticalCenterX": 1244.208,
+      "kannalaBrandt": {
+        "tangentialDistortionCoefficientM3": 0.0,
+        "tangentialDistortionCoefficientM2": 0.0,
+        "tangentialDistortionCoefficientM1": 0.0,
+        "radialDistortionCoefficientK": [
+          0.01117972,
+          0.04504434,
+          -0.05763411,
+          0.02156141
+        ],
+        "tangentialDistortionCoefficientJ2": 0.0,
+        "tangentialDistortionCoefficientJ3": 0.0,
+        "tangentialDistortionCoefficientJ1": 0.0,
+        "radialDistortionCoefficientI1": 0.0,
+        "radialDistortionCoefficientI3": 0.0,
+        "radialDistortionCoefficientI2": 0.0,
+        "radialDistortionCoefficientI4": 0.0,
+        "tangentialDistortionCoefficientJ4": 0.0,
+        "radialDistortionCoefficientL2": 0.0,
+        "radialDistortionCoefficientL3": 0.0,
+        "radialDistortionCoefficientL1": 0.0
+      }
+    }
+  ],
+  "deviceToDeviceCoordinateTransformation": [
+    {
+      "rodriguesRotationX": 0,
+      "rodriguesRotationY": 0,
+      "rodriguesRotationZ": 0,
+      "sourceCoordinateFrame": {
+        "device": {
+          "name": "robot"
+        }
+      },
+      "targetCoordinateFrame": {
+        "device": {
+          "name": "camera0"
+        }
+      },
+      "translationX": 0,
+      "translationY": 0,
+      "translationZ": -1
+    }
+  ]
+}

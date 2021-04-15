@@ -1,0 +1,10 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Navigation should render self and subcomponents 1`] = `
+<styled.div>
+  <Logo
+    className=""
+    shadow={false}
+  />
+</styled.div>
+`;

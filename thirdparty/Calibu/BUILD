@@ -1,0 +1,95 @@
+cc_library(
+    name = "Calibu",
+    srcs = [
+        "src/target/Hungarian.cpp",
+        "src/target/RandomGrid.cpp",
+        "src/target/TargetGridDot.cpp",
+        "src/cam/rectify_crtp.cpp",
+        "src/cam/StereoRectify.cpp",
+        "src/cam/CameraXml.cpp",
+        # Requires OpenCV
+        #"src/pose/Pnp.cpp",
+        #"src/pose/Tracker.cpp",
+        "src/conics/ConicFinder.cpp",
+        "src/conics/FindConics.cpp",
+        "src/conics/Conic.cpp",
+        "src/image/ImageProcessing.cpp",
+        "src/image/Label.cpp",
+        "src/utils/Utils.cpp",
+    ],
+    hdrs = [
+        "include/calibu/config.h",
+        "include/calibu/target/LineGroup.h",
+        "include/calibu/target/Target.h",
+        "include/calibu/target/Hungarian.h",
+        "include/calibu/target/TargetGridDot.h",
+        "include/calibu/target/GridDefinitions.h",
+        "include/calibu/target/RandomGrid.h",
+        "include/calibu/cam/camera_models_kb4.h",
+        "include/calibu/cam/rectify_crtp.h",
+        "include/calibu/cam/stereo_rectify.h",
+        "include/calibu/cam/camera_crtp_impl.h",
+        "include/calibu/cam/camera_crtp.h",
+        "include/calibu/cam/camera_models_crtp.h",
+        "include/calibu/cam/camera_models_poly.h",
+        "include/calibu/cam/camera_rig.h",
+        "include/calibu/cam/camera_utils.h",
+        "include/calibu/cam/camera_xml.h",
+        "include/calibu/cam/camera_models_rational.h",
+        # Requires OpenCV
+        #"include/calibu/pose/Tracker.h",
+        #"include/calibu/pose/Pnp.h",
+        "include/calibu/pose/Ransac.h",
+        "include/calibu/conics/ConicFinder.h",
+        "include/calibu/conics/FindConics.h",
+        "include/calibu/conics/Conic.h",
+        "include/calibu/image/Label.h",
+        "include/calibu/image/ImageProcessing.h",
+        "include/calibu/image/AdaptiveThreshold.h",
+        "include/calibu/image/Gradient.h",
+        "include/calibu/image/IntegralImage.h",
+        "include/calibu/utils/StreamOperatorsEigen.h",
+        "include/calibu/utils/Rectangle.h",
+        "include/calibu/utils/Range.h",
+        "include/calibu/utils/Utils.h",
+        "include/calibu/utils/PlaneBasis.h",
+        "include/calibu/utils/StreamOperatorsSophus.h",
+        "include/calibu/calib/LocalParamSe3.h",
+        "include/calibu/calib/ReprojectionCostFunctor.h",
+        "include/calibu/calib/CostFunctionAndParams.h",
+        "include/calibu/calib/AutoDiffArrayCostFunction.h",
+        "include/calibu/calib/ReprojectionCost.h",
+        "include/calibu/calib/Calibrator.h",
+        "include/calibu/gl/Drawing.h",
+        "include/calibu/Platform.h",
+        "include/calibu/Calibu.h",
+    ],
+    includes = ["include"],
+    visibility = ["//visibility:public"],
+    deps = [
+        "//external:glog",
+        "//thirdparty/Sophus",
+        "//thirdparty/tinyxml2",
+        "@eigen_repo//:eigen",
+    ],
+)
+
+# Requires Pangolin
+# cc_binary(
+#     name = "calib",
+#     srcs = ["applications/calib/main.cpp"],
+#     deps = [":Calibu"]
+# )
+
+cc_binary(
+    name = "grid-gen",
+    srcs = ["applications/grid-gen/main.cpp"],
+    deps = [":Calibu"],
+)
+
+cc_test(
+    name = "modelio",
+    srcs = ["applications/modelio/main.cpp"],
+    tags = ["manual"],
+    deps = [":Calibu"],
+)

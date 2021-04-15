@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+import "applications/mercury/proto/watchdog_policy.proto";
+
+package mercury;
+
+/// Describe a process that is managed by Mercury
+message ManagedProcess {
+    /// Human readable / understandable description of what this process is. Must be unique.
+    string process_name = 1;
+
+    /// Complete path to executable that we should run
+    string executable_path = 2;
+
+    /// "Basic" command line arguments to supply
+    repeated string arguments = 3;
+
+    /// Environment variables to supply
+    map<string, string> environment = 4;
+
+    /// List of provided topics and corresponding ports
+    map<string, uint32> provided_topics = 5;
+
+    /// List of consumed topics
+    repeated string required_topics = 6;
+
+    /// List of hardware requirements (should match a HardwareRequirement instance)
+    repeated string required_hardware = 7;
+
+    /// Watchdog policy
+    oneof policy {
+        FailWatchdogPolicy fail_policy = 8;
+        AttemptRelaunchWatchdogPolicy relaunch_policy = 9;
+        IgnoreFailurePolicy ignore_policy = 10;
+    }
+
+    /// List of process_names of additional ManagedProcesse instances which should be started before this process
+    /// is started. The dependency information here is merged with the information contained in the provided_topics
+    /// and required_topics to generate the complete dependency graph.
+    repeated string additional_process_dependencies = 11;
+
+    /// Directory to place logs if process doesn't manage itself
+    string logdir = 12;
+}

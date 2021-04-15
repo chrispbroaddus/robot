@@ -1,0 +1,63 @@
+syntax = "proto3";
+
+import "packages/hal/proto/device.proto";
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+message ImageInfoMsg {
+    double exposure = 1;
+    double shutter = 2;
+    double gain = 3;
+    double gamma = 4;
+    double focal_length = 5;
+}
+
+enum Type {
+    PB_BYTE = 0x0000;
+    PB_UNSIGNED_BYTE = 0x0001;
+    PB_SHORT = 0x0002;
+    PB_UNSIGNED_SHORT = 0x0003;
+    PB_INT = 0x0004;
+    PB_UNSIGNED_INT = 0x0005;
+    PB_FLOAT = 0x0006;
+    PB_DOUBLE = 0x0007;
+}
+
+enum Format {
+    PB_LUMINANCE = 0x0000;
+    PB_RGB = 0x0001;
+    PB_RGBA = 0x0002;
+    PB_RAW = 0x0003;
+    PB_BGR = 0x0004;
+    PB_BGRA = 0x0005;
+    PB_COMPRESSED_JPEG = 0x0006; // Implies that stride = 0, rows / cols are the uncompressed size, type = unsigned byte
+    PB_COMPRESSED_PNG = 0x0007; // Implies that stride = 0, rows / cols are the uncompressed size, type = unsigned byte
+    PB_RANGE = 0x0008;
+    PB_POINTCLOUD = 0x0009;
+}
+
+message Image {
+
+    uint32 rows = 1;
+    uint32 cols = 2;
+    uint32 stride = 3;
+
+    bytes data = 4;
+
+    Type type = 5;
+    Format format = 6;
+
+    ImageInfoMsg info = 7;
+}
+
+message CameraSample {
+
+    uint32 id = 1; // image sequence index, increasing monotonically.
+    Device device = 2;
+
+    core.SystemTimestamp systemTimestamp = 3;
+    core.HardwareTimestamp hardwareTimestamp = 4;
+
+    Image image = 5;
+}

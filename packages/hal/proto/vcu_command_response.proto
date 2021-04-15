@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/hal/proto/vcu_emergency_stop_command.proto";
+import "packages/hal/proto/vcu_idle_command.proto";
+import "packages/hal/proto/vcu_ik_control_command.proto";
+import "packages/hal/proto/vcu_trajectory_command.proto";
+import "packages/hal/proto/vcu_command_envelope.proto";
+
+package hal;
+
+/// Disposition of a VCU command request.
+/// The semantics here are very important: the VCU needs to maintain the invariant that it is always
+/// in a safe state. In order to do so, we define that the VCU is in a safe state at startup.
+/// Thereafter, the VCU will only accept a new command if it is convinced that the transition from
+/// the present state to a state where the new command is completed can be done in a safe way. Once
+/// a command is accepted, it replaces the previous command and a VCUCommandResponse with
+/// disposition = CommandAccepted is sent. If the command completes prior to a new command being issued,
+/// the VCU will send a second VCUCommandResponse with disposition = CommandCompleted. If the command
+/// completes, the VCU will assume it has been implicitly commanded to idle. This has several
+/// important implications:
+///
+/// - The VCU always starts with an implicit idle command.
+/// - Idle commands never complete (they are, however, interruptable)
+/// - When a command is rejected, we guarantee that in the absence of any other commands, the vehicle
+///   will eventually return to a known safe state by continuing to perform its current command.
+/// - When a command is accepted, we guarantee that in the absence of any other commands, the vehicle
+///   eventually returns to a known safe state.
+/// .
+enum VCUCommandDisposition {
+    /// The command was rejected and the VCU is continuing to execute its previous command.
+    CommandRejected = 0;
+    /// The command was accepted. The VCU has now started executing this command.
+    CommandAccepted = 1;
+    /// The command has completed. This implies that the VCU is now executing an VCUIdleCommand.
+    CommandCompleted = 2;
+    /// The command has been sent but may or may not have been accepted by VCU. No acknowledgement received.
+    DispositionUnknown = 3;
+}
+
+/// VCU response to a command.
+message VCUCommandResponse {
+    /// The VCU's response
+    VCUCommandDisposition disposition = 1;
+
+    /// When the VCU's response was generated
+    core.SystemTimestamp timestamp = 2;
+
+    /// What the VCU is responding to
+    oneof source {
+        /// General case: VCU sends back *just* the sequence number of the command to which it is responding.
+        fixed64 sequenceNumber = 3;
+
+        /// For debugging, include the original command as received.
+        VCUCommandEnvelope command = 4;
+    }
+
+    /// What command is being replaced / retained
+    oneof previous {
+        /// "General case": disposition is CommandRejected, so nothing was replaced and we return the currently
+        /// executing command.
+        VCUCommandEnvelope retainedCommand = 5;
+
+        /// "General case": disposition is CommandAccepted and we are not debugging, so send back
+        /// "just" the sequence number of the replaced command.
+        fixed64 previousSequenceNumber = 6;
+
+        /// For debugging, include the replaced command as received.
+        VCUCommandEnvelope previousCommand = 7;
+    }
+
+    // Temporary debug field, if we decide to keep this let's re-number it sequentially
+    fixed32 error_reason = 31;
+}

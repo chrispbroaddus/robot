@@ -1,0 +1,12 @@
+{
+    "env": "local",
+    "port": 8000,
+    "debug_port": 4000,
+    "metrics_port": 9110,
+    "domain": "localhost",
+    "ssh_config": {
+        "username": "leland",
+        "key_file_path": "/home/lursu/.ssh/id_rsa",
+        "sim_server": "172.30.0.25"
+    }
+}

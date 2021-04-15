@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package simulator_settings;
+
+message Networking {
+    /// zmq send and receive timeout in milliseconds
+    uint32 zmqSendReceiveTimeoutMs = 12;
+
+    /// zmq linger time in milliseconds
+    uint32 zmqLingerTimeMs = 13;
+
+    /// zmq high water mark value to queued data
+    uint32 zmqHighWaterMark = 14;
+}

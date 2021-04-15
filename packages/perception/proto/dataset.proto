@@ -1,0 +1,68 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/perception/proto/detection.proto";
+
+package perception;
+
+enum AnnotationType {
+
+    // In order to avoid unassigned annotation_type, UNKNOWN by default.
+    UNKNOWN = 0;
+
+    // 2D Bounding box, represented in perception::ObjectBoundingBox format
+    BBOX_2D = 1;
+
+    // 3D Bounding box, represented in perception::Object3dBoundingBox format
+    BBOX_3D = 2;
+
+    // Pixelwise labeling for the entire image, format is not introduced yet (TODO)
+    PIXEL = 3;
+}
+
+message FrameAnnotation {
+
+    /// GPS-Timestamp for the frame, if available
+    core.SystemTimestamp gps_time = 1;
+
+    /// Path to the frame file, if available
+    string path = 2;
+
+    /// Filename without path, if available
+    string filename = 3;
+
+    /// 2D Bounding boxes, if available
+    repeated perception.ObjectBoundingBox boxes_2d = 4;
+
+    /// 3D Bounding boxes, if available
+    repeated perception.Object3dBoundingBox boxes_3d = 5;
+}
+
+// Annotation per device
+message DeviceAnnotation {
+
+    /// The device which generated the frames
+    /// TODO : If we add other types of sensor (e.g., Lidar), please add.
+    oneof devicemetadata { perception.CameraDeviceMetadata camera_device_metadata = 1; }
+
+    repeated FrameAnnotation frames = 2;
+}
+
+// Dataset containing the semantic labels (bounding boxes, pixel-labels)
+message Dataset {
+
+    // The name of the dataset, e.g. MS-COCO
+    string name = 1;
+
+    // The version of the dataset, if available.
+    string version = 2;
+
+    // The url where the dataset can be downloaded (may not be the original version, but the converted version to this format)
+    string url = 3;
+
+    // The available annotations on this dataset. Having multiple annotations is allowed.
+    repeated AnnotationType annotation_types = 51;
+
+    // Annotations from a list of sensors.
+    repeated DeviceAnnotation devices = 52;
+}

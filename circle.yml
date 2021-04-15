@@ -1,0 +1,52 @@
+dependencies:
+  pre:
+    - wget -O git-lfs_2.2.1_amd64.deb https://packagecloud.io/github/git-lfs/packages/debian/stretch/git-lfs_2.2.1_amd64.deb/download
+    - sudo dpkg -i git-lfs_2.2.1_amd64.deb
+    - sudo pip install https://github.com/goldmann/docker-squash/archive/master.zip
+
+compile:
+    override:
+    - git lfs pull
+    - sudo docker build -t server1.zippy:5000/teleop-env:$CIRCLE_BRANCH -f docker/teleop/Dockerfile.env .
+    - sudo docker build -t server1.zippy:5000/teleop-build:$CIRCLE_BRANCH -f docker/teleop/Dockerfile.build --build-arg BRANCH=$CIRCLE_BRANCH .
+    - sudo docker build -t server1.zippy:5000/zippy-env:$CIRCLE_BRANCH -f docker/zippy/Dockerfile.env .:
+        timeout: 6000
+    - sudo docker build -t server1.zippy:5000/zippy-build-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1 -f docker/zippy/Dockerfile.build --build-arg BRANCH=$CIRCLE_BRANCH .
+    # Build container for running Unity/sim tests on master and branches starting with AUTO and SIM
+    - sudo docker build -t server1.zippy:5000/sim-test-env:$CIRCLE_BRANCH -f docker/sim/Dockerfile.test .
+    - sudo docker build -t server1.zippy:5000/sim:$CIRCLE_BRANCH -f docker/sim/Dockerfile.deploy  --build-arg BRANCH=$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]") --build-arg COMMIT=$CIRCLE_SHA1 .
+    - if [[ $CIRCLE_BRANCH == SIM* ]] || [ "$CIRCLE_BRANCH" = "master" ]; then sudo docker build -t server1.zippy:5000/sim-build-env:$CIRCLE_BRANCH -f docker/sim/Dockerfile.build .; fi:
+        timeout: 1200
+
+test:
+  override:
+    - sudo docker run -it server1.zippy:5000/zippy-build-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1
+    - sudo docker run -it server1.zippy:5000/teleop-build:$CIRCLE_BRANCH
+    # Run Unity/sim tests on master and branches starting with AUTO and SIM
+#    - sudo docker run -it --privileged --rm --entrypoint /zippy/script/test/sim.sh server1.zippy:5000/sim-test-env:$CIRCLE_BRANCH
+
+deployment:
+    production:
+      branch: /.*?/
+      commands:
+          - if [[ $CIRCLE_BRANCH == "master" ]]; then sudo docker push server1.zippy:5000/zippy-build-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1; fi
+          - if [[ $CIRCLE_BRANCH == "master" ]]; then curl -XPOST -H "Content-Type:application/json" -d '{"branch":"'"$CIRCLE_BRANCH"'","commit":"'"$CIRCLE_SHA1"'", "AWS_ACCESS_KEY_ID":"'"$AWS_ACCESS_KEY_ID"'", "AWS_SECRET_ACCESS_KEY":"'"$AWS_SECRET_ACCESS_KEY"'"}' sim-000.zippy/push; fi
+          - sudo docker run --rm -it --volume builds:/builds -e BRANCH=$CIRCLE_BRANCH -e SHA=$CIRCLE_SHA1 --entrypoint /go/src/github.com/zippyai/zippy/backend/script/package.sh server1.zippy:5000/teleop-build:$CIRCLE_BRANCH
+          - sudo docker push server1.zippy:5000/teleop-build:$CIRCLE_BRANCH
+          - cp -r /builds/$CIRCLE_BRANCH/$CIRCLE_SHA1/teleop-server docker/
+          - sudo docker build -t server1.zippy:5000/teleop:$CIRCLE_BRANCH -f docker/teleop/Dockerfile.deploy docker/
+          - sudo docker push server1.zippy:5000/teleop:$CIRCLE_BRANCH && sudo docker rmi server1.zippy:5000/teleop:$CIRCLE_BRANCH
+          - sudo docker build -t server1.zippy:5000/zippy-package-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1 -f docker/zippy/Dockerfile.deploy --build-arg BRANCH=$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]") --build-arg COMMIT=$CIRCLE_SHA1 docker/
+          # magic number here is how many layers to squash. related to number of layers made from build/deploy
+          - sudo docker-squash -f 9 server1.zippy:5000/zippy-package-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1 -t server1.zippy:5000/zippy-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1:
+              timeout: 1800
+          - sudo docker tag server1.zippy:5000/zippy-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1 server1.zippy:5000/zippy-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):latest
+          - sudo docker push server1.zippy:5000/zippy-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1
+          - sudo docker push server1.zippy:5000/zippy-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):latest
+          - sudo docker rmi server1.zippy:5000/zippy-package-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1 && sudo docker rmi -f server1.zippy:5000/zippy-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1 && sudo docker rmi -f server1.zippy:5000/zippy-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):latest && sudo docker rmi -f server1.zippy:5000/zippy-build-$(echo $CIRCLE_BRANCH | tr "[:upper:]" "[:lower:]"):$CIRCLE_SHA1
+          - sudo docker push server1.zippy:5000/sim:$CIRCLE_BRANCH
+          - sudo docker rmi server1.zippy:5000/sim:$CIRCLE_BRANCH
+          - sudo docker rmi -f server1.zippy:5000/teleop-build:$CIRCLE_BRANCH
+          # Build and upload simulator
+          - if [[ $CIRCLE_BRANCH == SIM* ]] || [ "$CIRCLE_BRANCH" = "master" ]; then sudo docker run -v /home/dan/Unity:/root/.local/share/unity3d/Unity -it -e AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID -e AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY -e SLACK_HOOK=$SLACK_HOOK --privileged --rm -e BRANCH=$CIRCLE_BRANCH -e COMMIT=$CIRCLE_SHA1 --entrypoint /zippy/script/build/sim.sh server1.zippy:5000/sim-build-env:$CIRCLE_BRANCH; true; fi:
+              timeout: 1200

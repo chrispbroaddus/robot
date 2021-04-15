@@ -1,0 +1,5 @@
+syntax = "proto3";
+
+package CaptureGraph;
+
+message Sample { string name = 1; }

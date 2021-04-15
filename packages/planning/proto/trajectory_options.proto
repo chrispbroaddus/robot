@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package planning;
+
+// Basic trajectory options, constraining the generated trajectories
+message TrajectoryOptions {
+    float frequency = 1;
+    float max_velocity = 2;
+    float max_acceleration = 3;
+    float max_deceleration = 4;
+}

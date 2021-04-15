@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+
+package hal;
+
+/// A trajectory segment.
+///
+/// The VCU will make every reasonable attempt to achieve the requested linear velocity
+/// upon *entry* of this segment.
+message VCUTrajectorySegment {
+    core.SystemTimestamp targetStartTime = 1;
+
+    /// Linear velocity along the curve; may be negative.
+    /// Units: m/s
+    float linearVelocityMetersPerSecond = 2;
+
+    /// Curvature (inverse radius)
+    /// Units: m^{-1}
+    float curvatureInverseMeters = 3;
+}
+
+/// A trajectory command. This consists of several trajectory segments. To be considered
+/// "safe", the following properties must hold:
+/// -# The required acceleration or deceleration required to achieve the initial segment
+///    linear velocity must be "reasonable". Ask Adam what "reasonable" means.
+/// -# The required acceleration or deceleration required to move between segments must
+///    be "reasonable". Again, ask Adam what this means.
+/// -# The trajectory must terminate with a sequence of segments that decelerates "reasonably"
+///    to a final segment with zero velocity.
+/// .
+message VCUTrajectoryCommand { 
+	repeated VCUTrajectorySegment segments = 1; // XXX: Restricted in options file to max_count: 31
+}

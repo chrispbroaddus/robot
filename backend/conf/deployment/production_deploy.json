@@ -1,0 +1,94 @@
+{
+    "tasks": {
+        "teleop-server": {
+            "network_mode": "bridge",
+            "cluster_name": "teleop-server",
+            "target_group_arn": "arn:aws:elasticloadbalancing:us-west-2:508611858126:targetgroup/teleop-alb-target-group/5aebbb52ad2bbd84",
+            "lb_port": 8000,
+            "role_arn": "ecs-role",
+            "desired_count": 1,
+            "containers": [
+                {
+                    "name": "teleop-server",
+                    "cpu_usage": 200,
+                    "memory_usage": 200,
+                    "links": [
+                        "loggly-docker:loggly"
+                    ],
+                    "volumes": [
+                        {
+                            "container_path": "/configs",
+                            "read_only": true,
+                            "source_name": "deploy_configs" 
+                        },
+                        {
+                            "container_path": "/secrets",
+                            "read_only":true,
+                            "source_name": "secrets"
+                        },
+                        {
+                            "container_path": "/keys",
+                            "read_only":true,
+                            "source_name": "ssh_keys"
+                        }
+                    ],
+                    "port_maps": [
+                        {
+                            "container_port": 8000
+                        },
+                        {
+                            "container_port": 4000,
+                            "host_port": 4000
+                        },
+                        {
+                            "container_port": 9110,
+                            "host_port": 9110
+                        }
+                    ],
+                    "image_build": {
+                        "build_path": "./cmd/teleop-server",
+                        "docker_repo": "508611858126.dkr.ecr.us-west-2.amazonaws.com",
+                        "apib_file": "teleopnode/teleopnode.apib",
+                        "docs_path": "cmd/docs",
+                        "docs_bucket": "docs.mission-control.zippy.ai"
+                    }
+                },
+                {
+                    "name": "loggly-docker",
+                    "memory_usage": 200,
+                    "environment": {
+                        "TAG": "Docker",
+                        "TOKEN": "d7c78341-661f-4d74-b75b-0cf677665350"
+                    },
+                    "port_maps":[
+                        {
+                            "container_port": 514
+                        }    
+                    ],
+                    "image_info": {
+                        "image": "sendgridlabs/loggly-docker"
+                    }
+                }
+            ]
+            
+        }
+    },
+    "source_volumes": [
+        {
+            "source_path": "/tmp/configs",
+            "name": "deploy_configs"
+        },
+        {
+            "source_path": "/home/ec2-user/.ssh",
+            "name": "keys"
+        },
+        {
+            "source_path": "/tmp/secrets",
+            "name": "secrets"
+        },
+        {
+            "source_path": "/home/ec2-user/.ssh",
+            "name": "ssh_keys"
+        }
+    ]
+}

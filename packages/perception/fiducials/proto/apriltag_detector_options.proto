@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package perception;
+
+// Options for configuring the april tag detector
+message AprilTagDetectorOptions {
+
+    // Number of threads to be used
+    int32 nthreads = 1;
+
+    // Factor by which the input image should be decimated
+    float quadDecimate = 2;
+
+    // Sigma of Gaussian blur to be applied to the segmented image
+    float quadSigma = 3;
+
+    // Use non-zero value to allow edges of each quad to snap to strongest gradients nearby
+    int32 refineEdges = 4;
+
+    // Use non-zero value to refine detections in order to increase number of detected tags
+    int32 refineDecode = 5;
+
+    // Use non-zero value to refine detections to increase accuracy of extracted pose
+    int32 refinePose = 6;
+
+    // When non-zero write a variety of debugging images to current working directory
+    int32 debug = 7;
+}

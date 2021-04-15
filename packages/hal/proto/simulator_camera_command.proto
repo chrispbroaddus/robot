@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+package hal;
+
+import "packages/hal/proto/camera_id.proto";
+
+message SimulatorCameraCommand {
+    CameraId cameraId = 1;
+    bool enable = 2;
+    bool enableDepth = 3;
+    bool enableXYZ = 4;
+}

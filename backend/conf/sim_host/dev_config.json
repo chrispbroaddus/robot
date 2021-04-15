@@ -1,0 +1,5 @@
+{
+    "env": "local",
+    "port": 8080,
+    "metrics_port": 9119
+}

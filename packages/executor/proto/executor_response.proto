@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package executor;
+
+message ExecutorResponse {
+    enum ResponseCode {
+        VALID = 0;
+        UNSUPPORTED = 1;
+        COMMAND_TOO_FAR_IN_FUTURE = 2;
+        COMMAND_TOO_FAR_IN_PAST = 3;
+        PLANNER_REJECTED = 4;
+        PERCEPTION_REJECTED = 5;
+    }
+    ResponseCode code = 1;
+}

@@ -1,0 +1,79 @@
+{
+  "connection": [
+    {
+      "address": "localhost",
+      "port": 5556,
+      "topic": "front_left_stereo"
+    },
+    {
+      "address": "localhost",
+      "port": 5557,
+      "topic": "front_right_stereo"
+    },
+    {
+      "address": "localhost",
+      "port": 5558,
+      "topic": "rear_left_stereo"
+    },
+    {
+      "address": "localhost",
+      "port": 5556,
+      "topic": "rear_right_stereo"
+    },
+    {
+      "address": "localhost",
+      "port": 5557,
+      "topic": "front_fisheye"
+    },
+    {
+      "address": "localhost",
+      "port": 5558,
+      "topic": "rear_fisheye"
+    },
+    {
+      "address": "localhost",
+      "port": 5560,
+      "topic": "left_fisheye"
+    },
+    {
+      "address": "localhost",
+      "port": 5561,
+      "topic": "right_fisheye"
+    },
+    {
+      "address": "localhost",
+      "port": 5801,
+      "topic": "telemetry"
+    },
+    {
+      "address": "localhost",
+      "port": 10000,
+      "topic": "estimation"
+    },
+    {
+      "address": "localhost",
+      "port": 5802,
+      "topic": "execution"
+    },
+    {
+      "address": "localhost",
+      "port": 5951,
+      "topic": "docking"
+    },
+    {
+      "address": "localhost",
+      "port": 5961,
+      "topic": "station_finder"
+    },
+    {
+      "address": "localhost",
+      "port": 7100,
+      "topic": "wheel_odemetry"
+    },
+    {
+      "address": "localhost",
+      "port": 5803,
+      "topic": "trajectory"
+    }
+  ]
+}

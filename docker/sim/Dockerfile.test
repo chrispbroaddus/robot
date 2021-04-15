@@ -1,0 +1,5 @@
+FROM server1.zippy:5000/unity-env:5.6
+ADD . /zippy
+WORKDIR /zippy
+ENTRYPOINT /bin/bash
+

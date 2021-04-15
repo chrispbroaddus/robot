@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/hal/proto/vcu_wheel_encoder_telemetry.proto";
+import "packages/hal/proto/vcu_servo_telemetry.proto";
+import "packages/hal/proto/vcu_suspension_encoder_telemetry.proto";
+
+package hal;
+
+/// Container for VCU telemetry
+message VCUTelemetryEnvelope {
+    /// When this telemetry item was originally sent by the VCU
+    core.SystemTimestamp sendTimestamp = 1;
+
+    oneof item {
+        VCUWheelEncoderTelemetry wheelEncoder = 2;
+        VCUServoTelemetry servo = 3;
+        VCUSuspensionEncoderTelemetry suspensionEncoder = 4;
+    }
+}

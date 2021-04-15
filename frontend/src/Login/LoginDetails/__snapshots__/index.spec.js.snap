@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`LoginDetails should render self and subcomponents 1`] = `
+<styled.div>
+  <styled.h1>
+    Welcome to Zippy Operations
+  </styled.h1>
+  <styled.h2>
+    please log in to get started
+  </styled.h2>
+  <form
+    onSubmit={[Function]}
+  >
+    <LoginInput
+      handleChange={[Function]}
+      name="username"
+      placeholder="username"
+      refFunc={[Function]}
+      type="text"
+      value=""
+    />
+    <LoginInput
+      handleChange={[Function]}
+      name="password"
+      placeholder="password"
+      type="password"
+      value=""
+    />
+    <styled.button>
+      Log In
+    </styled.button>
+    <styled.div>
+      Please log in with "admin" as username and password
+    </styled.div>
+  </form>
+</styled.div>
+`;

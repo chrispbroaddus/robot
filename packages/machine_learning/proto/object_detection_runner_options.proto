@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package ml;
+
+message ObjectDetectionRunnerOptions {
+
+    // Detection model to run, could be found from //packages/machine_learning/models
+    //    string model = 1; Disabled due to a bug AUTO-776, genrule data not found from bazel binaries.z
+
+    // Detection score threshold. E.g., 0.9 for high precision, 0.1 for high recall.
+    float detection_score_threshold = 2;
+
+    // Input camera topic
+    string camera_topic = 3;
+
+    // Input camera port number
+    string camera_port = 4;
+
+    // If true, undistort image before detection. Note that the output is re-projected into distorted space.
+    bool undistort = 5;
+
+    // detection result topic
+    string det_topic = 6;
+
+    // Port publishing out the detection results
+    string det_pub_port = 51;
+}

@@ -1,0 +1,12 @@
+syntax = "proto3";
+
+import "packages/perception/proto/grid_options.proto";
+
+package perception;
+
+message TerrainOptions {}
+
+message VoxelTerrainOptions {
+    TerrainOptions base_options = 1;
+    VoxelGridOptions voxel_grid_options = 2;
+}

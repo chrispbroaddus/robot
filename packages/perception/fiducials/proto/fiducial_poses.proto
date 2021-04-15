@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+import "packages/calibration/proto/coordinate_transformation.proto";
+import "packages/core/proto/timestamp.proto";
+import "packages/perception/fiducials/proto/fiducial_configuration.proto";
+
+package perception;
+
+///
+/// Fiducial poses defined in relative coordinates (target, source)
+///
+message FiducialPoses {
+    FiducialConfiguration configuration = 1;
+    repeated calibration.CoordinateTransformation transformations = 2;
+    core.SystemTimestamp system_timestamp = 3;
+}

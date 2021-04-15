@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/ZippySimulator/Scenes/SimulatorLoader.unity
+    guid: dc8d52bae46c34dc8a44045b6d293857
+  - enabled: 1
+    path: Assets/ZippySimulator/Scenes/Main.unity
+    guid: 6a24225e9cedf46afa6cd63aca43ffe6
+  - enabled: 1
+    path: Assets/ZippySimulator/Scenes/ZippyBoxcar.unity
+    guid: a3697dfd3a3e2474eb88c303542d0123
+  - enabled: 1
+    path: Assets/ZippySimulator/Scenes/ZippyCad.unity
+    guid: 2b66ce5c0f74c46fdbd695607ebf71ec
+  - enabled: 1
+    path: Assets/ZippySimulator/Scenes/Fallback.unity
+    guid: 6c9035d0bc0ca4f39a07163cb9b35778
+  - enabled: 0
+    path: Assets/Tests/DepthAccuracy/DepthAccuracyTest.unity
+    guid: f8e30b3f0113f1f4981f3d4f5127b80f

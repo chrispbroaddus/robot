@@ -1,0 +1,65 @@
+<!doctype html>
+<html>
+<head>
+	<meta charset="utf-8"/>
+
+	<link
+		rel="stylesheet"
+		href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css"
+		crossorigin="anonymous">
+
+	<link
+		rel="stylesheet"
+		href="/plain/static/interface.css">
+
+	<script
+		src="https://code.jquery.com/jquery-3.2.1.min.js"
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous"></script>
+
+	<script
+		src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+		crossorigin="anonymous"></script>
+
+	<script src="/plain/static/webrtc.js"></script>
+
+	<script src="https://webrtc.github.io/adapter/adapter-latest.js"></script>
+</head>
+<body>
+	<div class="root">
+	<h1>Zippy Teleop Interface</h1>
+
+	<div class="image-container">
+		<div class="image-frame">
+			<video id="video" class="image-video" autoplay></video>
+		</div>
+	</div>
+
+	<div class="btn-group btn-group-lg" role="group">
+		<button id="btn-accelerate" type="button" class="btn btn-secondary">
+			A<span class="glyphicons glyphicons-chevron-up" aria-hidden="true"></span>
+		</button>
+		<button id="btn-decelerate" type="button" class="btn btn-secondary">
+			B<span class="glyphicons glyphicons-chevron-down"></span>
+		</button>
+		<button id="btn-turn-left" type="button" class="btn btn-secondary">
+			C<span class="glyphicons glyphicon glyphicon-repeat"></span>
+		</button>
+		<button id="btn-turn-right" type="button" class="btn btn-secondary">
+			D<span class="glyphicons glyphicon glyphicon-repeat icon-flipped"></span>
+		</button>
+	</div>
+
+	<script type="text/javascript">
+		pageReady();
+	</script>
+</body>
+</html>

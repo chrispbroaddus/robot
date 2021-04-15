@@ -1,0 +1,28 @@
+processes {
+  process_name: "a"
+  executable_path: "/usr/bin/yes"
+  additional_process_dependencies: "b"
+  relaunch_policy {
+    liveness_check_period_milliseconds: 1000
+    first_liveness_check_seconds: 1
+  }
+}
+
+processes {
+  process_name: "b"
+  executable_path: "/usr/bin/yes"
+  additional_process_dependencies: "c"
+  relaunch_policy {
+    liveness_check_period_milliseconds: 1000
+    first_liveness_check_seconds: 1
+  }
+}
+
+processes {
+  process_name: "c"
+  executable_path: "/usr/bin/yes"
+  relaunch_policy {
+    liveness_check_period_milliseconds: 1000
+    first_liveness_check_seconds: 1
+  }
+}

@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+import "packages/core/proto/timestamp.proto";
+import "packages/hal/proto/camera_id.proto";
+
+package hal;
+
+message CameraTriggerSample {
+
+    // Time at which the cameras were triggered
+    core.SystemTimestamp trigger_time = 1;
+
+    // IDs of the cameras that were triggered at the specified trigger time
+    repeated CameraId camera_ids = 2;
+}

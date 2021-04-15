@@ -1,0 +1,19 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`VehicleCard should render self and subcomponents 1`] = `
+<div
+  className="card"
+>
+  <ImageStatus
+    src="default.png"
+    status=""
+    title=""
+  />
+  <TitleCard
+    title=""
+  />
+  <div
+    className="center"
+  />
+</div>
+`;

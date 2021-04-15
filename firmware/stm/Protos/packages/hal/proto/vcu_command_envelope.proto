@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package hal;
+
+import "packages/hal/proto/vcu_idle_command.proto";
+import "packages/hal/proto/vcu_emergency_stop_command.proto";
+import "packages/hal/proto/vcu_trajectory_command.proto";
+import "packages/core/proto/timestamp.proto";  // XXX: Added by Adam to allow size to be statically calculated
+
+/// Envelope for commands.
+message VCUCommandEnvelope {
+    /// Common header for all commands. Used to uniquely identify a particular command.
+    /// Sequence 0 is always reserved for the VCU.
+    ///
+    /// Assumptions:
+    /// - There is a single source of commands
+    /// - The source of commands ensures monotonically increasing sequence numbers.
+    /// .
+    fixed64 sequenceNumber = 1;
+
+    oneof command {
+        VCUIdleCommand idleCommand = 2;
+        VCUEmergencyStopCommand emergencyStopCommand = 3;
+        VCUTrajectoryCommand trajectoryCommand = 4;
+    }
+}

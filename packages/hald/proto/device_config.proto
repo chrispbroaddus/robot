@@ -1,0 +1,38 @@
+syntax = "proto3";
+
+package hald;
+
+message PropertyMap { map<string, string> data = 1; }
+
+message Device {
+    /// Configuration properties for configurating ZMQ as a
+    /// map of string key/value pairs
+    PropertyMap messageProperties = 1;
+
+    /// Configuration properties for the physical device as a
+    /// map of string key/value pairs
+    PropertyMap deviceProperties = 2;
+}
+
+message DeviceConfig {
+    /// List of camera devices that should be configured to push
+    /// out camera data to subscribers
+    repeated Device camera = 1;
+
+    /// List of joystick devices that should be configured to push
+    /// out joystick data to subscribers
+    repeated Device joystick = 2;
+
+    /// VCU pushes out telemetry data to subscribers and accept trajectory data
+    Device vcu = 3;
+
+    /// GPS pushes out GPS telemetry data
+    Device gps = 4;
+
+    /// Network health
+    Device network = 5;
+
+    /// List of imu devices that should be configured to push
+    /// out imu data to subscribers
+    repeated Device imu = 6;
+}

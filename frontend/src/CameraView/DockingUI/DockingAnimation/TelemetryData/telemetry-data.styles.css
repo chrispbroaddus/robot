@@ -1,0 +1,94 @@
+.image-container {
+  width: 100%;
+  height: 100%;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background-color: #222;
+  position: absolute;
+}
+
+.docking-status {
+  background-color: rgba(0, 0, 0, 0.8);
+  color: white;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 100000;
+}
+
+.hide {
+  display: none;
+}
+
+.stop-button,
+.dock-button {
+  z-index: 1;
+  position: relative;
+}
+
+.image-video {
+  width: 100vw;
+  height: 56.25vw; /* 100/56.25 = 1.778 */
+  background: black;
+  max-height: 100vh;
+  max-width: 177.78vh; /* 16/9 = 1.778 */
+  margin: auto;
+  position: absolute;
+  top: 0;
+  bottom: 0; /* vertical center */
+  left: 0;
+  right: 0; /* horizontal center */
+}
+
+.banner {
+  text-align: center;
+  padding-top: 22px;
+  position: relative;
+  margin-bottom: 14px;
+  top: -65px;
+  left: 0;
+  color: white;
+  height: 45px;
+  width: 100%;
+  background: #2b2b2b;
+  font-family: 'Montserrat-Regular';
+  letter-spacing: 1px;
+  font-size: 13px;
+  z-index: 1;
+}
+
+.animateIn {
+  animation: in 0.5s forwards;
+}
+
+.animateOut {
+  animation: out 0.5s forwards;
+}
+
+.banner.out {
+  top: -65px !important;
+}
+
+@keyframes in {
+  from {
+    top: -65px;
+  }
+
+  to {
+    top: 0;
+  }
+}
+
+@keyframes out {
+  from {
+    top: 0;
+  }
+
+  100% {
+    top: -65px;
+  }
+}
